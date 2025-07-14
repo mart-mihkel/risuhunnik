@@ -18,18 +18,25 @@ document
         /** @type {THREE.Scene} */ scene,
         /** @type {THREE.Object3D} */ model,
       ) => {
-        model.position.x = 4;
-        model.rotateX(PI2);
+        model.position.set(100, 0, 0);
         model.scale.set(2, 2, 2);
+        model.rotateX(PI2);
+
         scene.add(model);
       },
-      (/** @type {THREE.Object3D | undefined} */ model) => {
+      (
+        /** @type {THREE.Clock} */ clock,
+        /** @type {THREE.Object3D | undefined} */ model,
+      ) => {
         if (model === undefined) {
           return;
         }
 
-        // TODO: bezier/cubic spline
-        model.position.x = Math.max(0, model.position.x - 0.01);
+        const t = clock.getElapsedTime();
+        if (t < 4) {
+          model.position.x = 4 - 4 * bezier(t * 0.25);
+        }
+
         model.rotateZ(0.01);
       },
     );
@@ -41,17 +48,23 @@ document
         /** @type {THREE.Scene} */ scene,
         /** @type {THREE.Object3D} */ model,
       ) => {
-        model.position.x = 2.5;
-        model.scale.set(0.4, 0.4, 0.4);
+        model.scale.set(0, 0, 0);
         scene.add(model);
       },
-      (/** @type {THREE.Object3D | undefined} */ model) => {
+      (
+        /** @type {THREE.Clock} */ clock,
+        /** @type {THREE.Object3D | undefined} */ model,
+      ) => {
         if (model === undefined) {
           return;
         }
 
-        // TODO: bezier/cubic spline
-        model.position.x = Math.max(0, model.position.x - 0.01);
+        const t = clock.getElapsedTime();
+        if (t < 4) {
+          const scale = 0.3 * bezier(t * 0.25);
+          model.scale.set(scale, scale, scale);
+        }
+
         model.rotation.y += 0.01;
       },
     );
@@ -69,8 +82,11 @@ function init(id, modelPath, modelInit, animate) {
     throw Error(`Can't init ${id}, no div for visual`);
   }
 
+  const clock = new THREE.Clock();
   const scene = new THREE.Scene();
-  scene.add(new THREE.AmbientLight(NORD6, 2));
+  const light = new THREE.DirectionalLight(NORD6, 2);
+  light.position.set(-5, 5, 5);
+  scene.add(light);
 
   const renderer = new THREE.WebGLRenderer();
   renderer.setClearColor(NORD0);
@@ -92,7 +108,7 @@ function init(id, modelPath, modelInit, animate) {
   );
 
   renderer.setAnimationLoop(() => {
-    animate(model);
+    animate(clock, model);
     renderer.render(scene, camera);
   });
 
@@ -135,4 +151,12 @@ function modelError(parent, id, error) {
   const loading = document.getElementById(id);
   parent.removeChild(loading);
   console.error(error);
+}
+
+/**
+ * ease in out [0, 1] -> [0, 1]
+ * @param {number} t
+ */
+function bezier(t) {
+  return t * t * (3.0 - 2.0 * t);
 }
