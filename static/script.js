@@ -20,11 +20,12 @@ const observer = new IntersectionObserver(
           case "joke-hernes-visual":
             initHernes();
             break;
+          // TODO: other visuals
         }
       });
   },
   {
-    threshold: 0.1,
+    threshold: 0.25,
   },
 );
 
