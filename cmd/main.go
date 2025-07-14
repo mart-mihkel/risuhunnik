@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
-	"strings"
 	"text/template"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -12,11 +11,12 @@ import (
 
 type joke struct {
 	Joke string
-	Tags []string
+	Tag  string
+	Attr sql.NullString
 }
 
 func getJokes(db *sql.DB) []joke {
-	rows, err := db.Query("SELECT joke, tags FROM jokes WHERE suggestion = 0")
+	rows, err := db.Query("SELECT joke, tag, attr FROM jokes WHERE suggestion = 0")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -25,14 +25,12 @@ func getJokes(db *sql.DB) []joke {
 	var jokes []joke
 	for rows.Next() {
 		var j joke
-		var t string
 
-		err := rows.Scan(&j.Joke, &t)
+		err := rows.Scan(&j.Joke, &j.Tag, &j.Attr)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		j.Tags = strings.Split(t, ",")
 		jokes = append(jokes, j)
 	}
 

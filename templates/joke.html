@@ -1,5 +1,14 @@
 {{range .}}
 <div class="joke">
-  <p>{{.Joke}}</p>
+  <div class="joke-text">
+    <h2>{{.Joke}}</h2>
+  </div>
+  {{if .Attr.Valid}}
+  <div id="joke-{{.Tag}}" class="joke-visual">
+    <div id="joke-{{.Tag}}-overlay" class="joke-overlay">
+      <p>{{.Attr.String}}</p>
+    </div>
+  </div>
+  {{end}}
 </div>
 {{end}}

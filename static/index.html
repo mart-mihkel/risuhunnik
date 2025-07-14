@@ -2,15 +2,28 @@
 <html lang="en">
 
 <head>
-  <title>Lest</title>
+  <title>Risuhunnik</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.178.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.178.0/examples/jsm/"
+      }
+    }
+  </script>
 </head>
 
 <body>
-  <div class="container" hx-trigger="load" hx-get="/api/jokes" hx-swap="innerHTML"></div>
+  <header>
+    <h1>Risuhunnik</h1>
+  </header>
+  <div id="joke-container" hx-trigger="load" hx-get="/api/jokes" hx-swap="innerHTML">
+  </div>
+  <script src="script.js" type="module"></script>
 </body>
 
 </html>
