@@ -4,7 +4,8 @@
     <h2>{{.Joke}}</h2>
   </div>
   {{if .Attr.Valid}}
-  <div id="joke-{{.Tag}}" class="joke-visual">
+  <div id="joke-{{.Tag}}-visual" class="joke-visual">
+    <div id="joke-{{.Tag}}-loading" class="joke-loading"></div>
     <div id="joke-{{.Tag}}-overlay" class="joke-overlay">
       <p>{{.Attr.String}}</p>
     </div>

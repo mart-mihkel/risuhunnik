@@ -10,11 +10,11 @@ const LOADER = new GLTFLoader();
 document
   .getElementById("joke-container")
   .addEventListener("htmx:afterSwap", () => {
-    initFlounder();
+    initLest();
   });
 
-function initFlounder() {
-  const div = document.getElementById("joke-lest"); // TODO: error on no div
+function initLest() {
+  const div = document.getElementById("joke-lest-visual"); // TODO: error on no div
   const camera = new THREE.PerspectiveCamera();
   camera.position.set(0, 0, 5);
 
@@ -33,10 +33,7 @@ function initFlounder() {
       model.position.x = 2.5;
       scene.add(model);
     },
-    (xhr) => {
-      // TODO: loading screen
-      }
-    },
+    (xhr) => loading(div, "joke-lest-loading", xhr.loaded / xhr.total),
     (error) => {
       // TODO: error handling
       console.error(error);
@@ -68,4 +65,18 @@ function resize(div, cam, rend) {
   cam.aspect = div.clientWidth / div.clientHeight;
   cam.updateProjectionMatrix();
   rend.setSize(div.clientWidth, div.clientHeight);
+}
+
+/**
+ * @param {HTMLDivElement} parent
+ * @param {string} id
+ * @param {number} prog
+ */
+function loading(parent, id, prog) {
+  if (prog < 1) {
+    return;
+  }
+
+  const loading = document.getElementById(id);
+  parent.removeChild(loading);
 }
