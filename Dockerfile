@@ -1,24 +1,18 @@
-FROM golang:alpine3.18 AS build
+FROM golang:alpine AS build
 
 ENV CGO_ENABLED=1
-
-RUN apk add --no-cache \
-    gcc \
-    musl-dev
-
+RUN apk add --no-cache sqlite gcc musl-dev
 WORKDIR /workspace
-
 COPY . /workspace/
-
-RUN \
-    cd _example/simple && \
-    go mod init github.com/mattn/sample && \
-    go mod edit -replace=github.com/mattn/go-sqlite3=../.. && \
-    go mod tidy && \
-    go install -ldflags='-s -w -extldflags "-static"' ./simple.go
+RUN go build -o main -ldflags='-s -w -extldflags "-static"' cmd/main.go
+RUN sqlite3 risuhunnik.db < sql/dump.sql
 
 FROM scratch
 
-COPY --from=build /go/bin/simple /usr/local/bin/simple
+WORKDIR /workspace
+COPY ./static /workspace/static
+COPY ./templates /workspace/templates
+COPY --from=build /workspace/risuhunnik.db /workspace/sql/risuhunnik.db
+COPY --from=build /workspace/main /workspace/main
 
-ENTRYPOINT [ "/usr/local/bin/simple" ]
+ENTRYPOINT [ "/workspace/main" ]

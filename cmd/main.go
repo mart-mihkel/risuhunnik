@@ -41,7 +41,7 @@ func getJokes(db *sql.DB) []joke {
 }
 
 func main() {
-	db, err := sql.Open("sqlite3", "./lest.db")
+	db, err := sql.Open("sqlite3", "sql/risuhunnik.db")
 	if err != nil {
 		log.Fatal(err)
 	}
