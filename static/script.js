@@ -5,70 +5,91 @@ const NORD0 = 0x2e3440;
 const NORD6 = 0xeceff4;
 
 const PI2 = Math.PI / 2;
+const INIT_STATE = {};
 
-// TODO: intersection observer for lazy load
-
-document
-  .getElementById("joke-container")
-  .addEventListener("htmx:afterSwap", () => {
-    init(
-      "lest",
-      "models/flounder.glb",
-      (
-        /** @type {THREE.Scene} */ scene,
-        /** @type {THREE.Object3D} */ model,
-      ) => {
-        model.position.set(100, 0, 0);
-        model.scale.set(2, 2, 2);
-        model.rotateX(PI2);
-
-        scene.add(model);
-      },
-      (
-        /** @type {THREE.Clock} */ clock,
-        /** @type {THREE.Object3D | undefined} */ model,
-      ) => {
-        if (model === undefined) {
-          return;
+const jokeContainer = document.getElementById("joke-container");
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries
+      .filter((e) => e.isIntersecting)
+      .forEach((e) => {
+        switch (e.target.id) {
+          case "joke-lest-visual":
+            initLest();
+            break;
+          case "joke-hernes-visual":
+            initHernes();
+            break;
         }
+      });
+  },
+  {
+    threshold: 0.1,
+  },
+);
 
-        const t = clock.getElapsedTime();
-        if (t < 4) {
-          model.position.x = 4 - 4 * bezier(t * 0.25);
-        }
+jokeContainer.addEventListener("htmx:afterSwap", () => {
+  const visuals = jokeContainer.getElementsByClassName("joke-visual");
+  for (let i = 0; i < visuals.length; i++) {
+    const child = visuals.item(i);
+    observer.observe(child);
+  }
+});
 
-        model.rotateZ(0.01);
-      },
-    );
+function initLest() {
+  init(
+    "lest",
+    "models/flounder.glb",
+    (/** @type {THREE.Scene} */ scene, /** @type {THREE.Object3D} */ model) => {
+      model.position.set(100, 0, 0);
+      model.scale.set(2, 2, 2);
+      model.rotateX(PI2);
+      scene.add(model);
+    },
+    (
+      /** @type {THREE.Clock} */ clock,
+      /** @type {THREE.Object3D | undefined} */ model,
+    ) => {
+      if (model === undefined) {
+        return;
+      }
 
-    init(
-      "hernes",
-      "models/peapod.glb",
-      (
-        /** @type {THREE.Scene} */ scene,
-        /** @type {THREE.Object3D} */ model,
-      ) => {
-        model.scale.set(0, 0, 0);
-        scene.add(model);
-      },
-      (
-        /** @type {THREE.Clock} */ clock,
-        /** @type {THREE.Object3D | undefined} */ model,
-      ) => {
-        if (model === undefined) {
-          return;
-        }
+      const t = clock.getElapsedTime();
+      if (t < 4) {
+        model.position.x = 4 - 4 * bezier(t * 0.25);
+      }
 
-        const t = clock.getElapsedTime();
-        if (t < 4) {
-          const scale = 0.3 * bezier(t * 0.25);
-          model.scale.set(scale, scale, scale);
-        }
+      model.rotateZ(0.01);
+    },
+  );
+}
 
-        model.rotation.y += 0.01;
-      },
-    );
-  });
+function initHernes() {
+  init(
+    "hernes",
+    "models/peapod.glb",
+    (/** @type {THREE.Scene} */ scene, /** @type {THREE.Object3D} */ model) => {
+      model.scale.set(0, 0, 0);
+      scene.add(model);
+    },
+    (
+      /** @type {THREE.Clock} */ clock,
+      /** @type {THREE.Object3D | undefined} */ model,
+    ) => {
+      if (model === undefined) {
+        return;
+      }
+
+      const t = clock.getElapsedTime();
+      if (t < 4) {
+        const scale = 0.3 * bezier(t * 0.25);
+        model.scale.set(scale, scale, scale);
+      }
+
+      model.rotateY(0.01);
+    },
+  );
+}
 
 /**
  * @param {string} id
@@ -77,6 +98,10 @@ document
  * @param {function(THREE.Object3D | undefined): void} animate
  */
 function init(id, modelPath, modelInit, animate) {
+  if (id in INIT_STATE) {
+    return;
+  }
+
   const div = document.getElementById(`joke-${id}-visual`);
   if (div === null) {
     throw Error(`Can't init ${id}, no div for visual`);
@@ -115,6 +140,8 @@ function init(id, modelPath, modelInit, animate) {
   resize(div, camera, renderer);
   div.addEventListener("resize", () => resize(div, camera, renderer));
   div.appendChild(renderer.domElement);
+
+  INIT_STATE[id] = true;
 }
 
 /**
