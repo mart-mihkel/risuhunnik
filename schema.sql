@@ -13,12 +13,12 @@ INSERT INTO jokes (joke, tag, attr) VALUES
         "Dead Flounder by Quaternius"
     ),
     (
-        "Kus elab Leedu hernes? Kauna sees!",
+        "Kus elab Leedu hernes?;Kauna sees!",
         "hernes",
         "Peapod by Poly by Google [CC-BY] via Poly Pizza"
     ),
     (
-        "Kas Mona Lisa saab telefonile tulla? Ei saa, ta on maal!",
+        "Kas Mona Lisa saab telefonile tulla?;Ei saa, ta on maal!",
         "maal",
         "Wall painting by jeremy [CC-BY] via Poly Pizza"
     ),
@@ -28,22 +28,27 @@ INSERT INTO jokes (joke, tag, attr) VALUES
         "Log & Axe - Game Asset by Don Carson [CC-BY] via Poly Pizza"
     ),
     (
-        "Parim aeg majoneesi ostmiseks on aprill, sest mai on ees.",
+        "Parim aeg majoneesi ostmiseks on aprill!;Sest mai on ees!",
         "majonees",
         NULL
     ),
     (
-        "Meil on Kuusalust Gyproki vaja. Varustaja jõuab tagasi kuue aluse Gyprokiga.",
+        "Kuri tigu, ta nimi oli kuritegu!",
+        "tigu",
+        NULL
+    ),
+    (
+        "Meil on Kuusalust Gyproki vaja!;Varustaja jõuab tagasi kuue aluse Gyprokiga!",
         "gyprok",
         NULL
     ),
     (
-        "Mille ostis lambakarjus peale lotovõitu? Villa!",
+        "Mille ostis lambakarjus peale lotovõitu?;Villa!",
         "lambakarjus",
         NULL
     ),
     (
-        "Mille sai rähn jõuludeks? Paku!",
+        "Mille sai rähn jõuludeks?;Paku!",
         "rähn",
         NULL
     ),
@@ -53,12 +58,12 @@ INSERT INTO jokes (joke, tag, attr) VALUES
         NULL
     ),
     (
-        "Kuidas kutsutakse ümarate jalgadega venelast? Oleg!",
+        "Kuidas kutsutakse ümarate jalgadega venelast?;Oleg!",
         "oleg",
         NULL
     ),
     (
-        "Kui rottid on närilised siis sääsed on imelised",
+        "Närilised rotid ja imelised sääsed!",
         "imelised",
         NULL
     );

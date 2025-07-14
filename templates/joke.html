@@ -1,7 +1,9 @@
 {{range .}}
 <div class="joke">
   <div class="joke-text">
-    <h2>{{.Joke}}</h2>
+    {{range .Lines}}
+    <h2>{{.}}</h2>
+    {{end}}
   </div>
   {{if .Attr.Valid}}
   <div id="joke-{{.Tag}}-visual" class="joke-visual">
