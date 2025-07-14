@@ -3,51 +3,96 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const NORD0 = 0x2e3440;
 const NORD6 = 0xeceff4;
-const LOADER = new GLTFLoader();
+
+const PI2 = Math.PI / 2;
 
 // TODO: intersection observer for lazy load
 
 document
   .getElementById("joke-container")
   .addEventListener("htmx:afterSwap", () => {
-    initLest();
+    init(
+      "lest",
+      "models/flounder.glb",
+      (
+        /** @type {THREE.Scene} */ scene,
+        /** @type {THREE.Object3D} */ model,
+      ) => {
+        model.position.x = 4;
+        model.rotateX(PI2);
+        model.scale.set(2, 2, 2);
+        scene.add(model);
+      },
+      (/** @type {THREE.Object3D | undefined} */ model) => {
+        if (model === undefined) {
+          return;
+        }
+
+        // TODO: bezier/cubic spline
+        model.position.x = Math.max(0, model.position.x - 0.01);
+        model.rotateZ(0.01);
+      },
+    );
+
+    init(
+      "hernes",
+      "models/peapod.glb",
+      (
+        /** @type {THREE.Scene} */ scene,
+        /** @type {THREE.Object3D} */ model,
+      ) => {
+        model.position.x = 2.5;
+        model.scale.set(0.4, 0.4, 0.4);
+        scene.add(model);
+      },
+      (/** @type {THREE.Object3D | undefined} */ model) => {
+        if (model === undefined) {
+          return;
+        }
+
+        // TODO: bezier/cubic spline
+        model.position.x = Math.max(0, model.position.x - 0.01);
+        model.rotation.y += 0.01;
+      },
+    );
   });
 
-function initLest() {
-  const div = document.getElementById("joke-lest-visual"); // TODO: error on no div
-  const camera = new THREE.PerspectiveCamera();
-  camera.position.set(0, 0, 5);
+/**
+ * @param {string} id
+ * @param {string} modelPath
+ * @param {function(THREE.Scene, THREE.Object3D): void} modelInit
+ * @param {function(THREE.Object3D | undefined): void} animate
+ */
+function init(id, modelPath, modelInit, animate) {
+  const div = document.getElementById(`joke-${id}-visual`);
+  if (div === null) {
+    throw Error(`Can't init ${id}, no div for visual`);
+  }
+
+  const scene = new THREE.Scene();
+  scene.add(new THREE.AmbientLight(NORD6, 2));
 
   const renderer = new THREE.WebGLRenderer();
   renderer.setClearColor(NORD0);
 
-  const scene = new THREE.Scene();
-  const light = new THREE.AmbientLight(NORD6, 1);
-  scene.add(light);
+  const camera = new THREE.PerspectiveCamera();
+  camera.position.set(0, 5, 5);
+  camera.lookAt(new THREE.Vector3());
 
-  /** @type {THREE.Object3D | undefined} */ let model;
-  LOADER.load(
-    "models/flounder.glb",
+  /** @type {THREE.Object3D | undefined} */
+  let model;
+  new GLTFLoader().load(
+    modelPath,
     (gltf) => {
       model = gltf.scene;
-      model.position.x = 2.5;
-      scene.add(model);
+      modelInit(scene, gltf.scene);
     },
-    (xhr) => loading(div, "joke-lest-loading", xhr.loaded / xhr.total),
-    (error) => {
-      // TODO: error handling
-      console.error(error);
-    },
+    (xhr) => modelLoading(div, `joke-${id}-loading`, xhr.loaded / xhr.total),
+    (error) => modelError(div, `joke-${id}-loading`, error),
   );
 
   renderer.setAnimationLoop(() => {
-    if (!model) {
-      return;
-    }
-
-    // TODO: bezier/cubic spline
-    model.position.x = Math.max(0, model.position.x - 0.01);
-    model.rotation.y += 0.01;
+    animate(model);
     renderer.render(scene, camera);
   });
 
@@ -72,11 +117,22 @@ function resize(div, cam, rend) {
  * @param {string} id
  * @param {number} prog
  */
-function loading(parent, id, prog) {
+function modelLoading(parent, id, prog) {
   if (prog < 1) {
     return;
   }
 
   const loading = document.getElementById(id);
   parent.removeChild(loading);
+}
+
+/**
+ * @param {HTMLDivElement} parent
+ * @param {string} id
+ * @param {Error} error
+ */
+function modelError(parent, id, error) {
+  const loading = document.getElementById(id);
+  parent.removeChild(loading);
+  console.error(error);
 }
