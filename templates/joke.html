@@ -1,5 +1,10 @@
 {{range .}}
 <div class="joke">
   <p>{{.Joke}}</p>
+  <div class="tags">
+    {{range .Tags}}
+    <p>{{.}}</p>
+    {{end}}
+  </div>
 </div>
 {{end}}
