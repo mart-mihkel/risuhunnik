@@ -1,16 +1,10 @@
-# TODO
+### TODO
 
 - proposals
 - db backup cronjob
 - reverse proxy
 
-### Dev
-
-```bash
-go run cmd/main.go
-```
-
-### Deploy
+### Docker
 
 ```bash
 docker build -t rishunnik .
