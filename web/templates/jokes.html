@@ -5,7 +5,7 @@
     <div class="flex flex-row gap-2 justify-center">
       {{range .Tags}}
       <p
-        class="p-1 text-base text-nord-9 rounded-sm transition-all duration-200 hover:text-nord-4 hover:bg-nord-3"
+        class="p-1 text-base text-nord-9 rounded-2xl transition-all duration-200 hover:px-4 hover:text-nord-4 hover:bg-nord-3"
         hx-get="/api/jokes?tag={{.}}"
         hx-target="#container"
         hx-swap="outerHTML"
