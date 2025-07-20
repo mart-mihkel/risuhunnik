@@ -1,0 +1,22 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: and-fm/cloudflared-ssh-action@v3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          private_key_filename: ${{ secrets.SSH_PRIVATE_KEY_FILENAME }}
+          private_key_value: ${{ secrets.SSH_PRIVATE_KEY_VALUE }}
+          commands: |
+            cd /home/${{ secrets.SSH_USERNAME }}/git/risuhunnik
+            git pull origin main
+            docker rm -f risuhunnik
+            docker build . --file Dockerfile --no-cache --tag risuhunnik
+            docker run -d -p 8080:8080 --name risuhunnik risuhunnik
