@@ -1,27 +1,16 @@
-<div id="container" class="flex flex-row flex-wrap gap-4 justify-center">
+<div id="container" class="flex flex-row flex-wrap gap-4 justify-center py-4">
   {{range $k, $v := .}}
   <div
-    class="p-4 w-36 lg:w-64 border-1 border-nord-4 rounded-md transition-all duration-200 hover:fill-nord-3 hover:text-nord-3 hover:bg-nord-5"
+    class="p-2 w-64 rounded-md transition-all duration-200 hover:shadow-xl hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3 hover:cursor-pointer"
     hx-get="/api/jokes?tag={{$k}}"
     hx-target="#container"
     hx-swap="outerHTML"
   >
-    <div class="flex flex-row items-center gap-2">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 -960 960 960"
-        class="size-4"
-      >
-        <path
-          d="m240-160 40-160H120l20-80h160l40-160H180l20-80h160l40-160h80l-40 160h160l40-160h80l-40 160h160l-20 80H660l-40 160h160l-20 80H600l-40 160h-80l40-160H360l-40 160h-80Zm140-240h160l40-160H420l-40 160Z"
-        />
-      </svg>
-      <p>{{$k}}</p>
-    </div>
+    <p class="flex flex-row items-center justify-center gap-1">#{{$k}}</p>
     {{if eq $v 1}}
-    <p>1 conundrum</p>
+    <p class="flex justify-center">1 conundrum</p>
     {{else}}
-    <p>{{$v}} conundrums</p>
+    <p class="flex justify-center">{{$v}} conundrums</p>
     {{end}}
   </div>
   {{end}}

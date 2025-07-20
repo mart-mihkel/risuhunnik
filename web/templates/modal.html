@@ -1,14 +1,14 @@
 {{if .}}
 <div
   id="modal"
-  class="fixed inset-0 w-screen bg-nord-0/50 flex justify-center items-center"
+  class="fixed inset-0 w-screen bg-nord-6/75 dark:bg-nord-0/75 flex justify-center items-center"
   hx-get="/api/modal?open=false"
   hx-trigger="click target:#modal,submit from:#search-form"
   hx-target="#modal"
   hx-swap="outerHTML"
 >
   <div
-    class="bg-nord-0 p-4 border-nord-4 border-1 rounded-md flex flex-row items-center gap-2"
+    class="p-4 bg-nord-4 dark:bg-nord-3 rounded-md flex flex-row items-center gap-2 shadow-2xl shadow-nord-4 dark:shadow-nord-1"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"

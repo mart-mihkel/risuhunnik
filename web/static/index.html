@@ -7,77 +7,79 @@
     <link rel="stylesheet" href="tailwind.css" />
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
   </head>
-  <body>
-    <main class="px-4 lg:px-[25%] bg-nord-0 text-nord-4 fill-nord-4">
-      <nav class="p-8 flex flex-row justify-evenly">
-        <a
-          class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
-          hx-get="/api/jokes"
-          hx-target="#container"
-          hx-swap="outerHTML"
+  <body
+    class="bg-nord-6 text-nord-0 fill-nord-0 dark:bg-nord-0 dark:text-nord-6 dark:fill-nord-6"
+  >
+    <nav class="px-[25%] py-8 flex flex-row justify-evenly">
+      <button
+        class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer"
+        hx-get="/api/jokes"
+        hx-target="#container"
+        hx-swap="outerHTML"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+          class="size-4"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 -960 960 960"
-            class="size-4"
-          >
-            <path
-              d="M440-120q-100 0-170-70t-70-170v-240l200 200-56 57-64-64v47q0 66 47 113t113 47q66 0 113-47t47-113v-127q-36-14-58-44.5T520-600q0-38 22-68.5t58-44.5v-167h80v167q36 14 58 44.5t22 68.5q0 38-22 69t-58 44v127q0 100-70 170t-170 70Zm200-440q17 0 28.5-11.5T680-600q0-17-11.5-28.5T640-640q-17 0-28.5 11.5T600-600q0 17 11.5 28.5T640-560Zm0-40Z"
-            />
-          </svg>
-          <p>Conundrums</p>
-        </a>
-        <a
-          class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
-          hx-get="/api/tags"
-          hx-target="#container"
-          hx-swap="outerHTML"
+          <path
+            d="M440-120q-100 0-170-70t-70-170v-240l200 200-56 57-64-64v47q0 66 47 113t113 47q66 0 113-47t47-113v-127q-36-14-58-44.5T520-600q0-38 22-68.5t58-44.5v-167h80v167q36 14 58 44.5t22 68.5q0 38-22 69t-58 44v127q0 100-70 170t-170 70Zm200-440q17 0 28.5-11.5T680-600q0-17-11.5-28.5T640-640q-17 0-28.5 11.5T600-600q0 17 11.5 28.5T640-560Zm0-40Z"
+          />
+        </svg>
+        <p>Conundrums</p>
+      </button>
+      <button
+        class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer"
+        hx-get="/api/tags"
+        hx-target="#container"
+        hx-swap="outerHTML"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+          class="size-4"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 -960 960 960"
-            class="size-4"
-          >
-            <path
-              d="m240-160 40-160H120l20-80h160l40-160H180l20-80h160l40-160h80l-40 160h160l40-160h80l-40 160h160l-20 80H660l-40 160h160l-20 80H600l-40 160h-80l40-160H360l-40 160h-80Zm140-240h160l40-160H420l-40 160Z"
-            />
-          </svg>
-          <p>Tags</p>
-        </a>
-        <a
-          class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
-          hx-get="/api/modal?open=true"
-          hx-target="#modal"
-          hx-swap="outerHTML"
+          <path
+            d="m240-160 40-160H120l20-80h160l40-160H180l20-80h160l40-160h80l-40 160h160l40-160h80l-40 160h160l-20 80H660l-40 160h160l-20 80H600l-40 160h-80l40-160H360l-40 160h-80Zm140-240h160l40-160H420l-40 160Z"
+          />
+        </svg>
+        <p>Tags</p>
+      </button>
+      <button
+        class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer"
+        hx-get="/api/modal?open=true"
+        hx-target="#modal"
+        hx-swap="outerHTML"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+          class="size-4"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 -960 960 960"
-            class="size-4"
-          >
-            <path
-              d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"
-            />
-          </svg>
-          <p>Search</p>
-        </a>
-        <a
-          class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
-          target="_blank"
-          href="https://github.com/mart-mihkel/risuhunnik"
+          <path
+            d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"
+          />
+        </svg>
+        <p>Search</p>
+      </button>
+      <a
+        class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer"
+        href="https://github.com/mart-mihkel/risuhunnik"
+        target="_blank"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+          class="size-4"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 -960 960 960"
-            class="size-4"
-          >
-            <path
-              d="M320-240 80-480l240-240 57 57-184 184 183 183-56 56Zm320 0-57-57 184-184-183-183 56-56 240 240-240 240Z"
-            />
-          </svg>
-          <p>GitHub</p>
-        </a>
-      </nav>
+          <path
+            d="M320-240 80-480l240-240 57 57-184 184 183 183-56 56Zm320 0-57-57 184-184-183-183 56-56 240 240-240 240Z"
+          />
+        </svg>
+        <p>GitHub</p>
+      </a>
+    </nav>
+    <main class="px-[25%]">
       <div
         id="container"
         hx-trigger="load"

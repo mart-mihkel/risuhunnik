@@ -1,16 +1,16 @@
-<div id="container" class="flex flex-col gap-20">
+<div id="container" class="flex flex-col gap-20 py-4">
   {{range .}}
-  <div class="text-2xl flex flex-col gap-2">
+  <div class="text-2xl flex flex-col gap-4">
     <p class="text-center">{{.Joke}}</p>
     <div class="flex flex-row gap-2 justify-center">
       {{range .Tags}}
       <p
-        class="p-1 text-base text-nord-9 rounded-2xl transition-all duration-200 hover:px-4 hover:text-nord-4 hover:bg-nord-3"
+        class="p-1 text-base rounded-2xl text-nord-3 dark:text-nord-4 transition-all duration-200 hover:px-4 hover:shadow-md hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3 hover:cursor-pointer"
         hx-get="/api/jokes?tag={{.}}"
         hx-target="#container"
         hx-swap="outerHTML"
       >
-        {{.}}
+        #{{.}}
       </p>
       {{end}}
     </div>

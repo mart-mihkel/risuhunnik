@@ -20,16 +20,13 @@
 }
 
 @layer base {
-  body {
-    @apply bg-nord-0;
-  }
-
   ::-webkit-scrollbar {
     @apply w-2;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-nord-0/10;
+    @apply bg-nord-6/10;
+    @apply dark:bg-nord-0/10;
     @apply rounded-2xl;
   }
 
@@ -39,6 +36,6 @@
 }
 
 html {
-  font-family: monospace;
   scrollbar-gutter: stable;
+  font-family: monospace;
 }
