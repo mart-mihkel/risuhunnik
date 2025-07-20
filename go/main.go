@@ -41,34 +41,33 @@ func getJokes(db *sql.DB) []joke {
 	return jokes
 }
 
-func jokesSearch(jokes []joke, search string) []joke {
+func jokesSearch(jokes []joke, search *string) []joke {
 	var res []joke
 	for _, j := range jokes {
-		if strings.Contains(j.Joke, search) {
+		if strings.Contains(j.Joke, *search) {
 			res = append(res, j)
 		}
 	}
 	return res
 }
 
-func jokesTags(jokes []joke, tag string) []joke {
+func jokesTags(jokes []joke, tag *string) []joke {
 	var res []joke
 	for _, j := range jokes {
-		if slices.Contains(j.Tags, tag) {
+		if slices.Contains(j.Tags, *tag) {
 			res = append(res, j)
 		}
 	}
 	return res
 }
 
-func getTags(db *sql.DB) map[string]int {
+func getTagCounts(db *sql.DB, counts *map[string]int) {
 	rows, err := db.Query("SELECT tags FROM jokes")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer rows.Close()
 
-	counts := make(map[string]int)
 	for rows.Next() {
 		var t string
 
@@ -78,11 +77,9 @@ func getTags(db *sql.DB) map[string]int {
 		}
 
 		for tag := range strings.SplitSeq(t, ",") {
-			counts[tag]++
+			(*counts)[tag]++
 		}
 	}
-
-	return counts
 }
 
 func main() {
@@ -105,12 +102,12 @@ func main() {
 		q := r.URL.Query()
 		search := q.Get("search")
 		if search != "" {
-			jokes = jokesSearch(jokes, search)
+			jokes = jokesSearch(jokes, &search)
 		}
 
 		tag := q.Get("tag")
 		if tag != "" {
-			jokes = jokesTags(jokes, tag)
+			jokes = jokesTags(jokes, &tag)
 		}
 
 		tmpl := template.Must(template.ParseFiles("../web/templates/jokes.html"))
@@ -122,7 +119,8 @@ func main() {
 			return
 		}
 
-		tags := getTags(db)
+		tags := make(map[string]int)
+		getTagCounts(db, &tags)
 
 		tmpl := template.Must(template.ParseFiles("../web/templates/tags.html"))
 		tmpl.Execute(w, tags)
