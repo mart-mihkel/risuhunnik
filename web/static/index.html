@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
   </head>
   <body>
-    <main class="px-[25%] bg-nord-0 text-nord-4 fill-nord-4">
+    <main class="px-4 lg:px-[25%] bg-nord-0 text-nord-4 fill-nord-4">
       <nav class="p-8 flex flex-row justify-evenly">
         <a
           class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
@@ -46,7 +46,9 @@
         </a>
         <a
           class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
-          hx-get="/api/search"
+          hx-get="/api/modal?open=true"
+          hx-target="#modal"
+          hx-swap="outerHTML"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -82,6 +84,7 @@
         hx-get="/api/jokes"
         hx-swap="outerHTML"
       ></div>
+      <div id="modal" class="hidden"></div>
     </main>
   </body>
 </html>

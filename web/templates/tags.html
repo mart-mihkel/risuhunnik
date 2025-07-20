@@ -1,7 +1,7 @@
 <div id="container" class="flex flex-row flex-wrap gap-4 justify-center">
   {{range $k, $v := .}}
   <div
-    class="p-4 w-64 border-1 border-nord-4 rounded-md transition-all duration-200 hover:fill-nord-3 hover:text-nord-3 hover:bg-nord-5"
+    class="p-4 w-36 lg:w-64 border-1 border-nord-4 rounded-md transition-all duration-200 hover:fill-nord-3 hover:text-nord-3 hover:bg-nord-5"
     hx-get="/api/jokes?tag={{$k}}"
     hx-target="#container"
     hx-swap="outerHTML"
