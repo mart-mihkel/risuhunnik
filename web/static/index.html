@@ -10,9 +10,9 @@
   <body
     class="bg-nord-6 text-nord-0 fill-nord-0 dark:bg-nord-0 dark:text-nord-6 dark:fill-nord-6"
   >
-    <nav class="px-[25%] py-8 flex flex-row justify-evenly">
+    <nav class="px-4 md:px-[5%] lg:px-[25%] py-8 flex flex-row justify-evenly">
       <button
-        class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer"
+        class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none"
         hx-get="/api/jokes"
         hx-target="#container"
         hx-swap="outerHTML"
@@ -29,7 +29,7 @@
         <p>Conundrums</p>
       </button>
       <button
-        class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer"
+        class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none"
         hx-get="/api/tags"
         hx-target="#container"
         hx-swap="outerHTML"
@@ -46,7 +46,7 @@
         <p>Tags</p>
       </button>
       <button
-        class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer"
+        class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none"
         hx-get="/api/modal?open=true"
         hx-target="#modal"
         hx-swap="outerHTML"
@@ -63,7 +63,7 @@
         <p>Search</p>
       </button>
       <a
-        class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer"
+        class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none"
         href="https://github.com/mart-mihkel/risuhunnik"
         target="_blank"
       >
@@ -79,7 +79,7 @@
         <p>GitHub</p>
       </a>
     </nav>
-    <main class="px-[25%]">
+    <main class="px-4 md:px-[5%] lg:px-[25%]">
       <div
         id="container"
         hx-trigger="load"
