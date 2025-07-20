@@ -15,7 +15,7 @@
           class="nav-item"
           hx-get="/api/jokes"
           hx-target="#container"
-          hx-swap="innerHTML"
+          hx-swap="outerHTML"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,12 @@
           </svg>
           <p>Jokes</p>
         </a>
-        <a class="nav-item" hx-get="/api/tags">
+        <a
+          class="nav-item"
+          hx-get="/api/tags"
+          hx-target="#container"
+          hx-swap="outerHTML"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 -960 960 960"
@@ -77,7 +82,7 @@
         id="container"
         hx-trigger="load"
         hx-get="/api/jokes"
-        hx-swap="innerHTML"
+        hx-swap="outerHTML"
       ></div>
     </main>
   </body>

@@ -39,10 +39,29 @@ func getJokes(db *sql.DB) []joke {
 	return jokes
 }
 
-// func getTags(db *sql.DB) []string {
-// 	tags := []string{}
-// 	return tags
-// }
+func getTags(db *sql.DB) map[string]int {
+	rows, err := db.Query("SELECT tags FROM jokes")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	counts := make(map[string]int)
+	for rows.Next() {
+		var t string
+
+		err := rows.Scan(&t)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		for tag := range strings.SplitSeq(t, ",") {
+			counts[tag]++
+		}
+	}
+
+	return counts
+}
 
 func main() {
 	db, err := sql.Open("sqlite3", "risuhunnik.db")
@@ -55,15 +74,21 @@ func main() {
 	http.Handle("/", http.StripPrefix("/", fs))
 
 	http.HandleFunc("/api/jokes", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == http.MethodGet {
-			tmpl := template.Must(template.ParseFiles("templates/joke.html"))
-			jokes := getJokes(db)
-			tmpl.Execute(w, jokes)
+		if r.Method != http.MethodGet {
+			return
 		}
 
-		if r.Method == http.MethodPost {
-			// TODO: post joke
+		tmpl := template.Must(template.ParseFiles("templates/jokes.html"))
+		tmpl.Execute(w, getJokes(db))
+	})
+
+	http.HandleFunc("/api/tags", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			return
 		}
+
+		tmpl := template.Must(template.ParseFiles("templates/tags.html"))
+		tmpl.Execute(w, getTags(db))
 	})
 
 	http.ListenAndServe(":8080", nil)

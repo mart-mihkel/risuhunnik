@@ -12,5 +12,6 @@ INSERT INTO jokes (joke, tags) VALUES
     ("Kas Mona Lisa saab telefonile tulla? Ei saa, ta on maal!", "maal,naine"),
     ("Parim aeg majoneesi ostmiseks on aprill, sest mai on ees!", "majonees,aprill"),
     ("Leedu hernes elab kauna sees!", "Kaunas,hernes,kaun"),
-    ("Meil on Kuusalust Gyproki vaja! Varustaja jõuab tagasi kuue aluse Gyprokiga!", "Kuusalu,kuus,alus"),
+    ("Meil on Kuusalust Gyproki vaja! Varustaja jõuab tagasi kuue aluse Gyprokiga!", "Kuusalu,kuus"),
+    ("Saatan käis maal ja ta sõitis Cadillaciga", "saatan,maal,Cadillac"),
     ("Ümarate jalgadega venelane, ta nimi oli Oleg!", "mees,jalg");

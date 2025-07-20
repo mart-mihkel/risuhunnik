@@ -1,0 +1,12 @@
+<div id="container" class="joke-container">
+  {{range .}}
+  <div class="joke">
+    <p>{{.Joke}}</p>
+    <div class="joke-tags">
+      {{range .Tags}}
+      <p>{{.}}</p>
+      {{end}}
+    </div>
+  </div>
+  {{end}}
+</div>
