@@ -8,10 +8,10 @@
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
   </head>
   <body>
-    <main class="px-[25%] py-[5%] bg-nord-0 text-nord-4 fill-nord-4 font-[monospace]">
-      <nav class="p-4 flex flex-row justify-evenly">
+    <main class="px-[25%] bg-nord-0 text-nord-4 fill-nord-4">
+      <nav class="p-8 flex flex-row justify-evenly">
         <a
-          class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
+          class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
           hx-get="/api/jokes"
           hx-target="#container"
           hx-swap="outerHTML"
@@ -28,7 +28,7 @@
           <p>Jokes</p>
         </a>
         <a
-          class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
+          class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
           hx-get="/api/tags"
           hx-target="#container"
           hx-swap="outerHTML"
@@ -45,7 +45,7 @@
           <p>Tags</p>
         </a>
         <a
-          class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
+          class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
           hx-get="/api/search"
         >
           <svg
@@ -60,7 +60,7 @@
           <p>Search</p>
         </a>
         <a
-          class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
+          class="p-1 flex items-center gap-2 rounded-2xl transition-all duration-200 hover:px-4 hover:text-nord-3 hover:fill-nord-3 hover:bg-nord-5"
           target="_blank"
           href="https://github.com/mart-mihkel/risuhunnik"
         >

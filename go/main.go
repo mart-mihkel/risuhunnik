@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
+	"slices"
 	"strings"
 	"text/template"
 
@@ -15,7 +16,7 @@ type joke struct {
 	Tags []string
 }
 
-func getJokes(db *sql.DB) []joke {
+func getJokes(db *sql.DB, tag string) []joke {
 	rows, err := db.Query("SELECT joke, tags FROM jokes")
 	if err != nil {
 		log.Fatal(err)
@@ -25,15 +26,18 @@ func getJokes(db *sql.DB) []joke {
 	var jokes []joke
 	for rows.Next() {
 		var j joke
-		var t string
+		var tagstring string
 
-		err := rows.Scan(&j.Joke, &t)
+		err := rows.Scan(&j.Joke, &tagstring)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		j.Tags = strings.Split(t, ",")
-		jokes = append(jokes, j)
+		tags := strings.Split(tagstring, ",")
+		if tag == "" || slices.Contains(tags, tag){
+			j.Tags = tags
+			jokes = append(jokes, j)
+		}
 	}
 
 	return jokes
@@ -78,8 +82,12 @@ func main() {
 			return
 		}
 
+		q := r.URL.Query()
+		tag := q.Get("tag")
+		jokes := getJokes(db, tag)
+
 		tmpl := template.Must(template.ParseFiles("../web/templates/jokes.html"))
-		tmpl.Execute(w, getJokes(db))
+		tmpl.Execute(w, jokes)
 	})
 
 	http.HandleFunc("/api/tags", func(w http.ResponseWriter, r *http.Request) {

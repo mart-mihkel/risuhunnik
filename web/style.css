@@ -37,3 +37,8 @@
     @apply bg-transparent;
   }
 }
+
+html {
+  font-family: monospace;
+  scrollbar-gutter: stable;
+}

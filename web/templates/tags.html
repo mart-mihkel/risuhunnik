@@ -1,7 +1,10 @@
 <div id="container" class="flex flex-row flex-wrap gap-4 justify-center">
   {{range $k, $v := .}}
   <div
-    class="p-4 w-[25%] border-1 border-nord-4 rounded-md transition-all duration-200 hover:fill-nord-3 hover:text-nord-3 hover:bg-nord-5"
+    class="p-4 w-64 border-1 border-nord-4 rounded-md transition-all duration-200 hover:fill-nord-3 hover:text-nord-3 hover:bg-nord-5"
+    hx-get="/api/jokes?tag={{$k}}"
+    hx-target="#container"
+    hx-swap="outerHTML"
   >
     <div class="flex flex-row items-center gap-2">
       <svg
@@ -16,7 +19,7 @@
       <p>{{$k}}</p>
     </div>
     {{if eq $v 1}}
-    <p>One conundrum</p>
+    <p>1 conundrum</p>
     {{else}}
     <p>{{$v}} conundrums</p>
     {{end}}
