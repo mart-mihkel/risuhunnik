@@ -1,2 +1,3 @@
-node_modules
-*.db
+web/node_modules
+web/static/tailwind.css
+go/risuhunnik.db

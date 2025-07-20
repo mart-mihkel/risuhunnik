@@ -70,7 +70,7 @@ func main() {
 	}
 	defer db.Close()
 
-	fs := http.FileServer(http.Dir("static/"))
+	fs := http.FileServer(http.Dir("../web/static/"))
 	http.Handle("/", http.StripPrefix("/", fs))
 
 	http.HandleFunc("/api/jokes", func(w http.ResponseWriter, r *http.Request) {
@@ -78,7 +78,7 @@ func main() {
 			return
 		}
 
-		tmpl := template.Must(template.ParseFiles("templates/jokes.html"))
+		tmpl := template.Must(template.ParseFiles("../web/templates/jokes.html"))
 		tmpl.Execute(w, getJokes(db))
 	})
 
@@ -87,7 +87,7 @@ func main() {
 			return
 		}
 
-		tmpl := template.Must(template.ParseFiles("templates/tags.html"))
+		tmpl := template.Must(template.ParseFiles("../web/templates/tags.html"))
 		tmpl.Execute(w, getTags(db))
 	})
 
