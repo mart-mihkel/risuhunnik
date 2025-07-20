@@ -1,10 +1,14 @@
-<div id="container" class="joke-container">
+<div id="container" class="flex flex-col gap-20">
   {{range .}}
-  <div class="joke">
+  <div class="p-2 text-2xl flex flex-col gap-2">
     <p>{{.Joke}}</p>
-    <div class="joke-tags">
+    <div class="flex flex-row gap-2">
       {{range .Tags}}
-      <p>{{.}}</p>
+      <p
+        class="p-1 text-xs text-nord-9 rounded-sm transition-all duration-200 hover:text-nord-4 hover:bg-nord-3"
+      >
+        {{.}}
+      </p>
       {{end}}
     </div>
   </div>

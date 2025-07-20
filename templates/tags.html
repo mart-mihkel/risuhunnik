@@ -1,12 +1,13 @@
-<div id="container" class="tag-container">
+<div id="container" class="flex flex-row flex-wrap gap-4 justify-center">
   {{range $k, $v := .}}
-  <div class="tag">
-    <div class="tag-title">
+  <div
+    class="p-4 w-[25%] border-1 border-nord-4 rounded-md transition-all duration-200 hover:fill-nord-3 hover:text-nord-3 hover:bg-nord-5"
+  >
+    <div class="flex flex-row items-center gap-2">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 -960 960 960"
-        height="1rem"
-        width="1rem"
+        class="size-4"
       >
         <path
           d="m240-160 40-160H120l20-80h160l40-160H180l20-80h160l40-160h80l-40 160h160l40-160h80l-40 160h160l-20 80H660l-40 160h160l-20 80H600l-40 160h-80l40-160H360l-40 160h-80Zm140-240h160l40-160H420l-40 160Z"
