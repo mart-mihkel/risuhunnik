@@ -21,7 +21,7 @@ func (t *TemplateRenderer) Render(w io.Writer, name string, data any, c echo.Con
 }
 
 func main() {
-	tmpls, err := template.New("").ParseGlob("public/views/*.html")
+	tmpls, err := template.New("").ParseGlob("templates/*.html")
 	if err != nil {
 		log.Fatalf("couldn't initialize templates: %v", err)
 	}
