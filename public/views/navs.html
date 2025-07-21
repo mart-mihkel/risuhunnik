@@ -1,0 +1,49 @@
+{{ define "nav" }}
+  <nav class="px-4 md:px-[5%] lg:px-[25%] py-8 flex flex-row justify-evenly">
+    <button
+      class="p-1 flex items-center gap-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none"
+      hx-get="/conundrums"
+      hx-swap="outerHTML"
+      hx-target="main"
+    >
+      {{ template "phising-svg" }}
+      <p>Conundrums</p>
+    </button>
+    <button
+      class="p-1 flex items-center gap-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none"
+      hx-get="/tags"
+      hx-swap="outerHTML"
+      hx-target="main"
+    >
+      {{ template "tag-svg" }}
+      <p>Tags</p>
+    </button>
+    <button
+      class="p-1 flex items-center gap-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none"
+      hx-get="/modal?modal=search"
+      hx-target="#modal"
+      hx-swap="outerHTML"
+    >
+      {{ template "search-svg" }}
+      <p>Search</p>
+    </button>
+  </nav>
+{{ end }}
+
+{{ define "footer" }}
+  <footer class="px-4 md:px-[5%] lg:px-[25%] py-8 flex flex-row justify-evenly">
+    <button
+      class="p-1 flex items-center gap-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none"
+      hx-get="/modal?modal=add"
+      hx-target="#modal"
+      hx-swap="outerHTML"
+    >
+      {{ template "add-svg" }}
+      <p>Add Conundrum</p>
+    </button>
+    <a class="p-1 flex items-center gap-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none" href="https://github.com/mart-mihkel/risuhunnik" target="_blank">
+      {{ template "github-svg" }}
+      <p>Github</p>
+    </a>
+  </footer>
+{{ end }}

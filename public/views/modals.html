@@ -1,0 +1,67 @@
+{{ define "modal-hidden" }}
+  <div id="modal" class="hidden"></div>
+{{ end }}
+
+{{ define "modal-search" }}
+  <div id="modal" class="fixed inset-0 w-screen bg-nord-6/75 dark:bg-nord-0/75 flex justify-center items-center">
+    <form
+      id="search-form"
+      class="flex flex-col gap-4 p-4 bg-nord-4 dark:bg-nord-3 rounded-md shadow-2xl shadow-nord-4 dark:shadow-nord-1"
+    >
+      <div class="flex flex-row gap-1 items-center">
+        {{ template "search-svg" }}
+        <input required type="text" name="search" placeholder="Search..." class="outline-none" />
+      </div>
+      <div class="flex flex-row gap-8 justify-evenly">
+        <button type="submit" class="outline-none">
+          {{ template "check-svg" }}
+        </button>
+        <button
+          type="button"
+          class="outline-none"
+          hx-get="/modal?modal=hidden"
+          hx-target="#modal"
+          hx-swap="outerHTML"
+        >
+          {{ template "cancel-svg" }}
+        </button>
+      </div>
+    </form>
+  </div>
+{{ end }}
+
+{{ define "modal-add" }}
+  <div id="modal" class="fixed inset-0 w-screen bg-nord-6/75 dark:bg-nord-0/75 flex justify-center items-center">
+    <form
+      id="add-form"
+      class="flex flex-col gap-4 p-4 bg-nord-4 dark:bg-nord-3 rounded-md shadow-2xl shadow-nord-4 dark:shadow-nord-1"
+    >
+      <div class="flex flex-row gap-1 items-center">
+        {{ template "phising-svg" }}
+        <input required type="text" name="text" placeholder="Conundrum..." class="outline-none" />
+      </div>
+      <div class="flex flex-row gap-1 items-center">
+        <!-- TODO: tag list -->
+        {{ template "tag-svg" }}
+        <input required type="text" name="tags" placeholder="Tags..." class="outline-none" />
+      </div>
+      <div class="flex flex-row gap-8 justify-evenly">
+        <button type="submit" class="outline-none">
+          {{ template "check-svg" }}
+        </button>
+        <button type="reset" class="outline-none">
+          {{ template "reset-svg" }}
+        </button>
+        <button
+          type="button"
+          class="outline-none"
+          hx-get="/modal?modal=hidden"
+          hx-target="#modal"
+          hx-swap="outerHTML"
+        >
+          {{ template "cancel-svg" }}
+        </button>
+      </div>
+    </form>
+  </div>
+{{ end }}

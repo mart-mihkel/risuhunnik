@@ -1,0 +1,7 @@
+- modals
+- makefile
+- docker volume for database
+- db backup cronjob
+- reverse proxy
+- max out lighthouse
+- readme

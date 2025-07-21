@@ -20,22 +20,30 @@
 }
 
 @layer base {
+  html {
+    font-family: monospace;
+    scrollbar-gutter: stable;
+
+    @apply bg-nord-6;
+    @apply text-nord-0;
+    @apply fill-nord-0;
+
+    @apply dark:bg-nord-0;
+    @apply dark:text-nord-6;
+    @apply dark:fill-nord-6;
+  }
+
   ::-webkit-scrollbar {
     @apply w-2;
   }
 
   ::-webkit-scrollbar-thumb {
+    @apply rounded-2xl;
     @apply bg-nord-6/10;
     @apply dark:bg-nord-0/10;
-    @apply rounded-2xl;
   }
 
   ::-webkit-scrollbar-track {
     @apply bg-transparent;
   }
-}
-
-html {
-  scrollbar-gutter: stable;
-  font-family: monospace;
 }

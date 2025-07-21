@@ -1,25 +1,25 @@
-FROM golang:alpine AS build
+FROM golang:alpine AS go
 
 ENV CGO_ENABLED=1
 RUN apk add --no-cache sqlite gcc musl-dev
-WORKDIR /app/go
-COPY ./go /app/go
-RUN sqlite3 risuhunnik.db < dump.sql
-RUN go build -o main -ldflags='-s -w -extldflags "-static"' main.go
+WORKDIR /app
+COPY . /app
+RUN sqlite3 risuhunnik.db < sql/dump.sql
+RUN go build -o main -ldflags='-s -w -extldflags "-static"' cmd/main.go
 
-FROM node:alpine AS tailwind
+FROM node:alpine AS node
 
-WORKDIR /app/web
-COPY ./web /app/web
+WORKDIR /app
+COPY . /app
 RUN npm install
-RUN npx @tailwindcss/cli -i ./style.css -o ./static/tailwind.css --minify
+RUN npm run tailwind
 
-FROM scratch
+FROM scratch AS app
 
-WORKDIR /app/go
-COPY ./web/templates /app/web/templates
-COPY --from=tailwind /app/web/static/ /app/web/static
-COPY --from=build /app/go/risuhunnik.db /app/go/risuhunnik.db
-COPY --from=build /app/go/main /app/go/main
+WORKDIR /app
+COPY . /app
+COPY --from=node /app/css /app/css
+COPY --from=go /app/risuhunnik.db /app/risuhunnik.db
+COPY --from=go /app/main /app/main
 
-ENTRYPOINT [ "/app/go/main" ]
+ENTRYPOINT [ "/app/main" ]

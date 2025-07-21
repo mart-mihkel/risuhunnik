@@ -1,0 +1,55 @@
+package pages
+
+import (
+	"risuhunnik/pkg/database"
+
+	"github.com/labstack/echo/v4"
+)
+
+func Index(c echo.Context) error {
+	cs, err := database.GetAllConundrums()
+	if err != nil {
+		return err
+	}
+
+	return c.Render(200, "index.html", cs)
+}
+
+func Tags(c echo.Context) error {
+	cs, err := database.GetAllConundrums()
+	if err != nil {
+		return err
+	}
+
+	counts := make(map[string]int)
+	for _, co := range cs {
+		for _, t := range co.Tags {
+			counts[t]++
+		}
+	}
+
+	return c.Render(200, "tags", counts)
+}
+
+func Conundrums(c echo.Context) error {
+	cs, err := database.GetAllConundrums()
+	if err != nil {
+		return err
+	}
+
+	return c.Render(200, "conundrums", cs)
+}
+
+func Modal(c echo.Context) error {
+	m := c.QueryParam("modal")
+
+	if m == "add" {
+		return c.Render(200, "modal-add", nil)
+	}
+
+	if m == "search" {
+		return c.Render(200, "modal-search", nil)
+	}
+
+	return c.Render(200, "modal-hidden", nil)
+}
