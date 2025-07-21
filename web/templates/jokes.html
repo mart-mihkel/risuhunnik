@@ -3,6 +3,23 @@
   <div class="flex flex-col gap-4">
     <p class="text-2xl text-center">{{.Joke}}</p>
     <div class="flex flex-row gap-2 justify-center items-center">
+      <button
+        class="flex flex-row gap-1 p-1 rounded-2xl text-nord-3 dark:text-nord-4 transition-all duration-200 hover:px-4 hover:shadow-md hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3 items-center hover:cursor-pointer outline-none"
+        hx-post="/jokes?star={{.Id}}"
+        hx-swap="innerHTML"
+        hx-target="#stars-{{.Id}}"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+          class="size-4"
+        >
+          <path
+            d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"
+          />
+        </svg>
+        <p id="stars-{{.Id}}">{{.Stars}}</p>
+      </button>
       {{if not .Verified}}
       <span
         class="p-1 rounded-2xl text-nord-3 dark:text-nord-4 transition-all duration-200 hover:px-4 hover:shadow-md hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3"

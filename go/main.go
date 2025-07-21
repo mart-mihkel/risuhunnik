@@ -13,13 +13,15 @@ import (
 )
 
 type joke struct {
-	Joke string
-	Tags []string
+	Id       int
+	Joke     string
+	Tags     []string
 	Verified bool
+	Stars    string
 }
 
 func getJokes(db *sql.DB) []joke {
-	rows, err := db.Query("SELECT joke, tags, verified FROM jokes")
+	rows, err := db.Query("SELECT id, joke, tags, verified, stars FROM jokes")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,7 +32,7 @@ func getJokes(db *sql.DB) []joke {
 		var j joke
 		var tagstring string
 
-		err := rows.Scan(&j.Joke, &tagstring, &j.Verified)
+		err := rows.Scan(&j.Id, &j.Joke, &tagstring, &j.Verified, &j.Stars)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -45,6 +47,14 @@ func getJokes(db *sql.DB) []joke {
 func postJoke(db *sql.DB, jokestring *string, tagstring *string) {
 	_, err := db.Exec("INSERT INTO jokes (joke, tags) VALUES (?, ?)", *jokestring, *tagstring)
 	// TODO: bubble error, unique constraint
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func starJoke(db *sql.DB, id int64) {
+	_, err := db.Exec("UPDATE jokes SET stars = stars + 1 WHERE id = ?", id)
+	// TODO: bubble error
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -121,6 +131,21 @@ func main() {
 		}
 
 		if r.Method == http.MethodPost {
+			q := r.URL.Query()
+			likestr := q.Get("star")
+			if likestr != "" {
+				id, err := strconv.ParseInt(likestr, 10, 64)
+				if err != nil {
+					log.Printf("Recieved malformed url paramater star=%s, should be int\n", likestr)
+					return
+				}
+
+				starJoke(db, id)
+
+				// TODO: return new number of likes
+				return
+			}
+
 			jokestring := r.FormValue("joke")
 			tagstring := r.FormValue("tags")
 			postJoke(db, &jokestring, &tagstring)

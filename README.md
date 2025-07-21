@@ -18,10 +18,9 @@ npm run watch-tailwind
 
 ### TODO
 
-- footer
-- proposals
 - stars
 - loading skeleton
+- refactor main.go
 - db backup cronjob
 - reverse proxy
 - docker volume for database
