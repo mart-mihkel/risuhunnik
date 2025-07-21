@@ -93,7 +93,7 @@ func GetConundrum(id int) (*Conundrum, error) {
 	var verified bool
 	var stars int
 
-	err := row.Scan(&id, &text, &tags, &verified, &stars)
+	err := row.Scan(&id, &text, &tags, &stars, &verified)
 	if err != nil {
 		return nil, fmt.Errorf("failed on scannig row: %w", err)
 	}

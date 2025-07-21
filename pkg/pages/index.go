@@ -1,7 +1,9 @@
 package pages
 
 import (
+	"fmt"
 	"risuhunnik/pkg/database"
+	"strconv"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -14,6 +16,29 @@ func Index(c echo.Context) error {
 	}
 
 	return c.Render(200, "index.html", cs)
+}
+
+func Star(c echo.Context) error {
+	sid := c.QueryParam("id")
+
+	id, err := strconv.Atoi(sid)
+	if err != nil {
+		return fmt.Errorf("got malformed id: %w ", err)
+	}
+
+	co, err := database.GetConundrum(id)
+	if err != nil {
+		return err
+	}
+
+	co.Stars++
+
+	err = database.UpdateConundrum(co)
+	if err != nil {
+		return err
+	}
+
+	return c.Render(200, "button-star", co)
 }
 
 func Tags(c echo.Context) error {

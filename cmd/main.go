@@ -38,6 +38,7 @@ func main() {
 	e.Static("/css", "css")
 
 	e.GET("/", pages.Index)
+	e.GET("/star", pages.Star)
 	e.GET("/tags", pages.Tags)
 	e.GET("/modal", pages.Modal)
 	e.GET("/conundrums", pages.Conundrums)
