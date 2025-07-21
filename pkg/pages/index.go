@@ -32,7 +32,17 @@ func Tags(c echo.Context) error {
 }
 
 func Conundrums(c echo.Context) error {
-	cs, err := database.GetAllConundrums()
+	t := c.QueryParam("tag")
+
+	var cs []database.Conundrum
+	var err error
+
+	if t != "" {
+		cs, err = database.GetConundrumsByTag(t)
+	} else {
+		cs, err = database.GetAllConundrums()
+	}
+
 	if err != nil {
 		return err
 	}

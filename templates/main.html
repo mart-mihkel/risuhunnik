@@ -20,7 +20,12 @@
         </span>
       {{ end }}
       {{ range .Tags }}
-        <button class="p-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-md hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3 hover:cursor-pointer">
+        <button
+          class="p-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-md hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3 hover:cursor-pointer"
+          hx-get="/conundrums?tag={{ . }}"
+          hx-target="main"
+          hx-swap="outerHTML"
+        >
           #{{ . }}
         </button>
       {{ end }}
@@ -31,7 +36,12 @@
 {{ define "tags" }}
   <main class="px-4 md:px-[5%] lg:px-[25%] flex flex-row flex-wrap gap-4 justify-center py-4">
     {{ range $k, $v := . }}
-      <button class="p-2 w-44 rounded-md transition-all duration-200 hover:shadow-xl hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3 hover:cursor-pointer">
+      <button
+        class="p-2 w-44 rounded-md transition-all duration-200 hover:shadow-xl hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3 hover:cursor-pointer"
+        hx-get="/conundrums?tag={{ $k }}"
+        hx-target="main"
+        hx-swap="outerHTML"
+      >
         <p class="flex flex-row items-center justify-center gap-1">#{{ $k }}</p>
         {{ if eq $v 1 }}
           <p class="flex justify-center">1 conundrum</p>

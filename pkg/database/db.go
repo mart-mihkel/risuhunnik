@@ -47,10 +47,10 @@ func GetAllConundrums() ([]Conundrum, error) {
 	return conundrums, nil
 }
 
-func GetConundrumsByTag(tag string) ([]Conundrum, error) {
+func GetConundrumsByTag(t string) ([]Conundrum, error) {
 	q := "SELECT * FROM conundrums WHERE instr(tags, ?) > 0"
 
-	rows, err := DB.Query(q, tag)
+	rows, err := DB.Query(q, t)
 	if err != nil {
 		return nil, fmt.Errorf("couldn't get conundrums: %w", err)
 	}
@@ -65,10 +65,10 @@ func GetConundrumsByTag(tag string) ([]Conundrum, error) {
 	return conundrums, nil
 }
 
-func GetConundrumsBySubstring(substr string) ([]Conundrum, error) {
+func GetConundrumsBySubstring(s string) ([]Conundrum, error) {
 	q := "SELECT * FROM conundrums WHERE instr(text, ?) > 0"
 
-	rows, err := DB.Query(q, substr)
+	rows, err := DB.Query(q, s)
 	if err != nil {
 		return nil, fmt.Errorf("couldn't get conundrums: %w", err)
 	}
