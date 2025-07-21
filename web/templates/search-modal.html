@@ -2,9 +2,8 @@
 <div
   id="modal"
   class="fixed inset-0 w-screen bg-nord-6/75 dark:bg-nord-0/75 flex justify-center items-center"
-  hx-get="/api/modal?open=false"
+  hx-get="/search-modal?open=0"
   hx-trigger="click target:#modal,submit from:#search-form"
-  hx-target="#modal"
   hx-swap="outerHTML"
 >
   <div
@@ -21,7 +20,7 @@
     </svg>
     <form
       id="search-form"
-      hx-get="/api/jokes"
+      hx-get="/jokes"
       hx-target="#container"
       hx-swap="outerHTML"
     >

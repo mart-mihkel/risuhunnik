@@ -15,10 +15,11 @@ import (
 type joke struct {
 	Joke string
 	Tags []string
+	Verified bool
 }
 
 func getJokes(db *sql.DB) []joke {
-	rows, err := db.Query("SELECT joke, tags FROM jokes")
+	rows, err := db.Query("SELECT joke, tags, verified FROM jokes")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,7 +30,7 @@ func getJokes(db *sql.DB) []joke {
 		var j joke
 		var tagstring string
 
-		err := rows.Scan(&j.Joke, &tagstring)
+		err := rows.Scan(&j.Joke, &tagstring, &j.Verified)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -39,6 +40,14 @@ func getJokes(db *sql.DB) []joke {
 	}
 
 	return jokes
+}
+
+func postJoke(db *sql.DB, jokestring *string, tagstring *string) {
+	_, err := db.Exec("INSERT INTO jokes (joke, tags) VALUES (?, ?)", *jokestring, *tagstring)
+	// TODO: bubble error, unique constraint
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func jokesSearch(jokes []joke, search *string) []joke {
@@ -92,29 +101,33 @@ func main() {
 	fs := http.FileServer(http.Dir("../web/static/"))
 	http.Handle("/", http.StripPrefix("/", fs))
 
-	http.HandleFunc("/api/jokes", func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodGet {
-			return
+	http.HandleFunc("/jokes", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet {
+			jokes := getJokes(db)
+
+			q := r.URL.Query()
+			search := q.Get("search")
+			if search != "" {
+				jokes = jokesSearch(jokes, &search)
+			}
+
+			tag := q.Get("tag")
+			if tag != "" {
+				jokes = jokesTags(jokes, &tag)
+			}
+
+			tmpl := template.Must(template.ParseFiles("../web/templates/jokes.html"))
+			tmpl.Execute(w, jokes)
 		}
 
-		jokes := getJokes(db)
-
-		q := r.URL.Query()
-		search := q.Get("search")
-		if search != "" {
-			jokes = jokesSearch(jokes, &search)
+		if r.Method == http.MethodPost {
+			jokestring := r.FormValue("joke")
+			tagstring := r.FormValue("tags")
+			postJoke(db, &jokestring, &tagstring)
 		}
-
-		tag := q.Get("tag")
-		if tag != "" {
-			jokes = jokesTags(jokes, &tag)
-		}
-
-		tmpl := template.Must(template.ParseFiles("../web/templates/jokes.html"))
-		tmpl.Execute(w, jokes)
 	})
 
-	http.HandleFunc("/api/tags", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/tags", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			return
 		}
@@ -126,7 +139,7 @@ func main() {
 		tmpl.Execute(w, tags)
 	})
 
-	http.HandleFunc("/api/modal", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/search-modal", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			return
 		}
@@ -138,7 +151,23 @@ func main() {
 			return
 		}
 
-		tmpl := template.Must(template.ParseFiles("../web/templates/modal.html"))
+		tmpl := template.Must(template.ParseFiles("../web/templates/search-modal.html"))
+		tmpl.Execute(w, open)
+	})
+
+	http.HandleFunc("/add-modal", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			return
+		}
+
+		openstr := r.URL.Query().Get("open")
+		open, err := strconv.ParseBool(openstr)
+		if err != nil {
+			log.Printf("Recieved malformed url paramater open=%s, should be boolean\n", openstr)
+			return
+		}
+
+		tmpl := template.Must(template.ParseFiles("../web/templates/add-modal.html"))
 		tmpl.Execute(w, open)
 	})
 

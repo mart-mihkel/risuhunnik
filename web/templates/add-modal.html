@@ -1,0 +1,93 @@
+{{if .}}
+<div
+  id="modal"
+  class="fixed inset-0 w-screen bg-nord-6/75 dark:bg-nord-0/75 flex justify-center items-center"
+  hx-get="/add-modal?open=0"
+  hx-trigger="click target:#modal, submit from:#add-form"
+  hx-swap="outerHTML"
+>
+  <div
+    class="p-4 bg-nord-4 dark:bg-nord-3 rounded-md flex flex-row items-center gap-2 shadow-2xl shadow-nord-4 dark:shadow-nord-1"
+  >
+    <form id="add-form" hx-post="/jokes" class="flex flex-col gap-4">
+      <div class="flex flex-row gap-1 items-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+          class="size-4"
+        >
+          <path
+            d="M440-120q-100 0-170-70t-70-170v-240l200 200-56 57-64-64v47q0 66 47 113t113 47q66 0 113-47t47-113v-127q-36-14-58-44.5T520-600q0-38 22-68.5t58-44.5v-167h80v167q36 14 58 44.5t22 68.5q0 38-22 69t-58 44v127q0 100-70 170t-170 70Zm200-440q17 0 28.5-11.5T680-600q0-17-11.5-28.5T640-640q-17 0-28.5 11.5T600-600q0 17 11.5 28.5T640-560Zm0-40Z"
+          />
+        </svg>
+        <input
+          required
+          type="text"
+          name="joke"
+          placeholder="Conundrum..."
+          class="outline-none"
+        />
+      </div>
+      <div class="flex flex-row gap-1 items-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 -960 960 960"
+          class="size-4"
+        >
+          <path
+            d="m240-160 40-160H120l20-80h160l40-160H180l20-80h160l40-160h80l-40 160h160l40-160h80l-40 160h160l-20 80H660l-40 160h160l-20 80H600l-40 160h-80l40-160H360l-40 160h-80Zm140-240h160l40-160H420l-40 160Z"
+          />
+        </svg>
+        <!-- TODO: tag list -->
+        <input
+          required
+          type=""
+          name="tags"
+          placeholder="Tags..."
+          class="outline-none"
+        />
+      </div>
+      <div class="flex flex-row gap-8 justify-evenly">
+        <button type="submit" class="outline-none">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 -960 960 960"
+            class="size-8 rounded-xl fill-nord-14 hover:fill-nord-6 hover:bg-nord-14 hover:shadow-sm hover:shadow-nord-14 transition-all duration-200"
+          >
+            <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z" />
+          </svg>
+        </button>
+        <button type="reset" class="outline-none">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 -960 960 960"
+            class="size-8 rounded-xl fill-nord-9 hover:fill-nord-6 hover:bg-nord-9 hover:shadow-sm hover:shadow-nord-9 transition-all duration-200"
+          >
+            <path
+              d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"
+            />
+          </svg>
+        </button>
+        <button
+          type="button"
+          hx-get="/add-modal?open=0"
+          hx-target="#modal"
+          class="outline-none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 -960 960 960"
+            class="size-8 rounded-xl fill-nord-11 hover:fill-nord-6 hover:bg-nord-11 hover:shadow-sm hover:shadow-nord-11 transition-all duration-200"
+          >
+            <path
+              d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+            />
+          </svg>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{{else}}
+<div id="modal" class="hidden"></div>
+{{end}}
