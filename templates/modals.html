@@ -7,6 +7,9 @@
     <form
       id="search-form"
       class="flex flex-col gap-4 p-4 bg-nord-4 dark:bg-nord-3 rounded-md shadow-2xl shadow-nord-4 dark:shadow-nord-1"
+      hx-post="/search"
+      hx-target="main"
+      hx-swap="outerHTML"
     >
       <div class="flex flex-row gap-1 items-center">
         {{ template "search-svg" }}

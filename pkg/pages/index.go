@@ -50,6 +50,17 @@ func Conundrums(c echo.Context) error {
 	return c.Render(200, "conundrums", cs)
 }
 
+func SearchConundrums(c echo.Context) error {
+	s := c.FormValue("search")
+
+	cs, err := database.GetConundrumsBySubstring(s)
+	if err != nil {
+		return err
+	}
+
+	return c.Render(200, "conundrums", cs)
+}
+
 func Modal(c echo.Context) error {
 	m := c.QueryParam("modal")
 
