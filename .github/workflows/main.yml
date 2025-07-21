@@ -19,4 +19,4 @@ jobs:
             git pull origin main
             [ ! -f risuhunnik.db ] && sqlite3 risuhunnik.db < sql/dump.sql
             docker compose down
-            docker compose up --build
+            docker compose up --build --detach

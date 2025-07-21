@@ -2,6 +2,7 @@ package pages
 
 import (
 	"risuhunnik/pkg/database"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -59,6 +60,27 @@ func SearchConundrums(c echo.Context) error {
 	}
 
 	return c.Render(200, "conundrums", cs)
+}
+
+func PostConundrum(c echo.Context) error {
+	text := c.FormValue("text")
+	tags := c.FormValue("tags")
+
+	co := &database.Conundrum{
+		Text:     text,
+		Tags:     strings.Split(tags, " "),
+		Verified: false,
+		Stars:    0,
+	}
+
+	id, err := database.InsertConundrum(co)
+	if err != nil {
+		return err
+	}
+
+	co.Id = id
+
+	return c.Render(200, "modal-add", co)
 }
 
 func Modal(c echo.Context) error {

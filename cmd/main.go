@@ -42,6 +42,7 @@ func main() {
 	e.GET("/modal", pages.Modal)
 	e.GET("/conundrums", pages.Conundrums)
 
+	e.POST("/conundrums", pages.PostConundrum)
 	e.POST("/search", pages.SearchConundrums)
 
 	e.Logger.Fatal(e.Start(":8080"))

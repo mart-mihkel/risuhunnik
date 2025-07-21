@@ -107,15 +107,20 @@ func GetConundrum(id int) (*Conundrum, error) {
 	}, nil
 }
 
-func InsertConundrum(c *Conundrum) error {
+func InsertConundrum(c *Conundrum) (int, error) {
 	q := "INSERT INTO conundrums (text, tags, verified, stars) VALUES (?, ?, ?, ?)"
 
-	_, err := DB.Exec(q, c.Text, strings.Join(c.Tags, " "), c.Verified, c.Stars)
+	res, err := DB.Exec(q, c.Text, strings.Join(c.Tags, " "), c.Verified, c.Stars)
 	if err != nil {
-		return fmt.Errorf("failed to insert conundrum: %w", err)
+		return 0, fmt.Errorf("failed to insert conundrum: %w", err)
 	}
 
-	return nil
+	id, err := res.LastInsertId()
+	if err != nil {
+		return 0, fmt.Errorf("failed to get last insert id: %w", err)
+	}
+
+	return int(id), nil
 }
 
 func UpdateConundrum(c *Conundrum) error {

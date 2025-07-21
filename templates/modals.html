@@ -38,16 +38,20 @@
     <form
       id="add-form"
       class="flex flex-col gap-4 p-4 bg-nord-4 dark:bg-nord-3 rounded-md shadow-2xl shadow-nord-4 dark:shadow-nord-1"
+      hx-post="/conundrums"
+      hx-swap="outerHTML"
     >
       <div class="flex flex-row gap-1 items-center">
         {{ template "phising-svg" }}
         <input required type="text" name="text" placeholder="Conundrum..." class="outline-none" />
       </div>
       <div class="flex flex-row gap-1 items-center">
-        <!-- TODO: tag list -->
         {{ template "tag-svg" }}
         <input required type="text" name="tags" placeholder="Tags..." class="outline-none" />
       </div>
+      {{ if .Id }}
+        <p class="flex justify-center text-justify">Conundrum uploaded</p>
+      {{ end }}
       <div class="flex flex-row gap-8 justify-evenly">
         <button type="submit" class="outline-none">
           {{ template "check-svg" }}
