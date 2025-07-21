@@ -2,6 +2,6 @@
 - makefile
 - docker volume for database
 - db backup cronjob
-- reverse proxy
+- reverse proxy, cache and ratelimiter
 - max out lighthouse
 - readme
