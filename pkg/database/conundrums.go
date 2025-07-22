@@ -19,7 +19,7 @@ type Conundrum struct {
 func GetAllConundrums() ([]Conundrum, error) {
 	q := "SELECT * FROM conundrums"
 
-	rows, err := DB.Query(q)
+	rows, err := Db.Query(q)
 	if err != nil {
 		return nil, fmt.Errorf("couldn't get conundrums: %w", err)
 	}
@@ -37,7 +37,7 @@ func GetAllConundrums() ([]Conundrum, error) {
 func GetConundrumsByTag(t string) ([]Conundrum, error) {
 	q := "SELECT * FROM conundrums WHERE instr(tags, ?) > 0"
 
-	rows, err := DB.Query(q, t)
+	rows, err := Db.Query(q, t)
 	if err != nil {
 		return nil, fmt.Errorf("couldn't get conundrums: %w", err)
 	}
@@ -55,7 +55,7 @@ func GetConundrumsByTag(t string) ([]Conundrum, error) {
 func GetConundrum(id int) (*Conundrum, error) {
 	q := "SELECT * FROM conundrums WHERE id = ?"
 
-	row := DB.QueryRow(q, id)
+	row := Db.QueryRow(q, id)
 
 	var text string
 	var tags string
@@ -79,7 +79,7 @@ func GetConundrum(id int) (*Conundrum, error) {
 func InsertConundrum(c *Conundrum) (int, error) {
 	q := "INSERT INTO conundrums (text, tags, verified, stars) VALUES (?, ?, ?, ?)"
 
-	res, err := DB.Exec(q, c.Text, strings.Join(c.Tags, " "), c.Verified, c.Stars)
+	res, err := Db.Exec(q, c.Text, strings.Join(c.Tags, " "), c.Verified, c.Stars)
 	if err != nil {
 		return 0, fmt.Errorf("failed to insert conundrum: %w", err)
 	}
@@ -95,7 +95,7 @@ func InsertConundrum(c *Conundrum) (int, error) {
 func UpdateConundrum(c *Conundrum) error {
 	q := "UPDATE conundrums SET text = ?, tags = ?, verified = ?, stars = ? WHERE id = ?"
 
-	_, err := DB.Exec(q, c.Text, strings.Join(c.Tags, " "), c.Verified, c.Stars, c.Id)
+	_, err := Db.Exec(q, c.Text, strings.Join(c.Tags, " "), c.Verified, c.Stars, c.Id)
 	if err != nil {
 		return fmt.Errorf("failed to update conundrum: %w", err)
 	}

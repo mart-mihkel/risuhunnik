@@ -6,7 +6,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var DB *sql.DB
+var Db *sql.DB
 
 func ConnectDB(url string) error {
 	db, err := sql.Open("sqlite3", url)
@@ -14,7 +14,7 @@ func ConnectDB(url string) error {
 		return err
 	}
 
-	DB = db
+	Db = db
 
 	return nil
 }

@@ -2,6 +2,7 @@ package pages
 
 import (
 	"fmt"
+	"net/http"
 	"strconv"
 	"strings"
 
@@ -11,13 +12,25 @@ import (
 	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
+const cacheHeaderValid = "max-age=3600"
+const cacheHeaderInvalid = "no-cache"
+var cacheValid = false
+
 func Index(c echo.Context) error {
 	cs, err := database.GetAllConundrums()
 	if err != nil {
 		return err
 	}
 
-	return c.Render(200, "index.html", cs)
+	cc := cacheHeaderValid
+	if !cacheValid {
+		cc = cacheHeaderInvalid
+		cacheValid = true
+	}
+
+	c.Response().Header().Set(echo.HeaderCacheControl, cc)
+
+	return c.Render(http.StatusOK, "index.html", cs)
 }
 
 func Star(c echo.Context) error {
@@ -40,7 +53,9 @@ func Star(c echo.Context) error {
 		return err
 	}
 
-	return c.Render(200, "button-star", co)
+	cacheValid = false
+
+	return c.Render(http.StatusOK, "button-star", co)
 }
 
 func Tags(c echo.Context) error {
@@ -56,7 +71,15 @@ func Tags(c echo.Context) error {
 		}
 	}
 
-	return c.Render(200, "tags", counts)
+	cc := cacheHeaderValid
+	if !cacheValid {
+		cc = cacheHeaderInvalid
+		cacheValid = true
+	}
+
+	c.Response().Header().Set(echo.HeaderCacheControl, cc)
+
+	return c.Render(http.StatusOK, "tags", counts)
 }
 
 func Conundrums(c echo.Context) error {
@@ -75,7 +98,15 @@ func Conundrums(c echo.Context) error {
 		return err
 	}
 
-	return c.Render(200, "conundrums", cs)
+	cc := cacheHeaderValid
+	if !cacheValid {
+		cc = cacheHeaderInvalid
+		cacheValid = true
+	}
+
+	c.Response().Header().Set(echo.HeaderCacheControl, cc)
+
+	return c.Render(http.StatusOK, "conundrums", cs)
 }
 
 func SearchConundrums(c echo.Context) error {
@@ -97,7 +128,7 @@ func SearchConundrums(c echo.Context) error {
 		out = append(out, co)
 	}
 
-	return c.Render(200, "search-results", out)
+	return c.Render(http.StatusOK, "search-results", out)
 }
 
 func PostConundrum(c echo.Context) error {
@@ -118,19 +149,21 @@ func PostConundrum(c echo.Context) error {
 
 	co.Id = id
 
-	return c.Render(200, "modal-add", co)
+	cacheValid = false
+
+	return c.Render(http.StatusOK, "modal-add", co)
 }
 
 func Modal(c echo.Context) error {
 	m := c.QueryParam("modal")
 
 	if m == "add" {
-		return c.Render(200, "modal-add", nil)
+		return c.Render(http.StatusOK, "modal-add", nil)
 	}
 
 	if m == "search" {
-		return c.Render(200, "modal-search", nil)
+		return c.Render(http.StatusOK, "modal-search", nil)
 	}
 
-	return c.Render(200, "modal-hidden", nil)
+	return c.Render(http.StatusOK, "modal-hidden", nil)
 }

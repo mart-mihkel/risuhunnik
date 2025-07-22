@@ -1,4 +1,5 @@
+- post response result type with err
 - db backup cronjob
-- reverse proxy, cache and ratelimiter
+- ratelimiter
 - max out lighthouse
 - readme
