@@ -12,23 +12,11 @@ import (
 	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
-const cacheHeaderValid = "max-age=3600"
-const cacheHeaderInvalid = "no-cache"
-var cacheValid = false
-
 func Index(c echo.Context) error {
 	cs, err := database.GetAllConundrums()
 	if err != nil {
 		return err
 	}
-
-	cc := cacheHeaderValid
-	if !cacheValid {
-		cc = cacheHeaderInvalid
-		cacheValid = true
-	}
-
-	c.Response().Header().Set(echo.HeaderCacheControl, cc)
 
 	return c.Render(http.StatusOK, "index.html", cs)
 }
@@ -53,8 +41,6 @@ func Star(c echo.Context) error {
 		return err
 	}
 
-	cacheValid = false
-
 	return c.Render(http.StatusOK, "button-star", co)
 }
 
@@ -70,14 +56,6 @@ func Tags(c echo.Context) error {
 			counts[t]++
 		}
 	}
-
-	cc := cacheHeaderValid
-	if !cacheValid {
-		cc = cacheHeaderInvalid
-		cacheValid = true
-	}
-
-	c.Response().Header().Set(echo.HeaderCacheControl, cc)
 
 	return c.Render(http.StatusOK, "tags", counts)
 }
@@ -97,14 +75,6 @@ func Conundrums(c echo.Context) error {
 	if err != nil {
 		return err
 	}
-
-	cc := cacheHeaderValid
-	if !cacheValid {
-		cc = cacheHeaderInvalid
-		cacheValid = true
-	}
-
-	c.Response().Header().Set(echo.HeaderCacheControl, cc)
 
 	return c.Render(http.StatusOK, "conundrums", cs)
 }
@@ -148,8 +118,6 @@ func PostConundrum(c echo.Context) error {
 	}
 
 	co.Id = id
-
-	cacheValid = false
 
 	return c.Render(http.StatusOK, "modal-add", co)
 }
