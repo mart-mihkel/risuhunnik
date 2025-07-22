@@ -52,24 +52,6 @@ func GetConundrumsByTag(t string) ([]Conundrum, error) {
 	return cs, nil
 }
 
-func GetConundrumsBySubstring(s string) ([]Conundrum, error) {
-	q := "SELECT * FROM conundrums WHERE instr(text, ?) > 0"
-
-	rows, err := DB.Query(q, s)
-	if err != nil {
-		return nil, fmt.Errorf("couldn't get conundrums: %w", err)
-	}
-
-	defer rows.Close()
-
-	cs, err := scanConundrums(rows)
-	if err != nil {
-		return nil, err
-	}
-
-	return cs, nil
-}
-
 func GetConundrum(id int) (*Conundrum, error) {
 	q := "SELECT * FROM conundrums WHERE id = ?"
 

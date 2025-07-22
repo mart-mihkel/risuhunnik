@@ -8,6 +8,7 @@ import (
 	"risuhunnik/pkg/database"
 
 	"github.com/labstack/echo/v4"
+	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
 func Index(c echo.Context) error {
@@ -78,14 +79,25 @@ func Conundrums(c echo.Context) error {
 }
 
 func SearchConundrums(c echo.Context) error {
-	s := c.FormValue("search")
-
-	cs, err := database.GetConundrumsBySubstring(s)
+	cs, err := database.GetAllConundrums()
 	if err != nil {
 		return err
 	}
 
-	return c.Render(200, "conundrums", cs)
+	lim := 5
+	s := c.FormValue("search")
+	var out []database.Conundrum
+	for _, co := range cs {
+		m := fuzzy.MatchFold(s, co.Text)
+		ms := fuzzy.FindFold(s, co.Tags)
+		if !m && len(ms) == 0 || len(out) == lim {
+			continue
+		}
+
+		out = append(out, co)
+	}
+
+	return c.Render(200, "search-results", out)
 }
 
 func PostConundrum(c echo.Context) error {
