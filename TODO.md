@@ -1,6 +1,3 @@
-- modals
-- makefile
-- docker volume for database
 - db backup cronjob
 - reverse proxy, cache and ratelimiter
 - max out lighthouse

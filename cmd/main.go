@@ -38,13 +38,13 @@ func main() {
 	e.Static("/css", "css")
 
 	e.GET("/", pages.Index)
-	e.GET("/star", pages.Star)
 	e.GET("/tags", pages.Tags)
 	e.GET("/modal", pages.Modal)
 	e.GET("/conundrums", pages.Conundrums)
 
-	e.POST("/conundrums", pages.PostConundrum)
+	e.POST("/star", pages.Star)
 	e.POST("/search", pages.SearchConundrums)
+	e.POST("/conundrums", pages.PostConundrum)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

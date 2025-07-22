@@ -34,7 +34,7 @@
   <button
     id="stars-{{ .Id }}"
     class="flex flex-row gap-1 p-1 rounded-2xl  transition-all duration-200 hover:px-4 hover:shadow-md hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3 items-center hover:cursor-pointer outline-none"
-    hx-get="/star?id={{ .Id }}"
+    hx-post="/star?id={{ .Id }}"
     hx-swap="outerHTML"
     hx-target="#stars-{{ .Id }}"
   >
