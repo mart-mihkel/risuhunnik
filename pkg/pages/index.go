@@ -2,9 +2,10 @@ package pages
 
 import (
 	"fmt"
-	"risuhunnik/pkg/database"
 	"strconv"
 	"strings"
+
+	"risuhunnik/pkg/database"
 
 	"github.com/labstack/echo/v4"
 )
@@ -23,7 +24,7 @@ func Star(c echo.Context) error {
 
 	id, err := strconv.Atoi(sid)
 	if err != nil {
-		return fmt.Errorf("got malformed id: %w ", err)
+		return fmt.Errorf("got malformed id: %w", err)
 	}
 
 	co, err := database.GetConundrum(id)

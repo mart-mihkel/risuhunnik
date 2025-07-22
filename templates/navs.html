@@ -1,7 +1,14 @@
+{{ define "header" }}
+  <header class="m-12 flex flex-row gap-2 items-center justify-center">
+    {{ template "grass-svg" }}
+    <h1 class="text-6xl">risuhunnik</h1>
+  </header>
+{{ end }}
+
 {{ define "nav" }}
-  <nav class="px-4 md:px-[5%] lg:px-[25%] py-8 flex flex-row justify-evenly">
+  <nav class="m-8 my-16 md:mx-[5%] lg:mx-[25%] flex flex-wrap gap-8 justify-center">
     <button
-      class="p-1 flex items-center gap-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none"
+      class="py-1 px-2 hover:px-4 bg-nord-4 dark:bg-nord-3 hover:bg-nord-7 flex items-center gap-1 rounded-xl shadow-md hover:shadow-xl shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
       hx-get="/conundrums"
       hx-swap="outerHTML"
       hx-target="main"
@@ -10,7 +17,7 @@
       <p>Conundrums</p>
     </button>
     <button
-      class="p-1 flex items-center gap-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none"
+      class="py-1 px-2 hover:px-4 bg-nord-4 dark:bg-nord-3 hover:bg-nord-8 flex items-center gap-1 rounded-xl shadow-md hover:shadow-xl shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
       hx-get="/tags"
       hx-swap="outerHTML"
       hx-target="main"
@@ -19,7 +26,7 @@
       <p>Tags</p>
     </button>
     <button
-      class="p-1 flex items-center gap-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none"
+      class="py-1 px-2 hover:px-4 bg-nord-4 dark:bg-nord-3 hover:bg-nord-9 flex items-center gap-1 rounded-xl shadow-md hover:shadow-xl shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
       hx-get="/modal?modal=search"
       hx-target="#modal"
       hx-swap="outerHTML"
@@ -27,23 +34,28 @@
       {{ template "search-svg" }}
       <p>Search</p>
     </button>
-  </nav>
-{{ end }}
-
-{{ define "footer" }}
-  <footer class="px-4 md:px-[5%] lg:px-[25%] py-8 flex flex-row justify-evenly">
     <button
-      class="p-1 flex items-center gap-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none"
+      class="py-1 px-2 hover:px-4 bg-nord-4 dark:bg-nord-3 hover:bg-nord-14 flex items-center gap-1 rounded-xl shadow-md hover:shadow-xl shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
       hx-get="/modal?modal=add"
       hx-target="#modal"
       hx-swap="outerHTML"
     >
       {{ template "add-svg" }}
-      <p>Add Conundrum</p>
+      <p>Add</p>
     </button>
-    <a class="p-1 flex items-center gap-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-xl hover:bg-nord-4 hover:shadow-nord-4 dark:hover:bg-nord-3 dark:hover:shadow-nord-1 hover:cursor-pointer outline-none" href="https://github.com/mart-mihkel/risuhunnik" target="_blank">
+    <a 
+      class="py-1 px-2 hover:px-4 bg-nord-4 dark:bg-nord-3 hover:bg-nord-15 flex items-center gap-1 rounded-xl shadow-md hover:shadow-xl shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
+      href="https://github.com/mart-mihkel/risuhunnik"
+      target="_blank"
+    >
       {{ template "github-svg" }}
       <p>Github</p>
     </a>
+  </nav>
+{{ end }}
+
+{{ define "footer" }}
+  <footer class="m-8 my-16 md:mx-[5%] lg:mx-[25%] flex flex-wrap gap-8 justify-center">
+    <p class="text-nord-5 dark:text-nord-2">What a conundrum!</p>
   </footer>
 {{ end }}

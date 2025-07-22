@@ -1,5 +1,5 @@
 {{ define "conundrums" }}
-  <main class="px-4 md:px-[5%] lg:px-[25%] flex flex-col gap-20 py-4">
+  <main class="m-4 md:mx-[5%] lg:mx-[25%] flex flex-col gap-32">
     {{ range . }}
       {{ template "conundrum" . }}
     {{ end }}
@@ -12,13 +12,14 @@
     <div class="flex flex-row gap-2 justify-center items-center text-nord-3 dark:text-nord-4">
       {{ template "button-star" . }}
       {{ if not .Verified }}
-        <span class="p-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-md hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3" title="Not verified">
+        <button class="py-1 px-2 hover:px-4 bg-nord-5 dark:bg-nord-2 hover:bg-nord-11 flex items-center gap-1 rounded-xl shadow-sm hover:shadow-md shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200">
           {{ template "skull-svg" }}
-        </span>
+          Not verified
+        </button>
       {{ end }}
       {{ range .Tags }}
         <button
-          class="p-1 rounded-2xl transition-all duration-200 hover:px-4 hover:shadow-md hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3 hover:cursor-pointer"
+          class="py-1 px-2 hover:px-4 bg-nord-5 dark:bg-nord-2 hover:bg-nord-8 flex items-center gap-1 rounded-xl shadow-sm hover:shadow-md shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
           hx-get="/conundrums?tag={{ . }}"
           hx-target="main"
           hx-swap="outerHTML"
@@ -33,7 +34,7 @@
 {{ define "button-star" }}
   <button
     id="stars-{{ .Id }}"
-    class="flex flex-row gap-1 p-1 rounded-2xl  transition-all duration-200 hover:px-4 hover:shadow-md hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3 items-center hover:cursor-pointer outline-none"
+    class="py-1 px-2 hover:px-4 bg-nord-5 dark:bg-nord-2 hover:bg-nord-13 flex items-center gap-1 rounded-xl shadow-sm hover:shadow-md shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
     hx-post="/star?id={{ .Id }}"
     hx-swap="outerHTML"
     hx-target="#stars-{{ .Id }}"
@@ -44,15 +45,15 @@
 {{ end }}
 
 {{ define "tags" }}
-  <main class="px-4 md:px-[5%] lg:px-[25%] flex flex-row flex-wrap gap-4 justify-center py-4">
+  <main class="m-4 md:mx-[5%] lg:mx-[25%] flex flex-row flex-wrap gap-4 justify-center">
     {{ range $k, $v := . }}
       <button
-        class="p-2 w-44 rounded-md transition-all duration-200 hover:shadow-xl hover:shadow-nord-4 dark:hover:shadow-nord-1 hover:bg-nord-4 dark:hover:bg-nord-3 hover:cursor-pointer"
+        class="p-2 w-[30%] bg-nord-5 dark:bg-nord-2 hover:bg-nord-8 gap-1 rounded-xl shadow-sm hover:shadow-md shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200 flex flex-col"
         hx-get="/conundrums?tag={{ $k }}"
         hx-target="main"
         hx-swap="outerHTML"
       >
-        <p class="flex flex-row items-center justify-center gap-1">#{{ $k }}</p>
+        <p class="flex justify-center">#{{ $k }}</p>
         {{ if eq $v 1 }}
           <p class="flex justify-center">1 conundrum</p>
         {{ else }}

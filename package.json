@@ -3,7 +3,7 @@
     "watch-tailwind": "npx @tailwindcss/cli -i css/input.css -o css/style.css --watch",
     "tailwind": "npx @tailwindcss/cli -i css/input.css -o css/style.css"
   },
-  "dependencies": {
+  "devDependencies": {
     "@tailwindcss/cli": "^4.1.11",
     "tailwindcss": "^4.1.11"
   }
