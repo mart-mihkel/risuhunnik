@@ -6,7 +6,8 @@ RUN apk add --no-cache gcc musl-dev
 WORKDIR /app
 COPY . /app
 
-RUN go build -o main -ldflags='-s -w -extldflags "-static"' cmd/main.go
+RUN --mount=type=cache,target=/root/.cache/go-build \
+    go build -o main -ldflags='-s -w -extldflags "-static"' cmd/main.go
 
 FROM node:alpine AS node
 

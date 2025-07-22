@@ -10,6 +10,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"golang.org/x/time/rate"
 )
 
 type TemplateRenderer struct {
@@ -35,6 +36,8 @@ func main() {
 	e.Renderer = &TemplateRenderer{templates: tmpls}
 
 	e.Use(middleware.Logger())
+	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(rate.Limit(20))))
+
 	e.Static("/css", "css")
 
 	e.GET("/", pages.Index)
