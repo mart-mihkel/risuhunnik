@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"risuhunnik/pkg/database"
-	"risuhunnik/pkg/pages"
+	"risuhunnik/pkg/web"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -36,19 +36,22 @@ func main() {
 	e.Renderer = &TemplateRenderer{templates: tmpls}
 
 	ms := middleware.NewRateLimiterMemoryStore(rate.Limit(20))
+	gz := middleware.GzipConfig{Level: 5}
+
+	e.Use(middleware.GzipWithConfig(gz))
 	e.Use(middleware.RateLimiter(ms))
 	e.Use(middleware.Logger())
 
 	e.Static("/css", "css")
 
-	e.GET("/", pages.Index)
-	e.GET("/tags", pages.Tags)
-	e.GET("/modal", pages.Modal)
-	e.GET("/conundrums", pages.Conundrums)
+	e.GET("/", web.Index)
+	e.GET("/tags", web.Tags)
+	e.GET("/modal", web.Modal)
+	e.GET("/conundrums", web.Conundrums)
 
-	e.POST("/star", pages.Star)
-	e.POST("/search", pages.SearchConundrums)
-	e.POST("/conundrums", pages.PostConundrum)
+	e.POST("/star", web.StarButton)
+	e.POST("/search", web.SearchConundrums)
+	e.POST("/conundrums", web.AddModal)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

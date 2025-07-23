@@ -10,7 +10,7 @@
   <div class="flex flex-col gap-4">
     <p class="text-2xl text-center">{{ .Text }}</p>
     <div class="flex flex-row gap-2 justify-center items-center text-nord-3 dark:text-nord-4">
-      {{ template "button-star" . }}
+      {{ template "star-button" . }}
       {{ if not .Verified }}
         <button class="py-1 px-2 hover:px-4 bg-nord-5 dark:bg-nord-2 hover:bg-nord-11 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200">
           {{ template "skull-svg" }}
@@ -31,7 +31,7 @@
   </div>
 {{ end }}
 
-{{ define "button-star" }}
+{{ define "star-button" }}
   <button
     id="stars-{{ .Id }}"
     class="py-1 px-2 hover:px-4 bg-nord-5 dark:bg-nord-2 hover:bg-nord-13 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"

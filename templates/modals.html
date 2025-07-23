@@ -1,8 +1,8 @@
-{{ define "modal-hidden" }}
+{{ define "hidden-modal" }}
   <div id="modal" class="hidden"></div>
 {{ end }}
 
-{{ define "modal-search" }}
+{{ define "search-modal" }}
   <div id="modal" class="fixed inset-0 w-screen bg-nord-6/75 dark:bg-nord-0/75 flex justify-center items-center">
     <form
       class="flex flex-col gap-2 w-md p-4 bg-nord-4 dark:bg-nord-3 rounded-md shadow-md shadow-nord-4 dark:shadow-nord-1"
@@ -43,7 +43,7 @@
   </div>
 {{ end }}
 
-{{ define "modal-add" }}
+{{ define "add-modal" }}
   <div id="modal" class="fixed inset-0 w-screen bg-nord-6/75 dark:bg-nord-0/75 flex justify-center items-center">
     <form
       id="add-form"
@@ -59,8 +59,8 @@
         {{ template "tag-svg" }}
         <input required type="text" name="tags" placeholder="Tags..." class="w-full outline-none" />
       </div>
-      {{ if .Id }}
-        <p class="flex justify-center text-justify">Conundrum uploaded</p>
+      {{ if . }}
+        <p class="flex justify-center text-justify">{{ . }}</p>
       {{ end }}
       <div class="flex flex-row gap-8 justify-evenly">
         <button type="submit" class="outline-none">

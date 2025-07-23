@@ -1,4 +1,4 @@
-package pages
+package web
 
 import (
 	"fmt"
@@ -21,7 +21,7 @@ func Index(c echo.Context) error {
 	return c.Render(http.StatusOK, "index.html", cs)
 }
 
-func Star(c echo.Context) error {
+func StarButton(c echo.Context) error {
 	sid := c.QueryParam("id")
 
 	id, err := strconv.Atoi(sid)
@@ -29,19 +29,12 @@ func Star(c echo.Context) error {
 		return fmt.Errorf("got malformed id: %w", err)
 	}
 
-	co, err := database.GetConundrum(id)
+	co, err := database.StarConundrum(id)
 	if err != nil {
 		return err
 	}
 
-	co.Stars++
-
-	err = database.UpdateConundrum(co)
-	if err != nil {
-		return err
-	}
-
-	return c.Render(http.StatusOK, "button-star", co)
+	return c.Render(http.StatusOK, "star-button", co)
 }
 
 func Tags(c echo.Context) error {
@@ -101,7 +94,7 @@ func SearchConundrums(c echo.Context) error {
 	return c.Render(http.StatusOK, "search-results", out)
 }
 
-func PostConundrum(c echo.Context) error {
+func AddModal(c echo.Context) error {
 	text := c.FormValue("text")
 	tags := c.FormValue("tags")
 
@@ -114,24 +107,25 @@ func PostConundrum(c echo.Context) error {
 
 	id, err := database.InsertConundrum(co)
 	if err != nil {
-		return err
+		res := "Failed to upload!"
+		return c.Render(http.StatusOK, "add-modal", res)
 	}
 
 	co.Id = id
 
-	return c.Render(http.StatusOK, "modal-add", co)
+	return c.Render(http.StatusOK, "add-modal", "Conundrum uploaded!")
 }
 
 func Modal(c echo.Context) error {
 	m := c.QueryParam("modal")
 
 	if m == "add" {
-		return c.Render(http.StatusOK, "modal-add", nil)
+		return c.Render(http.StatusOK, "add-modal", nil)
 	}
 
 	if m == "search" {
-		return c.Render(http.StatusOK, "modal-search", nil)
+		return c.Render(http.StatusOK, "search-modal", nil)
 	}
 
-	return c.Render(http.StatusOK, "modal-hidden", nil)
+	return c.Render(http.StatusOK, "hidden-modal", nil)
 }
