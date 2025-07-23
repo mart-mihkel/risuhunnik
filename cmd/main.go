@@ -35,8 +35,9 @@ func main() {
 	e := echo.New()
 	e.Renderer = &TemplateRenderer{templates: tmpls}
 
+	ms := middleware.NewRateLimiterMemoryStore(rate.Limit(20))
+	e.Use(middleware.RateLimiter(ms))
 	e.Use(middleware.Logger())
-	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(rate.Limit(20))))
 
 	e.Static("/css", "css")
 

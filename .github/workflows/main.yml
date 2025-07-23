@@ -19,4 +19,4 @@ jobs:
             git pull origin main
             [ ! -f risuhunnik.db ] && for file in sql/*; do sqlite3 risuhunnik.db < "$file"; done
             docker compose down
-            docker compose up --build --detach
+            docker compose up --build --remove-orphans --detach
