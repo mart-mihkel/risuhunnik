@@ -36,9 +36,7 @@
 {{ define "search-results" }}
   <div id="search-results" class="flex flex-col">
     {{ range . }}
-      <p class="m-2 text-left">
-        {{ .Text }}
-      </p>
+      <p class="m-2 text-left">{{ .Text }}</p>
     {{ end }}
   </div>
 {{ end }}

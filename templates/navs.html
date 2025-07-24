@@ -8,7 +8,7 @@
 {{ define "nav" }}
   <nav class="m-8 my-16 md:mx-[5%] lg:mx-[25%] flex flex-wrap gap-8 justify-center">
     <button
-      class="py-1 px-2 hover:px-4 bg-nord-4 dark:bg-nord-3 hover:bg-nord-7 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
+      class="py-1 px-2 bg-nord-4 dark:bg-nord-3 hover:bg-nord-7 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
       hx-get="/conundrums"
       hx-swap="outerHTML"
       hx-target="main"
@@ -17,7 +17,7 @@
       <p>Conundrums</p>
     </button>
     <button
-      class="py-1 px-2 hover:px-4 bg-nord-4 dark:bg-nord-3 hover:bg-nord-8 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
+      class="py-1 px-2 bg-nord-4 dark:bg-nord-3 hover:bg-nord-8 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
       hx-get="/tags"
       hx-swap="outerHTML"
       hx-target="main"
@@ -26,7 +26,7 @@
       <p>Tags</p>
     </button>
     <button
-      class="py-1 px-2 hover:px-4 bg-nord-4 dark:bg-nord-3 hover:bg-nord-9 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
+      class="py-1 px-2 bg-nord-4 dark:bg-nord-3 hover:bg-nord-9 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
       hx-get="/modal?modal=search"
       hx-target="#modal"
       hx-swap="outerHTML"
@@ -35,7 +35,7 @@
       <p>Search</p>
     </button>
     <button
-      class="py-1 px-2 hover:px-4 bg-nord-4 dark:bg-nord-3 hover:bg-nord-14 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
+      class="py-1 px-2 bg-nord-4 dark:bg-nord-3 hover:bg-nord-14 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
       hx-get="/modal?modal=add"
       hx-target="#modal"
       hx-swap="outerHTML"
@@ -44,7 +44,7 @@
       <p>Add</p>
     </button>
     <a 
-      class="py-1 px-2 hover:px-4 bg-nord-4 dark:bg-nord-3 hover:bg-nord-15 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
+      class="py-1 px-2 bg-nord-4 dark:bg-nord-3 hover:bg-nord-15 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
       href="https://github.com/mart-mihkel/risuhunnik"
       target="_blank"
     >

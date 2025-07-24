@@ -12,14 +12,14 @@
     <div class="flex flex-row gap-2 justify-center items-center text-nord-3 dark:text-nord-4">
       {{ template "star-button" . }}
       {{ if not .Verified }}
-        <button class="py-1 px-2 hover:px-4 bg-nord-5 dark:bg-nord-2 hover:bg-nord-11 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200">
+        <button class="py-1 px-2 bg-nord-5 dark:bg-nord-2 hover:bg-nord-11 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none">
           {{ template "skull-svg" }}
           Not verified
         </button>
       {{ end }}
       {{ range .Tags }}
         <button
-          class="py-1 px-2 hover:px-4 bg-nord-5 dark:bg-nord-2 hover:bg-nord-8 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
+          class="py-1 px-2 bg-nord-5 dark:bg-nord-2 hover:bg-nord-8 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
           hx-get="/conundrums?tag={{ . }}"
           hx-target="main"
           hx-swap="outerHTML"
@@ -34,7 +34,7 @@
 {{ define "star-button" }}
   <button
     id="stars-{{ .Id }}"
-    class="py-1 px-2 hover:px-4 bg-nord-5 dark:bg-nord-2 hover:bg-nord-13 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200"
+    class="py-1 px-2 bg-nord-5 dark:bg-nord-2 hover:bg-nord-13 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
     hx-post="/star?id={{ .Id }}"
     hx-swap="outerHTML"
     hx-target="#stars-{{ .Id }}"
@@ -48,7 +48,7 @@
   <main class="m-4 md:mx-[5%] lg:mx-[25%] flex flex-row flex-wrap gap-4 justify-center">
     {{ range $k, $v := . }}
       <button
-        class="p-2 w-[30%] bg-nord-5 dark:bg-nord-2 hover:bg-nord-8 gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none transition-all duration-200 flex flex-col"
+        class="p-2 w-[30%] bg-nord-5 dark:bg-nord-2 hover:bg-nord-8 gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none flex flex-col"
         hx-get="/conundrums?tag={{ $k }}"
         hx-target="main"
         hx-swap="outerHTML"

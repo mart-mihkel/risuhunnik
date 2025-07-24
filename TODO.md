@@ -1,4 +1,0 @@
-- post response result type with err
-- db backup cronjob
-- max out lighthouse
-- readme
