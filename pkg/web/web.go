@@ -12,6 +12,8 @@ import (
 	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
+const searchResultLimit = 5
+
 func Index(c echo.Context) error {
 	cs, err := database.GetAllConundrums()
 	if err != nil {
@@ -72,19 +74,22 @@ func Conundrums(c echo.Context) error {
 	return c.Render(http.StatusOK, "conundrums", cs)
 }
 
-func SearchConundrums(c echo.Context) error {
+func SearchModal(c echo.Context) error {
 	cs, err := database.GetAllConundrums()
 	if err != nil {
 		return err
 	}
 
-	lim := 5
 	s := c.FormValue("search")
 	var out []database.Conundrum
-	for _, co := range cs {
+	for i, co := range cs {
+		if i == searchResultLimit {
+			break
+		}
+
 		m := fuzzy.MatchFold(s, co.Text)
 		ms := fuzzy.FindFold(s, co.Tags)
-		if !m && len(ms) == 0 || len(out) == lim {
+		if !m && len(ms) == 0 {
 			continue
 		}
 
@@ -99,16 +104,13 @@ func AddModal(c echo.Context) error {
 	tags := c.FormValue("tags")
 
 	co := &database.Conundrum{
-		Text:     text,
-		Tags:     strings.Split(tags, " "),
-		Verified: false,
-		Stars:    0,
+		Text: text,
+		Tags: strings.Split(tags, " "),
 	}
 
 	id, err := database.InsertConundrum(co)
 	if err != nil {
-		res := "Failed to upload!"
-		return c.Render(http.StatusOK, "add-modal", res)
+		return c.Render(http.StatusOK, "add-modal", "Upload failed!")
 	}
 
 	co.Id = id

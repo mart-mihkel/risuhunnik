@@ -49,9 +49,9 @@ func main() {
 	e.GET("/modal", web.Modal)
 	e.GET("/conundrums", web.Conundrums)
 
+	e.POST("/add", web.AddModal)
 	e.POST("/star", web.StarButton)
-	e.POST("/search", web.SearchConundrums)
-	e.POST("/conundrums", web.AddModal)
+	e.POST("/search", web.SearchModal)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
