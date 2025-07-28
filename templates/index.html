@@ -5,13 +5,16 @@
     <meta charset="UTF-8" />
     <meta name="description" content="A collection of wicked conundrums." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="css/style.css" rel="stylesheet" />
-    <link href="css/favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="static/style.css" rel="stylesheet" />
+    <link href="static/favicon.ico" rel="icon" type="image/x-icon" />
   </head>
   <body>
+    {{ template "pre" }}
     {{ template "header" }}
     {{ template "navigation" }}
-    {{ template "conundrums" . }}
+    <main>
+      {{ template "conundrums" . }}
+    </main>
     {{ template "footer" }}
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
   </body>

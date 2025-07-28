@@ -42,15 +42,13 @@ func main() {
 	e.Use(middleware.RateLimiter(ms))
 	e.Use(middleware.Logger())
 
-	e.Static("/css", "css")
+	e.Static("/static", "static")
 
 	e.GET("/", web.Index)
-	e.GET("/modal", web.Modal)
+	e.GET("/upload", web.UploadForm)
 	e.GET("/conundrums", web.Conundrums)
 
-	e.POST("/add", web.AddModal)
-	e.POST("/star", web.StarButton)
-	e.POST("/search", web.SearchConundrums)
+	e.POST("/upload", web.UploadResult)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

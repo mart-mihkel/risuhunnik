@@ -1,6 +1,9 @@
-<h1 align="center">risuhunnik</h1>
-<div align="center">
-    <img src="https://github.com/mart-mihkel/risuhunnik/actions/workflows/main.yml/badge.svg" />
-</div>
+# risuhunnik
 
-[risuhunnik](https://lest.risuhunnik.xyz), a collection on wicked conundrums
+<img alt="CI/CD" src="https://github.com/mart-mihkel/risuhunnik/actions/workflows/main.yml/badge.svg" />
+<a href="lest.risuhunnik.xyz">
+    <img alt="website" src="https://img.shields.io/badge/website-up-blue?logo=htmx" />
+</a>
+
+**TODO**
+- SELECT * FROM ascii ORDER BY random() LIMIT 1;
