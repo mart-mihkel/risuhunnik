@@ -45,7 +45,6 @@ func main() {
 	e.Static("/css", "css")
 
 	e.GET("/", web.Index)
-	e.GET("/tags", web.Tags)
 	e.GET("/modal", web.Modal)
 	e.GET("/conundrums", web.Conundrums)
 

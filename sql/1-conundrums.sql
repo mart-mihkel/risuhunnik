@@ -1,14 +1,14 @@
-INSERT INTO conundrums (text, tags, verified) VALUES
-    ("Ühel mehel oli lagi nii madal, et ta sai ainult lesta süüa!", "kala lagi mees", 1),
-    ("Kui hull kukub aknast alla siis pole hullu!", "aken hull", 1),
-    ("Mees seisab mööda teed.", "mees tee", 1),
-    ("Kuri tigu, ta nimi oli kuritegu!", "tigu kuri", 1),
-    ("Kas Mona Lisa saab telefonile tulla? Ei saa, ta on maal!", "maal naine", 1),
-    ("Parim aeg majoneesi ostmiseks on aprill, sest mai on ees!", "majonees aprill mai", 1),
-    ("Leedu hernes elab kauna sees!", "Kaunas Leedu hernes kaun", 1),
-    ("Kala sureb lahtise suuga!", "kala suu", 1),
-    ("Meil on Kuusalust Gyproki vaja! Varustaja jõuab tagasi kuue aluse Gyprokiga!", "Kuusalu kuus Gyprok", 1),
-    ("Saatan käis maal ja ta sõitis Cadillaciga!", "saatan maal Cadillac", 1),
-    (''';--\nDROP TABLE conundrums;','idikas', 0),
-    ("Ümarate jalgadega venelane, ta nimi oli Oleg!", "mees jalg", 1),
-    ("Näljane mõtleb ikka leivast!", "nälg leib", 1);
+INSERT INTO conundrums (text, verified) VALUES
+    ("Ühel mehel oli lagi nii madal, et ta sai ainult lesta süüa!", 1),
+    ("Kui hull kukub aknast alla siis pole hullu!", 1),
+    ("Mees seisab mööda teed.", 1),
+    ("Kuri tigu, ta nimi oli kuritegu!", 1),
+    ("Kas Mona Lisa saab telefonile tulla? Ei saa, ta on maal!", 1),
+    ("Parim aeg majoneesi ostmiseks on aprill, sest mai on ees!", 1),
+    ("Leedu hernes elab kauna sees!", 1),
+    ("Kala sureb lahtise suuga!", 1),
+    ("Meil on Kuusalust Gyproki vaja! Varustaja jõuab tagasi kuue aluse Gyprokiga!", 1),
+    ("Saatan käis maal ja ta sõitis Cadillaciga!", 1),
+    (''';--\nDROP TABLE conundrums;', 0),
+    ("Ümarate jalgadega venelane, ta nimi oli Oleg!", 1),
+    ("Näljane mõtleb ikka leivast!", 1);

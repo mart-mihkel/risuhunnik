@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"risuhunnik/pkg/database"
 
@@ -39,34 +38,8 @@ func StarButton(c echo.Context) error {
 	return c.Render(http.StatusOK, "star-button", co)
 }
 
-func Tags(c echo.Context) error {
-	cs, err := database.GetAllConundrums()
-	if err != nil {
-		return err
-	}
-
-	counts := make(map[string]int)
-	for _, co := range cs {
-		for _, t := range co.Tags {
-			counts[t]++
-		}
-	}
-
-	return c.Render(http.StatusOK, "tags", counts)
-}
-
 func Conundrums(c echo.Context) error {
-	t := c.QueryParam("tag")
-
-	var cs []database.Conundrum
-	var err error
-
-	if t != "" {
-		cs, err = database.GetConundrumsByTag(t)
-	} else {
-		cs, err = database.GetAllConundrums()
-	}
-
+	cs, err := database.GetAllConundrums()
 	if err != nil {
 		return err
 	}
@@ -87,9 +60,7 @@ func SearchModal(c echo.Context) error {
 			break
 		}
 
-		m := fuzzy.MatchFold(s, co.Text)
-		ms := fuzzy.FindFold(s, co.Tags)
-		if !m && len(ms) == 0 {
+		if !fuzzy.MatchFold(s, co.Text) {
 			continue
 		}
 
@@ -101,12 +72,8 @@ func SearchModal(c echo.Context) error {
 
 func AddModal(c echo.Context) error {
 	text := c.FormValue("text")
-	tags := c.FormValue("tags")
 
-	co := &database.Conundrum{
-		Text: text,
-		Tags: strings.Split(tags, " "),
-	}
+	co := &database.Conundrum{Text: text}
 
 	id, err := database.InsertConundrum(co)
 	if err != nil {

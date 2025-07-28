@@ -17,15 +17,6 @@
       <p>Conundrums</p>
     </button>
     <button
-      class="py-1 px-2 bg-nord-4 dark:bg-nord-3 hover:bg-nord-8 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
-      hx-get="/tags"
-      hx-swap="outerHTML"
-      hx-target="main"
-    >
-      {{ template "tag-svg" }}
-      <p>Tags</p>
-    </button>
-    <button
       class="py-1 px-2 bg-nord-4 dark:bg-nord-3 hover:bg-nord-9 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
       hx-get="/modal?modal=search"
       hx-target="#modal"

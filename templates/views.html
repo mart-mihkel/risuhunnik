@@ -17,16 +17,6 @@
           Not verified
         </button>
       {{ end }}
-      {{ range .Tags }}
-        <button
-          class="py-1 px-2 bg-nord-5 dark:bg-nord-2 hover:bg-nord-8 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
-          hx-get="/conundrums?tag={{ . }}"
-          hx-target="main"
-          hx-swap="outerHTML"
-        >
-          #{{ . }}
-        </button>
-      {{ end }}
     </div>
   </div>
 {{ end }}
@@ -42,24 +32,4 @@
     {{ template "star-svg" }}
     <p>{{ .Stars }}</p>
   </button>
-{{ end }}
-
-{{ define "tags" }}
-  <main class="m-4 md:mx-[5%] lg:mx-[25%] flex flex-row flex-wrap gap-4 justify-center">
-    {{ range $k, $v := . }}
-      <button
-        class="p-2 w-[30%] bg-nord-5 dark:bg-nord-2 hover:bg-nord-8 gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none flex flex-col"
-        hx-get="/conundrums?tag={{ $k }}"
-        hx-target="main"
-        hx-swap="outerHTML"
-      >
-        <p class="flex justify-center">#{{ $k }}</p>
-        {{ if eq $v 1 }}
-          <p class="flex justify-center">1 conundrum</p>
-        {{ else }}
-          <p class="flex justify-center">{{ $v }} conundrums</p>
-        {{ end }}
-      </button>
-    {{ end }}
-  </main>
 {{ end }}
