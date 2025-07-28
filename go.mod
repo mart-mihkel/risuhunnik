@@ -4,7 +4,6 @@ go 1.24.4
 
 require (
 	github.com/labstack/echo/v4 v4.13.4
-	github.com/lithammer/fuzzysearch v1.1.8
 	github.com/mattn/go-sqlite3 v1.14.28
 	golang.org/x/time v0.11.0
 )

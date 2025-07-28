@@ -27,7 +27,7 @@ func main() {
 		log.Fatalf("couldn't initialize templates: %v", err)
 	}
 
-	err = database.ConnectDB("risuhunnik.db")
+	err = database.ConnectDB("build/risuhunnik.db")
 	if err != nil {
 		log.Fatalf("couldn't initialize db: %v", err)
 	}

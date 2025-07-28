@@ -1,18 +1,20 @@
 GO_BUILD_FLAGS = -ldflags='-s -w -extldflags "-static"'
-GO_OUT = build/main
+GO_OUT = build/risuhunnik
 
-DB_FILE = risuhunnik.db
+DB_FILE = build/risuhunnik.db
 
-all: build
+build: go db
 
-build: go database
+dev: build
+	$(GO_OUT)
 
 go:
 	mkdir -p build
 	go build -o $(GO_OUT) $(GO_BUILD_FLAGS) cmd/main.go
 
-database:
-	for file in sql/*; do sqlite3 $(DB_FILE) < $$file; done
+db:
+	mkdir -p build
+	sqlite3 $(DB_FILE) < sql/schema.sql
 
 clean:
 	rm -rv $(GO_OUT) $(DB_FILE)
