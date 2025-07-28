@@ -11,4 +11,6 @@ INSERT INTO conundrums (text, verified) VALUES
     ("Saatan käis maal ja ta sõitis Cadillaciga!", 1),
     (''';--\nDROP TABLE conundrums;', 0),
     ("Ümarate jalgadega venelane, ta nimi oli Oleg!", 1),
-    ("Näljane mõtleb ikka leivast!", 1);
+    ("Näljane mõtleb ikka leivast!", 1),
+    ("Magavale hiirele kass suhu ei jookse", 1),
+    ("Miks läks kann üle tee? Ta oli teekann!", 1);
