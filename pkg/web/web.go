@@ -69,12 +69,10 @@ func AddModal(c echo.Context) error {
 
 	co := &database.Conundrum{Text: text}
 
-	id, err := database.InsertConundrum(co)
+	_, err := database.InsertConundrum(co)
 	if err != nil {
 		return c.Render(http.StatusOK, "add-modal", "Upload failed!")
 	}
-
-	co.Id = id
 
 	return c.Render(http.StatusOK, "add-modal", "Conundrum uploaded!")
 }

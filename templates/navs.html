@@ -1,41 +1,28 @@
-{{ define "nav" }}
-  <nav class="m-4 md:mx-[5%] lg:mx-[25%] flex flex-wrap gap-4 justify-center">
-    <button
-      class="py-1 px-2 w-36 bg-nord-4 dark:bg-nord-3 hover:bg-nord-7 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
-      hx-get="/conundrums"
-      hx-swap="outerHTML"
-      hx-target="main"
-    >
-      {{ template "phising-svg" }} Conundrums
-    </button>
-    <div
-      class="py-1 px-2 w-36 bg-nord-4 dark:bg-nord-3 hover:bg-nord-9 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1"
-    >
-      {{ template "search-svg" }}
-      <input
-        class="w-28 outline-none"
-        type="text"
-        name="search"
-        placeholder="Search..."
-        hx-post="/search"
-        hx-target="main"
-        hx-swap="outerHTML"
-      />
-    </div>
-    <button
-      class="py-1 px-2 w-36 bg-nord-4 dark:bg-nord-3 hover:bg-nord-14 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
-      hx-get="/modal?modal=add"
-      hx-target="#modal"
-      hx-swap="outerHTML"
-    >
-      {{ template "add-svg" }} Add
-    </button>
-    <a
-      class="py-1 px-2 w-36 bg-nord-4 dark:bg-nord-3 hover:bg-nord-15 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
-      href="https://github.com/mart-mihkel/risuhunnik"
-      target="_blank"
-    >
-      {{ template "github-svg" }} Github
+{{ define "header" }}
+  <header>
+    <h2>risuhunnik</h2>
+  </header>
+{{ end }}
+
+{{ define "navigation" }}
+  <nav>
+    <a hx-get="/conundrums" hx-swap="outerHTML" hx-target="main">
+      Conundrums
     </a>
+    <input
+      type="text" name="search" placeholder="Search..."
+      hx-post="/search" hx-target="main" hx-swap="outerHTML"
+    />
+    <button hx-get="/modal?modal=add" hx-target="#modal" hx-swap="outerHTML">
+      Add
+    </button>
   </nav>
+{{ end }}
+
+{{ define "footer" }}
+  <footer>
+    <a href="https://github.com/mart-mihkel/risuhunnik" target="_blank">
+      Github
+    </a>
+  </footer>
 {{ end }}

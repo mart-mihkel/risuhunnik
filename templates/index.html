@@ -9,9 +9,10 @@
     <link href="css/favicon.ico" rel="icon" type="image/x-icon" />
   </head>
   <body>
-    {{ template "nav" }}
+    {{ template "header" }}
+    {{ template "navigation" }}
     {{ template "conundrums" . }}
-    {{ template "hidden-modal" }}
+    {{ template "footer" }}
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
   </body>
 </html>
