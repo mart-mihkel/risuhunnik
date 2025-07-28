@@ -10,7 +10,6 @@ import (
 type Conundrum struct {
 	Id       int
 	Text     string
-	Stars    int
 	Verified bool
 }
 
@@ -39,7 +38,7 @@ func GetConundrum(id int) (*Conundrum, error) {
 
 	var c Conundrum
 
-	err := row.Scan(&c.Id, &c.Text, &c.Stars, &c.Verified)
+	err := row.Scan(&c.Id, &c.Text, &c.Verified)
 	if err != nil {
 		return nil, fmt.Errorf("failed on scannig row: %w", err)
 	}
@@ -48,9 +47,9 @@ func GetConundrum(id int) (*Conundrum, error) {
 }
 
 func InsertConundrum(c *Conundrum) (int, error) {
-	q := "INSERT INTO conundrums (text, verified, stars) VALUES (?, ?, ?)"
+	q := "INSERT INTO conundrums (text, verified) VALUES (?, ?)"
 
-	res, err := Db.Exec(q, c.Text, c.Verified, c.Stars)
+	res, err := Db.Exec(q, c.Text, c.Verified)
 	if err != nil {
 		return 0, fmt.Errorf("failed to insert conundrum: %w", err)
 	}
@@ -64,9 +63,9 @@ func InsertConundrum(c *Conundrum) (int, error) {
 }
 
 func UpdateConundrum(c *Conundrum) error {
-	q := "UPDATE conundrums SET text = ?, stars = ?, verified = ? WHERE id = ?"
+	q := "UPDATE conundrums SET text = ?, verified = ? WHERE id = ?"
 
-	_, err := Db.Exec(q, c.Text, c.Stars, c.Verified, c.Id)
+	_, err := Db.Exec(q, c.Text, c.Verified, c.Id)
 	if err != nil {
 		return fmt.Errorf("failed to update conundrum: %w", err)
 	}
@@ -74,26 +73,12 @@ func UpdateConundrum(c *Conundrum) error {
 	return nil
 }
 
-func StarConundrum(id int) (*Conundrum, error) {
-	q := "UPDATE conundrums SET stars = stars + 1 WHERE id = ? RETURNING *"
-
-	var c Conundrum
-
-	row := Db.QueryRow(q, id)
-	err := row.Scan(&c.Id, &c.Text, &c.Stars, &c.Verified)
-	if err != nil {
-		return nil, fmt.Errorf("failed to star conundrum: %w", err)
-	}
-
-	return &c, nil
-}
-
 func scanConundrums(rows *sql.Rows) ([]Conundrum, error) {
 	var cs []Conundrum
 	for rows.Next() {
 		var c Conundrum
 
-		err := rows.Scan(&c.Id, &c.Text, &c.Stars, &c.Verified)
+		err := rows.Scan(&c.Id, &c.Text, &c.Verified)
 		if err != nil {
 			return nil, fmt.Errorf("failed on scannig row: %w", err)
 		}

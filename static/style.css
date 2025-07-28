@@ -18,8 +18,10 @@
 }
 
 * {
+  border: 0;
   margin: 0;
   padding: 0;
+  border-radius: 0;
 }
 
 body {
@@ -43,7 +45,8 @@ nav {
 footer {
   margin: 8px 0;
   padding: 2px 0;
-  border-top: 1px solid var(--nord-0);
+  color: var(--nord-3);
+  border-top: 1px solid var(--nord-3);
 }
 
 a {
@@ -62,20 +65,32 @@ ul {
   padding-inline-start: 32px;
 }
 
+form {
+  gap: 4px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 input {
   outline: none;
+  border: 1px solid var(--nord-0);
+  background-color: var(--nord-6);
 }
 
 button {
-  padding: 0 2px;
-  border-radius: 4px;
+  outline: none;
+  padding: 0 4px;
   border: 1px solid var(--nord-0);
   background-color: var(--nord-4);
 }
 
 button:hover {
   cursor: pointer;
-  background-color: var(--nord-8);
+  background-color: var(--nord-5);
+}
+
+.apocryphal {
+  color: var(--nord-11);
 }
 
 ::-webkit-scrollbar {

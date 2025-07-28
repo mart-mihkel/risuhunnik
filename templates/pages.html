@@ -3,7 +3,9 @@
   <ul>
     {{ range . }}
       <li>
-        <p>{{ .Text }}</p>
+        <span {{ if not .Verified }}class="apocryphal"{{ end }}>
+          {{ .Text }}
+        </span>
       </li>
     {{ end }}
   </ul>
@@ -13,11 +15,11 @@
   <h2>upload:</h2>
   <form hx-post="/upload" hx-target="#upload-form-result">
     <input required type="text" name="conundrum" placeholder="conundrum..." />
-    <button type="submit">send it!</button>
+    <button type="submit">upload</button>
+    {{ template "upload-form-result" }}
   </form>
-  {{ template "upload-form-result" }}
 {{ end }}
 
 {{ define "upload-form-result" }}
-  <p id="upload-form-result">{{ . }}</p>
+  <span id="upload-form-result">{{ . }}</span>
 {{ end }}
