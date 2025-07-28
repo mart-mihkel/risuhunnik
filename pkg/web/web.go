@@ -11,8 +11,6 @@ import (
 	"github.com/lithammer/fuzzysearch/fuzzy"
 )
 
-const searchResultLimit = 5
-
 func Index(c echo.Context) error {
 	cs, err := database.GetAllConundrums()
 	if err != nil {
@@ -20,6 +18,34 @@ func Index(c echo.Context) error {
 	}
 
 	return c.Render(http.StatusOK, "index.html", cs)
+}
+
+func Conundrums(c echo.Context) error {
+	cs, err := database.GetAllConundrums()
+	if err != nil {
+		return err
+	}
+
+	return c.Render(http.StatusOK, "conundrums", cs)
+}
+
+func SearchConundrums(c echo.Context) error {
+	cs, err := database.GetAllConundrums()
+	if err != nil {
+		return err
+	}
+
+	s := c.FormValue("search")
+	var out []database.Conundrum
+	for _, co := range cs {
+		if !fuzzy.MatchFold(s, co.Text) {
+			continue
+		}
+
+		out = append(out, co)
+	}
+
+	return c.Render(http.StatusOK, "conundrums", out)
 }
 
 func StarButton(c echo.Context) error {
@@ -36,38 +62,6 @@ func StarButton(c echo.Context) error {
 	}
 
 	return c.Render(http.StatusOK, "star-button", co)
-}
-
-func Conundrums(c echo.Context) error {
-	cs, err := database.GetAllConundrums()
-	if err != nil {
-		return err
-	}
-
-	return c.Render(http.StatusOK, "conundrums", cs)
-}
-
-func SearchModal(c echo.Context) error {
-	cs, err := database.GetAllConundrums()
-	if err != nil {
-		return err
-	}
-
-	s := c.FormValue("search")
-	var out []database.Conundrum
-	for i, co := range cs {
-		if i == searchResultLimit {
-			break
-		}
-
-		if !fuzzy.MatchFold(s, co.Text) {
-			continue
-		}
-
-		out = append(out, co)
-	}
-
-	return c.Render(http.StatusOK, "search-results", out)
 }
 
 func AddModal(c echo.Context) error {
@@ -87,13 +81,8 @@ func AddModal(c echo.Context) error {
 
 func Modal(c echo.Context) error {
 	m := c.QueryParam("modal")
-
 	if m == "add" {
 		return c.Render(http.StatusOK, "add-modal", nil)
-	}
-
-	if m == "search" {
-		return c.Render(http.StatusOK, "search-modal", nil)
 	}
 
 	return c.Render(http.StatusOK, "hidden-modal", nil)

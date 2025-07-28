@@ -1,51 +1,41 @@
-{{ define "header" }}
-  <header class="m-12 flex flex-row gap-2 items-center justify-center">
-    {{ template "grass-svg" }}
-    <h1 class="text-4xl md:text-6xl lg:text-8xl">risuhunnik</h1>
-  </header>
-{{ end }}
-
 {{ define "nav" }}
-  <nav class="m-8 my-16 md:mx-[5%] lg:mx-[25%] flex flex-wrap gap-4 justify-center">
+  <nav class="m-4 md:mx-[5%] lg:mx-[25%] flex flex-wrap gap-4 justify-center">
     <button
-      class="py-1 px-2 bg-nord-4 dark:bg-nord-3 hover:bg-nord-7 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
+      class="py-1 px-2 w-36 bg-nord-4 dark:bg-nord-3 hover:bg-nord-7 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
       hx-get="/conundrums"
       hx-swap="outerHTML"
       hx-target="main"
     >
-      {{ template "phising-svg" }}
-      <p>Conundrums</p>
+      {{ template "phising-svg" }} Conundrums
     </button>
-    <button
-      class="py-1 px-2 bg-nord-4 dark:bg-nord-3 hover:bg-nord-9 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
-      hx-get="/modal?modal=search"
-      hx-target="#modal"
-      hx-swap="outerHTML"
+    <div
+      class="py-1 px-2 w-36 bg-nord-4 dark:bg-nord-3 hover:bg-nord-9 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1"
     >
       {{ template "search-svg" }}
-      <p>Search</p>
-    </button>
+      <input
+        class="w-28 outline-none"
+        type="text"
+        name="search"
+        placeholder="Search..."
+        hx-post="/search"
+        hx-target="main"
+        hx-swap="outerHTML"
+      />
+    </div>
     <button
-      class="py-1 px-2 bg-nord-4 dark:bg-nord-3 hover:bg-nord-14 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
+      class="py-1 px-2 w-36 bg-nord-4 dark:bg-nord-3 hover:bg-nord-14 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
       hx-get="/modal?modal=add"
       hx-target="#modal"
       hx-swap="outerHTML"
     >
-      {{ template "add-svg" }}
-      <p>Add</p>
+      {{ template "add-svg" }} Add
     </button>
-    <a 
-      class="py-1 px-2 bg-nord-4 dark:bg-nord-3 hover:bg-nord-15 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
+    <a
+      class="py-1 px-2 w-36 bg-nord-4 dark:bg-nord-3 hover:bg-nord-15 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
       href="https://github.com/mart-mihkel/risuhunnik"
       target="_blank"
     >
-      {{ template "github-svg" }}
-      <p>Github</p>
+      {{ template "github-svg" }} Github
     </a>
   </nav>
-{{ end }}
-
-{{ define "footer" }}
-  <footer class="m-8 my-16 md:mx-[5%] lg:mx-[25%] flex flex-wrap gap-8 justify-center">
-  </footer>
 {{ end }}

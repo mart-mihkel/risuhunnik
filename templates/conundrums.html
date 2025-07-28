@@ -1,0 +1,41 @@
+{{ define "conundrums" }}
+  <main class="m-4 md:mx-[5%] lg:mx-[25%] flex flex-col gap-4">
+    {{ range . }}
+      {{ template "conundrum" . }}
+    {{ end }}
+  </main>
+{{ end }}
+
+{{ define "conundrum" }}
+  <div
+    class="p-4 flex flex-col gap-4 bg-nord-5 dark:bg-nord-2 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1"
+  >
+    <h2 class="text-2xl text-center">
+      {{ .Text }}
+    </h2>
+    <div class="flex flex-row gap-4 justify-center items-center">
+      {{ template "star-button" . }}
+      {{ if not .Verified }}
+        {{ template "skull-bttuon" . }}
+      {{ end }}
+    </div>
+  </div>
+{{ end }}
+
+{{ define "skull-bttuon" }}
+  <button
+    class="p-1 bg-nord-5 dark:bg-nord-2 hover:bg-nord-11 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 outline-none"
+  >
+    {{ template "skull-svg" }} Not verified
+  </button>
+{{ end }}
+
+{{ define "star-button" }}
+  <button
+    class="p-1 bg-nord-5 dark:bg-nord-2 hover:bg-nord-13 flex items-center gap-1 rounded-xl shadow-sm shadow-nord-4 dark:shadow-nord-1 hover:cursor-pointer outline-none"
+    hx-post="/star?id={{ .Id }}"
+    hx-swap="outerHTML"
+  >
+    {{ template "star-svg" }} {{ .Stars }}
+  </button>
+{{ end }}

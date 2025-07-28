@@ -2,47 +2,11 @@
   <div id="modal" class="hidden"></div>
 {{ end }}
 
-{{ define "search-modal" }}
-  <div id="modal" class="fixed inset-0 w-screen bg-nord-6/75 dark:bg-nord-0/75 flex justify-center items-center">
-    <form
-      class="flex flex-col gap-2 w-md p-4 bg-nord-4 dark:bg-nord-3 rounded-md shadow-md shadow-nord-4 dark:shadow-nord-1"
-      hx-post="/search"
-      hx-target="#search-results"
-      hx-swap="outerHTML"
-    >
-      <div class="flex flex-row gap-1 items-center justify-center">
-        {{ template "search-svg" }}
-        <input required type="text" name="search" placeholder="Search..." class="w-full outline-none" />
-      </div>
-      {{ template "search-results" . }}
-      <div class="flex flex-row gap-8 justify-evenly">
-        <button type="submit" class="outline-none">
-          {{ template "check-svg" }}
-        </button>
-        <button
-          type="button"
-          class="outline-none"
-          hx-get="/modal?modal=hidden"
-          hx-target="#modal"
-          hx-swap="outerHTML"
-        >
-          {{ template "cancel-svg" }}
-        </button>
-      </div>
-    </form>
-  </div>
-{{ end }}
-
-{{ define "search-results" }}
-  <div id="search-results" class="flex flex-col">
-    {{ range . }}
-      <p class="m-2 text-left">{{ .Text }}</p>
-    {{ end }}
-  </div>
-{{ end }}
-
 {{ define "add-modal" }}
-  <div id="modal" class="fixed inset-0 w-screen bg-nord-6/75 dark:bg-nord-0/75 flex justify-center items-center">
+  <div
+    id="modal"
+    class="fixed inset-0 w-screen bg-nord-6/75 dark:bg-nord-0/75 flex justify-center items-center"
+  >
     <form
       id="add-form"
       class="flex flex-col gap-4 w-md p-4 bg-nord-4 dark:bg-nord-3 rounded-md shadow-md shadow-nord-4 dark:shadow-nord-1"
@@ -51,7 +15,13 @@
     >
       <div class="flex flex-row gap-1 items-center justify-center">
         {{ template "phising-svg" }}
-        <input required type="text" name="text" placeholder="Conundrum..." class="w-full outline-none" />
+        <input
+          required
+          type="text"
+          name="text"
+          placeholder="Conundrum..."
+          class="w-full outline-none"
+        />
       </div>
       {{ if . }}
         <p class="flex justify-center text-justify">{{ . }}</p>

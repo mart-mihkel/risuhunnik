@@ -50,7 +50,7 @@ func main() {
 
 	e.POST("/add", web.AddModal)
 	e.POST("/star", web.StarButton)
-	e.POST("/search", web.SearchModal)
+	e.POST("/search", web.SearchConundrums)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
