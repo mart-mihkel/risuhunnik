@@ -14,3 +14,6 @@ INSERT INTO conundrums (text, verified) VALUES
     ("Näljane mõtleb ikka leivast!", 1),
     ("Magavale hiirele kass suhu ei jookse", 1),
     ("Miks läks kann üle tee? Ta oli teekann!", 1);
+
+INSERT INTO comments (cid, comment) VALUES
+    (11, "idikas");

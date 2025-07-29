@@ -55,14 +55,19 @@ a {
   text-decoration: underline;
 }
 
+h1,
 h2 {
   margin: 8px 0;
   padding: 2px 0;
   border-bottom: 1px solid var(--nord-0);
 }
 
+h3 {
+  margin: 8px 0;
+}
+
 ul {
-  padding-inline-start: 32px;
+  padding-inline-start: 4ch;
 }
 
 form {
@@ -93,10 +98,49 @@ button:hover {
   color: var(--nord-11);
 }
 
+.conundrum-text {
+  text-indent: -14ch;
+  padding-left: 14ch;
+}
+
+.comment-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.comment-date {
+  color: var(--nord-3);
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
   background: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: var(--nord-6);
+    background-color: var(--nord-0);
+  }
+
+  pre {
+    color: var(--nord-4);
+  }
+
+  footer {
+    color: var(--nord-4);
+    border-top: 1px solid var(--nord-4);
+  }
+
+  h2 {
+    border-bottom: 1px solid var(--nord-6);
+  }
+
+  .comment-date {
+    color: var(--nord-4);
+  }
 }

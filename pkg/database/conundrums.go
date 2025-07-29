@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -11,6 +12,14 @@ type Conundrum struct {
 	Id       int
 	Text     string
 	Verified bool
+	Date     time.Time
+}
+
+type Comment struct {
+	Id      int
+	Cid     int
+	Comment string
+	Date    time.Time
 }
 
 func GetAllConundrums() ([]Conundrum, error) {
@@ -38,7 +47,7 @@ func GetConundrum(id int) (*Conundrum, error) {
 
 	var c Conundrum
 
-	err := row.Scan(&c.Id, &c.Text, &c.Verified)
+	err := row.Scan(&c.Id, &c.Text, &c.Verified, &c.Date)
 	if err != nil {
 		return nil, fmt.Errorf("failed on scannig row: %w", err)
 	}
@@ -46,28 +55,37 @@ func GetConundrum(id int) (*Conundrum, error) {
 	return &c, nil
 }
 
-func InsertConundrum(c *Conundrum) (int, error) {
-	q := "INSERT INTO conundrums (text, verified) VALUES (?, ?)"
+func GetConundrumComments(id int) ([]Comment, error) {
+	q := "SELECT * FROM comments WHERE cid = ?"
 
-	res, err := Db.Exec(q, c.Text, c.Verified)
+	rows, err := Db.Query(q, id)
 	if err != nil {
-		return 0, fmt.Errorf("failed to insert conundrum: %w", err)
+		return nil, fmt.Errorf("couldn't get comments: %w", err)
 	}
 
-	id, err := res.LastInsertId()
-	if err != nil {
-		return 0, fmt.Errorf("failed to get last insert id: %w", err)
+	defer rows.Close()
+
+	var cs []Comment
+	for rows.Next() {
+		var c Comment
+
+		err = rows.Scan(&c.Id, &c.Cid, &c.Comment, &c.Date)
+		if err != nil {
+			return nil, fmt.Errorf("failed on scannig row: %w", err)
+		}
+
+		cs = append(cs, c)
 	}
 
-	return int(id), nil
+	return cs, nil
 }
 
-func UpdateConundrum(c *Conundrum) error {
-	q := "UPDATE conundrums SET text = ?, verified = ? WHERE id = ?"
+func InsertConundrum(t string) error {
+	q := "INSERT INTO conundrums (text) VALUES (?)"
 
-	_, err := Db.Exec(q, c.Text, c.Verified, c.Id)
+	_, err := Db.Exec(q, t)
 	if err != nil {
-		return fmt.Errorf("failed to update conundrum: %w", err)
+		return fmt.Errorf("failed to insert conundrum: %w", err)
 	}
 
 	return nil
@@ -78,7 +96,7 @@ func scanConundrums(rows *sql.Rows) ([]Conundrum, error) {
 	for rows.Next() {
 		var c Conundrum
 
-		err := rows.Scan(&c.Id, &c.Text, &c.Verified)
+		err := rows.Scan(&c.Id, &c.Text, &c.Verified, &c.Date)
 		if err != nil {
 			return nil, fmt.Errorf("failed on scannig row: %w", err)
 		}

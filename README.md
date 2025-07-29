@@ -6,6 +6,3 @@
     <img alt="website" src="https://img.shields.io/badge/website-up-blue?logo=htmx" />
   </a>
 </div>
-
-**TODO**
-- conundrum pages, hide overflow in preview, comments, stars

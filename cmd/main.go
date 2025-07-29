@@ -46,6 +46,7 @@ func main() {
 
 	e.GET("/", web.Index)
 	e.GET("/upload", web.UploadForm)
+	e.GET("/conundrum", web.Conundrum)
 	e.GET("/conundrums", web.Conundrums)
 
 	e.POST("/upload", web.UploadResult)
