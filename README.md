@@ -6,3 +6,6 @@
     <img alt="website" src="https://img.shields.io/badge/website-up-blue?logo=htmx" />
   </a>
 </div>
+
+**TODO**
+- next and prev buttons

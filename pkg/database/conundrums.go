@@ -91,6 +91,17 @@ func InsertConundrum(t string) error {
 	return nil
 }
 
+func InsertComment(cid int, co string) error {
+	q := "INSERT INTO comments (cid, comment) VALUES (?, ?)"
+
+	_, err := Db.Exec(q, cid, co)
+	if err != nil {
+		return fmt.Errorf("failed to insert comment: %w", err)
+	}
+
+	return nil
+}
+
 func scanConundrums(rows *sql.Rows) ([]Conundrum, error) {
 	var cs []Conundrum
 	for rows.Next() {

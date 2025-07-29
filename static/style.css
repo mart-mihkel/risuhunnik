@@ -37,14 +37,8 @@ pre {
   color: var(--nord-3);
 }
 
-nav {
-  display: flex;
-  flex-direction: column;
-}
-
 footer {
   margin: 8px 0;
-  padding: 2px 0;
   color: var(--nord-3);
   border-top: 1px solid var(--nord-3);
 }
@@ -55,10 +49,13 @@ a {
   text-decoration: underline;
 }
 
+a:visited {
+  color: var(--nord-15);
+}
+
 h1,
 h2 {
   margin: 8px 0;
-  padding: 2px 0;
   border-bottom: 1px solid var(--nord-0);
 }
 
@@ -66,36 +63,28 @@ h3 {
   margin: 8px 0;
 }
 
+ol,
 ul {
   padding-inline-start: 4ch;
 }
 
-form {
-  gap: 4px;
-  display: flex;
-  flex-wrap: wrap;
-}
-
 input {
   outline: none;
-  border: 1px solid var(--nord-0);
   background-color: var(--nord-6);
-}
-
-button {
-  outline: none;
-  padding: 0 4px;
-  border: 1px solid var(--nord-0);
-  background-color: var(--nord-4);
-}
-
-button:hover {
-  cursor: pointer;
-  background-color: var(--nord-5);
 }
 
 .apocryphal {
   color: var(--nord-11);
+}
+
+.conundrum-preview {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.conundrum-preview > a {
+  min-width: 2ch;
 }
 
 .conundrum-text {
@@ -103,14 +92,25 @@ button:hover {
   padding-left: 14ch;
 }
 
-.comment-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.comment-text {
+  word-wrap: break-word;
+}
+
+.date {
+  max-width: 10ch;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: bottom;
 }
 
 .comment-date {
+  max-width: 16ch;
+  overflow: hidden;
+  white-space: nowrap;
   color: var(--nord-3);
+  display: inline-block;
+  vertical-align: bottom;
 }
 
 ::-webkit-scrollbar {

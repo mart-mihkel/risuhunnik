@@ -50,6 +50,7 @@ func main() {
 	e.GET("/conundrums", web.Conundrums)
 
 	e.POST("/upload", web.UploadResult)
+	e.POST("/comment", web.CommentForm)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

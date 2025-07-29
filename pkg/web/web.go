@@ -69,3 +69,19 @@ func UploadResult(c echo.Context) error {
 
 	return c.Render(http.StatusOK, "upload-form-result", "conundrum uploaded!")
 }
+
+func CommentForm(c echo.Context) error {
+	co := c.FormValue("comment")
+	strid := c.FormValue("cid")
+	cid, err := strconv.Atoi(strid)
+	if err != nil {
+		return fmt.Errorf("got malfordmed id: %w", err)
+	}
+
+	err = database.InsertComment(cid, co)
+	if err != nil {
+		return c.Render(http.StatusOK, "comment-form-result", nil)
+	}
+
+	return c.Render(http.StatusOK, "comment-form-result", cid)
+}
