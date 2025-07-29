@@ -8,4 +8,5 @@
 </div>
 
 **TODO**
-- next and prev buttons
+- handle next/prev out of bound ids
+- dark mode

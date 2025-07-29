@@ -13,6 +13,8 @@ import (
 type ConundrumResult struct {
 	Conundrum *database.Conundrum
 	Comments  []database.Comment
+	Next      int
+	Prev      int
 }
 
 func Index(c echo.Context) error {
@@ -50,7 +52,12 @@ func Conundrum(c echo.Context) error {
 		return err
 	}
 
-	res := ConundrumResult{Conundrum: co, Comments: cs}
+	res := &ConundrumResult{
+		Conundrum: co,
+		Comments:  cs,
+		Next:      co.Id + 1,
+		Prev:      co.Id - 1,
+	}
 
 	return c.Render(http.StatusOK, "conundrum", res)
 }

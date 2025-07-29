@@ -22,13 +22,13 @@
   margin: 0;
   padding: 0;
   border-radius: 0;
+  font-family: monospace;
 }
 
 body {
   width: 64ch;
   margin: auto;
   color: var(--nord-0);
-  font-family: monospace;
   scrollbar-gutter: stable;
   background-color: var(--nord-6);
 }
@@ -43,14 +43,11 @@ footer {
   border-top: 1px solid var(--nord-3);
 }
 
-a {
+button {
+  outline: none;
   cursor: pointer;
-  color: var(--nord-10);
+  color: -webkit-link;
   text-decoration: underline;
-}
-
-a:visited {
-  color: var(--nord-15);
 }
 
 h1,
@@ -83,13 +80,18 @@ input {
   justify-content: space-between;
 }
 
-.conundrum-preview > a {
-  min-width: 2ch;
+.conundrum-preview > button {
+  min-width: 3ch;
 }
 
 .conundrum-text {
   text-indent: -14ch;
   padding-left: 14ch;
+}
+
+.conundrum-nav{
+  display: flex;
+  justify-content: space-between;
 }
 
 .comment-text {

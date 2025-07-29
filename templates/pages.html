@@ -7,7 +7,9 @@
           class="conundrum-preview {{ if not .Verified }}apocryphal{{ end }}"
         >
           {{ .Text }}
-          <a hx-get="/conundrum?id={{ .Id }}" hx-target="main">-></a>
+          <button hx-get="/conundrum?id={{ .Id }}" hx-target="main">
+            --&gt;
+          </button>
         </span>
       </li>
     {{ end }}
@@ -26,6 +28,18 @@
   <p class="conundrum-text">conundrum...: {{ .Conundrum.Text }}</p>
   {{ template "comments" .Comments }}
   {{ template "comment-form" . }}
+  {{ template "conundrum-nav" . }}
+{{ end }}
+
+{{ define "conundrum-nav" }}
+  <div class="conundrum-nav">
+    <button hx-get="/conundrum?id={{ .Prev }}" hx-target="main">
+      &lt;-- prev
+    </button>
+    <button hx-get="/conundrum?id={{ .Next }}" hx-target="main">
+      next --&gt;
+    </button>
+  </div>
 {{ end }}
 
 {{ define "comments" }}
