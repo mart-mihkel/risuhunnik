@@ -1,12 +1,12 @@
 {{ define "conundrums" }}
-  <h3>conundrums:</h3>
+  <h2>conundrums:</h2>
   <ol>
     {{ range . }}
       <li>
-        <span class="conundrum-preview">
+        <span>
           {{ .Text }}
           <button hx-get="/conundrum?id={{ .Id }}" hx-target="main">
-            --&gt;
+            -&gt;
           </button>
         </span>
       </li>
@@ -17,7 +17,7 @@
 
 {{ define "conundrum" }}
   {{ template "conundrum-nav" . }}
-  <h3>conundrum {{ .Conundrum.Id }}:</h3>
+  <h2>conundrum {{ .Conundrum.Id }}:</h2>
   <p>date........: <span class="date">{{ .Conundrum.Date }}</span></p>
   <p>verified....: {{ .Conundrum.Verified }}</p>
   <p>comments....: {{ len .Comments }}</p>
@@ -33,7 +33,7 @@
       hx-target="main"
       hx-indicator="#conundrum-nav-loading"
     >
-      &lt;-- prev
+      &lt;- prev
     </button>
     <span id="conundrum-nav-loading" class="htmx-indicator typewriter">
       ....
@@ -43,14 +43,14 @@
       hx-target="main"
       hx-indicator="#conundrum-nav-loading"
     >
-      next --&gt;
+      next -&gt;
     </button>
   </div>
 {{ end }}
 
 {{ define "comments" }}
   {{ if gt (len .) 0 }}
-    <h3>comments:</h3>
+    <h2>comments:</h2>
     <ul>
       {{ range . }}
         <li>
@@ -63,7 +63,7 @@
 {{ end }}
 
 {{ define "comment-form" }}
-  <h3>post comment:</h3>
+  <h2>post comment:</h2>
   <form hx-post="/comment" hx-target="#comment-form-result">
     <input
       required
@@ -73,7 +73,7 @@
     />
     <input type="hidden" name="cid" value="{{ .Conundrum.Id }}">
     <span class="htmx-indicator typewriter">....</span>
-    <button type="submit">post --&gt;</button>
+    <button type="submit">post -&gt;</button>
   </form>
   {{ template "comment-form-result" }}
 {{ end }}
@@ -88,7 +88,7 @@
 {{ end }}
 
 {{ define "upload-form" }}
-  <h3>post conundrum:</h3>
+  <h2>post conundrum:</h2>
   <form hx-post="/upload" hx-target="#upload-form-result">
     <input
       required
@@ -97,7 +97,7 @@
       placeholder="conundrum..."
     />
     <span class="htmx-indicator typewriter">....</span>
-    <button type="submit">post --&gt;</button>
+    <button type="submit">post -&gt;</button>
   </form>
   {{ template "upload-form-result" }}
 {{ end }}

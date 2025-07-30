@@ -61,10 +61,6 @@ h2 {
   border-bottom: 1px solid var(--nord-0);
 }
 
-h3 {
-  margin: 8px 0;
-}
-
 ol,
 ul {
   padding-inline-start: 4ch;
@@ -80,15 +76,6 @@ form {
   gap: 4px;
   display: flex;
   justify-content: space-between;
-}
-
-.conundrum-preview {
-  display: flex;
-  justify-content: space-between;
-}
-
-.conundrum-preview > button {
-  min-width: 3ch;
 }
 
 .conundrum-text {
