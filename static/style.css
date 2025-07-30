@@ -70,13 +70,19 @@ ul {
 }
 
 input {
+  flex-grow: 1;
   outline: none;
   background-color: var(--nord-6);
 }
 
+form {
+  gap: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
 .conundrum-preview {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
 }
 
@@ -117,9 +123,9 @@ input {
 }
 
 .typewriter {
+  margin: 0 auto;
   overflow: hidden;
   white-space: nowrap;
-  margin: 0 auto;
   animation: typing 1s steps(4) infinite;
 }
 
@@ -127,6 +133,7 @@ input {
   from {
     width: 0;
   }
+
   to {
     width: 4ch;
   }

@@ -36,7 +36,7 @@
       &lt;-- prev
     </button>
     <span id="conundrum-nav-loading" class="htmx-indicator typewriter">
-      ...
+      ....
     </span>
     <button
       hx-get="/conundrum?id={{ .Next }}"
@@ -65,13 +65,17 @@
 {{ define "comment-form" }}
   <h3>post comment:</h3>
   <form hx-post="/comment" hx-target="#comment-form-result">
-    <span>
-      comment:
-      <input required type="text" name="comment" placeholder="..." />
-    </span>
+    <input
+      required
+      type="text"
+      name="comment"
+      placeholder="comment..."
+    />
     <input type="hidden" name="cid" value="{{ .Conundrum.Id }}">
-    {{ template "comment-form-result" }}
+    <span class="htmx-indicator typewriter">....</span>
+    <button type="submit">post --&gt;</button>
   </form>
+  {{ template "comment-form-result" }}
 {{ end }}
 
 {{ define "comment-form-result" }}
@@ -86,12 +90,16 @@
 {{ define "upload-form" }}
   <h3>post conundrum:</h3>
   <form hx-post="/upload" hx-target="#upload-form-result">
-    <span>
-      conundrum:
-      <input required type="text" name="conundrum" placeholder="..." />
-    </span>
-    {{ template "upload-form-result" }}
+    <input
+      required
+      type="text"
+      name="conundrum"
+      placeholder="conundrum..."
+    />
+    <span class="htmx-indicator typewriter">....</span>
+    <button type="submit">post --&gt;</button>
   </form>
+  {{ template "upload-form-result" }}
 {{ end }}
 
 {{ define "upload-form-result" }}
