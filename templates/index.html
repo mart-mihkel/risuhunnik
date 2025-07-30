@@ -10,34 +10,10 @@
   </head>
   <body>
     <header>
-      <pre>
-                              |    .                    _
-                          .   |L  /|   .          _    (_)
-                      _ . |\ _| \--+._/| .       (_)
-                     / ||\| Y J  )   / |/| ./
-                    J  |)'( |        ` F`.'/
-                  -&lt;|  F         __     .-&lt;        (_)
-                    | /       .-'. `.  /-. L___
-                    J \      &lt;    \  | | O\|.-'  _
-                  _J \  .-    \/ O | | \  |F    (_)
-                 '-F  -&lt;_.     \   .-'  `-' L__
-                __J  _   _.     &gt;-'  )._.   |-'
-                 `-|.'   /_.          \_|   F
-                 /'    /.'             .'  `\
-                  /L  /'   |/      _.-'-\
-                 /'J       ___.---'\|
-                   |\  .--' V  | `. `
-                   |/`. `-.     `._)
-                      / .-.\
-                      \ (  `\
-                       `.\
-      </pre>
       <h1>risuhunnik</h1>
       <span>a collection of wicked conundrums</span>
     </header>
-    <main>
-      {{ template "conundrums" . }}
-    </main>
+    <main>{{ template "conundrums" . }}</main>
     <footer>
       <button
         hx-get="/conundrums"
@@ -46,13 +22,12 @@
       >
         &lt;-- index
       </button>
-      <span id="footer-loading" class="htmx-indicator typewriter">
-        ...
-      </span>
+      <span id="footer-loading" class="htmx-indicator typewriter">....</span>
       <a href="https://github.com/mart-mihkel/risuhunnik" target="_blank">
         github --&gt;
       </a>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js">
+    </script>
   </body>
 </html>

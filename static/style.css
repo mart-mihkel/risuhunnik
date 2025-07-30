@@ -26,8 +26,9 @@
 }
 
 body {
-  width: 64ch;
   margin: auto;
+  padding: 0 8px;
+  max-width: 64ch;
   color: var(--nord-0);
   scrollbar-gutter: stable;
   background-color: var(--nord-6);
@@ -162,8 +163,25 @@ form {
     border-top: 1px solid var(--nord-4);
   }
 
+  a {
+    color: var(--nord-9);
+  }
+
+  a:visited {
+    color: var(--nord-7);
+  }
+
   h2 {
     border-bottom: 1px solid var(--nord-6);
+  }
+
+  input {
+    background-color: var(--nord-0);
+  }
+
+  button {
+    color: var(--nord-9);
+    background-color: var(--nord-0);
   }
 
   .comment-date {
