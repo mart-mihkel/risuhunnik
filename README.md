@@ -9,5 +9,4 @@
 
 **TODO**
 - handle next/prev out of bound ids
-- loading indicator
 - dark mode

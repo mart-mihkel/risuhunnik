@@ -28,10 +28,21 @@
 
 {{ define "conundrum-nav" }}
   <div class="conundrum-nav">
-    <button hx-get="/conundrum?id={{ .Prev }}" hx-target="main">
+    <button
+      hx-get="/conundrum?id={{ .Prev }}"
+      hx-target="main"
+      hx-indicator="#conundrum-nav-loading"
+    >
       &lt;-- prev
     </button>
-    <button hx-get="/conundrum?id={{ .Next }}" hx-target="main">
+    <span id="conundrum-nav-loading" class="htmx-indicator typewriter">
+      ...
+    </span>
+    <button
+      hx-get="/conundrum?id={{ .Next }}"
+      hx-target="main"
+      hx-indicator="#conundrum-nav-loading"
+    >
       next --&gt;
     </button>
   </div>

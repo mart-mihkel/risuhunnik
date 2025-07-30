@@ -116,6 +116,22 @@ input {
   vertical-align: bottom;
 }
 
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 0 auto;
+  animation: typing 1s steps(4) infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 4ch;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
