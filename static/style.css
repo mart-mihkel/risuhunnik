@@ -38,13 +38,17 @@ pre {
 }
 
 footer {
+  display: flex;
   margin: 8px 0;
+  padding: 2px 0;
   color: var(--nord-3);
+  justify-content: space-between;
   border-top: 1px solid var(--nord-3);
 }
 
 button {
   outline: none;
+  font-size: 1rem;
   cursor: pointer;
   color: -webkit-link;
   text-decoration: underline;
@@ -70,10 +74,6 @@ input {
   background-color: var(--nord-6);
 }
 
-.apocryphal {
-  color: var(--nord-11);
-}
-
 .conundrum-preview {
   display: flex;
   flex-direction: row;
@@ -89,7 +89,8 @@ input {
   padding-left: 14ch;
 }
 
-.conundrum-nav{
+.conundrum-nav {
+  margin: 2px 0;
   display: flex;
   justify-content: space-between;
 }

@@ -62,19 +62,15 @@ func Conundrum(c echo.Context) error {
 	return c.Render(http.StatusOK, "conundrum", res)
 }
 
-func UploadForm(c echo.Context) error {
-	return c.Render(http.StatusOK, "upload-form", nil)
-}
-
 func UploadResult(c echo.Context) error {
 	text := c.FormValue("conundrum")
 
 	err := database.InsertConundrum(text)
 	if err != nil {
-		return c.Render(http.StatusOK, "upload-form-result", "upload failed!")
+		return c.Render(http.StatusOK, "upload-form-result", nil)
 	}
 
-	return c.Render(http.StatusOK, "upload-form-result", "conundrum uploaded!")
+	return c.Render(http.StatusOK, "upload-form-result", true)
 }
 
 func CommentForm(c echo.Context) error {

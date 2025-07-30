@@ -3,10 +3,11 @@
 <div align="center">
   <img alt="CI/CD" src="https://github.com/mart-mihkel/risuhunnik/actions/workflows/main.yml/badge.svg" />
   <a href="https://lest.risuhunnik.xyz" target="_blank">
-    <img alt="website" src="https://img.shields.io/badge/website-up-blue?logo=htmx" />
+    <img alt="website" src="https://img.shields.io/badge/website-hmm-green?logo=htmx" />
   </a>
 </div>
 
 **TODO**
 - handle next/prev out of bound ids
+- loading indicator
 - dark mode

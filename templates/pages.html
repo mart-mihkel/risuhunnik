@@ -3,9 +3,7 @@
   <ol>
     {{ range . }}
       <li>
-        <span
-          class="conundrum-preview {{ if not .Verified }}apocryphal{{ end }}"
-        >
+        <span class="conundrum-preview">
           {{ .Text }}
           <button hx-get="/conundrum?id={{ .Id }}" hx-target="main">
             --&gt;
@@ -14,21 +12,18 @@
       </li>
     {{ end }}
   </ol>
+  {{ template "upload-form" }}
 {{ end }}
 
 {{ define "conundrum" }}
+  {{ template "conundrum-nav" . }}
   <h3>conundrum {{ .Conundrum.Id }}:</h3>
-  <p>date........:
-    <span class="date">{{ .Conundrum.Date }}</span>
-  </p>
-  <p {{ if not .Conundrum.Verified }}class="apocryphal"{{ end }}>
-    apocryphal..: {{ not .Conundrum.Verified }}
-  </p>
+  <p>date........: <span class="date">{{ .Conundrum.Date }}</span></p>
+  <p>verified....: {{ .Conundrum.Verified }}</p>
   <p>comments....: {{ len .Comments }}</p>
   <p class="conundrum-text">conundrum...: {{ .Conundrum.Text }}</p>
   {{ template "comments" .Comments }}
   {{ template "comment-form" . }}
-  {{ template "conundrum-nav" . }}
 {{ end }}
 
 {{ define "conundrum-nav" }}
@@ -89,5 +84,10 @@
 {{ end }}
 
 {{ define "upload-form-result" }}
-  <span id="upload-form-result">{{ . }}</span>
+  <span id="upload-form-result">
+    {{ if  . }}
+      <span hx-get="/conundrums" hx-trigger="load" hx-target="main">
+      </span>
+    {{ end }}
+  </span>
 {{ end }}

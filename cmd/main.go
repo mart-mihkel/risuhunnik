@@ -45,7 +45,6 @@ func main() {
 	e.Static("/static", "static")
 
 	e.GET("/", web.Index)
-	e.GET("/upload", web.UploadForm)
 	e.GET("/conundrum", web.Conundrum)
 	e.GET("/conundrums", web.Conundrums)
 
