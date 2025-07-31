@@ -6,7 +6,3 @@
     <img alt="website" src="https://img.shields.io/badge/website-hmm-green?logo=htmx" />
   </a>
 </div>
-
-**TODO**
-- handle next/prev out of bound ids
-- dark mode

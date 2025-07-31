@@ -29,6 +29,7 @@
 {{ define "conundrum-nav" }}
   <div class="conundrum-nav">
     <button
+      {{ if lt .Prev 1 }}disabled{{ end }}
       hx-get="/conundrum?id={{ .Prev }}"
       hx-target="main"
       hx-indicator="#conundrum-nav-loading"
@@ -65,12 +66,7 @@
 {{ define "comment-form" }}
   <h2>post comment:</h2>
   <form hx-post="/comment" hx-target="#comment-form-result">
-    <input
-      required
-      type="text"
-      name="comment"
-      placeholder="comment..."
-    />
+    <input required type="text" name="comment" placeholder="comment..." />
     <input type="hidden" name="cid" value="{{ .Conundrum.Id }}">
     <span class="htmx-indicator typewriter">....</span>
     <button type="submit">post -&gt;</button>
@@ -90,12 +86,7 @@
 {{ define "upload-form" }}
   <h2>post conundrum:</h2>
   <form hx-post="/upload" hx-target="#upload-form-result">
-    <input
-      required
-      type="text"
-      name="conundrum"
-      placeholder="conundrum..."
-    />
+    <input required type="text" name="conundrum" placeholder="conundrum..." />
     <span class="htmx-indicator typewriter">....</span>
     <button type="submit">post -&gt;</button>
   </form>

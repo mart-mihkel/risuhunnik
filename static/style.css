@@ -55,6 +55,11 @@ button {
   text-decoration: underline;
 }
 
+button:disabled {
+  cursor: default;
+  color: var(--nord-3);
+}
+
 h1,
 h2 {
   margin: 8px 0;
