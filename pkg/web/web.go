@@ -62,6 +62,21 @@ func Conundrum(c echo.Context) error {
 	return c.Render(http.StatusOK, "conundrum", res)
 }
 
+func Star(c echo.Context) error {
+	strid := c.FormValue("id")
+	id, err := strconv.Atoi(strid)
+	if err != nil {
+		return fmt.Errorf("got malfordmed id: %w", err)
+	}
+
+	co, err := database.StarConundrum(id)
+	if err != nil {
+		return err
+	}
+
+	return c.Render(http.StatusOK, "conundrum-stars", co)
+}
+
 func UploadResult(c echo.Context) error {
 	text := c.FormValue("conundrum")
 

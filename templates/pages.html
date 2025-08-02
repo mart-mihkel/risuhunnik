@@ -21,9 +21,28 @@
   <p>date........: <span class="date">{{ .Conundrum.Date }}</span></p>
   <p>verified....: {{ .Conundrum.Verified }}</p>
   <p>comments....: {{ len .Comments }}</p>
+  {{ template "conundrum-stars" .Conundrum }}
   <p class="conundrum-text">conundrum...: {{ .Conundrum.Text }}</p>
   {{ template "comments" .Comments }}
   {{ template "comment-form" . }}
+{{ end }}
+
+{{ define "conundrum-stars" }}
+  <p id="conundrum-stars">
+    stars.......:
+    <span>{{ .Stars }}</span>
+    <button
+      hx-post="/star?id={{ .Id }}"
+      hx-swap="outerHTML"
+      hx-target="#conundrum-stars"
+      hx-indicator="#conundrum-star-loading"
+    >
+      star+
+    </button>
+    <span id="conundrum-star-loading" class="htmx-indicator typewriter">
+      ....
+    </span>
+  </p>
 {{ end }}
 
 {{ define "conundrum-nav" }}
@@ -55,8 +74,8 @@
     <ul>
       {{ range . }}
         <li>
-          <span class="comment-text">{{ .Comment }} -</span>
           <span class="comment-date">{{ .Date }}</span>
+          <span class="comment-text">- {{ .Comment }}</span>
         </li>
       {{ end }}
     </ul>
@@ -69,7 +88,7 @@
     <input required type="text" name="comment" placeholder="comment..." />
     <input type="hidden" name="cid" value="{{ .Conundrum.Id }}">
     <span class="htmx-indicator typewriter">....</span>
-    <button type="submit">post -&gt;</button>
+    <button type="submit">post+</button>
   </form>
   {{ template "comment-form-result" }}
 {{ end }}
@@ -88,7 +107,7 @@
   <form hx-post="/upload" hx-target="#upload-form-result">
     <input required type="text" name="conundrum" placeholder="conundrum..." />
     <span class="htmx-indicator typewriter">....</span>
-    <button type="submit">post -&gt;</button>
+    <button type="submit">post+</button>
   </form>
   {{ template "upload-form-result" }}
 {{ end }}

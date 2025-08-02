@@ -12,6 +12,7 @@ type Conundrum struct {
 	Id       int
 	Text     string
 	Verified bool
+	Stars    int
 	Date     time.Time
 }
 
@@ -47,7 +48,7 @@ func GetConundrum(id int) (*Conundrum, error) {
 
 	var c Conundrum
 
-	err := row.Scan(&c.Id, &c.Text, &c.Verified, &c.Date)
+	err := row.Scan(&c.Id, &c.Text, &c.Verified, &c.Stars, &c.Date)
 	if err != nil {
 		return nil, fmt.Errorf("failed on scannig row: %w", err)
 	}
@@ -80,6 +81,21 @@ func GetConundrumComments(id int) ([]Comment, error) {
 	return cs, nil
 }
 
+func StarConundrum(id int) (*Conundrum, error) {
+	q := "UPDATE conundrums SET stars = stars + 1 WHERE ID = ? RETURNING *"
+
+	row := Db.QueryRow(q, id)
+
+	var c Conundrum
+
+	err := row.Scan(&c.Id, &c.Text, &c.Verified, &c.Stars, &c.Date)
+	if err != nil {
+		return nil, fmt.Errorf("failed on scannig row: %w", err)
+	}
+
+	return &c, nil
+}
+
 func InsertConundrum(t string) error {
 	q := "INSERT INTO conundrums (text) VALUES (?)"
 
@@ -107,7 +123,7 @@ func scanConundrums(rows *sql.Rows) ([]Conundrum, error) {
 	for rows.Next() {
 		var c Conundrum
 
-		err := rows.Scan(&c.Id, &c.Text, &c.Verified, &c.Date)
+		err := rows.Scan(&c.Id, &c.Text, &c.Verified, &c.Stars, &c.Date)
 		if err != nil {
 			return nil, fmt.Errorf("failed on scannig row: %w", err)
 		}

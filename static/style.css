@@ -119,6 +119,8 @@ form {
   margin: 0 auto;
   overflow: hidden;
   white-space: nowrap;
+  display: inline-block;
+  vertical-align: bottom;
   animation: typing 1s steps(4) infinite;
 }
 
