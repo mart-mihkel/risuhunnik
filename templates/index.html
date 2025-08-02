@@ -15,13 +15,7 @@
     </header>
     <main>{{ template "conundrums" . }}</main>
     <footer>
-      <button
-        hx-get="/conundrums"
-        hx-target="main"
-        hx-indicator="#footer-loading"
-      >
-        &lt;- index
-      </button>
+      <a href="/">&lt;- index</a>
       <span id="footer-loading" class="htmx-indicator typewriter">....</span>
       <a href="https://github.com/mart-mihkel/risuhunnik" target="_blank">
         github -&gt;
