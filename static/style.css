@@ -170,6 +170,7 @@ form {
   }
 
   input {
+    color: var(--nord-6);
     background-color: var(--nord-0);
   }
 
