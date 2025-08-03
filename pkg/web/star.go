@@ -14,12 +14,6 @@ import (
 
 func ToggleStar(c echo.Context) error {
 
-	type Result struct {
-		Conundrum     *database.Conundrum
-		IsStarred     bool
-		CookiesAgreed bool
-	}
-
 	if !cookiesAgreed(&c) {
 		return fmt.Errorf("cookies not agreed!")
 	}
@@ -66,7 +60,7 @@ func ToggleStar(c echo.Context) error {
 		return err
 	}
 
-	res := &Result{
+	res := &ConundrumResult{
 		Conundrum:     conundrum,
 		IsStarred:     !starred,
 		CookiesAgreed: cookiesAgreed(&c),
@@ -75,7 +69,7 @@ func ToggleStar(c echo.Context) error {
 	return c.Render(http.StatusOK, "conundrum-stars", res)
 }
 
-func IsStarred(id int, c *echo.Context) (bool, error) {
+func isStarred(id int, c *echo.Context) (bool, error) {
 
 	cookie, err := (*c).Cookie("starred")
 	if err != nil {

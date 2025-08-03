@@ -16,10 +16,20 @@ func UploadForm(c echo.Context) error {
 	}
 
 	text := c.FormValue("conundrum")
-
-	err := database.InsertConundrum(text)
+	cookie, err := c.Cookie("author")
 	if err != nil {
-		return c.Render(http.StatusOK, "upload-form-result", nil)
+		author, err := database.RandomAuthor()
+		if err != nil {
+			return err
+		}
+
+		cookie = &http.Cookie{Name: "author", Value: author}
+		c.SetCookie(cookie)
+	}
+
+	err = database.InsertConundrum(text, cookie.Value)
+	if err != nil {
+		return err
 	}
 
 	return c.Render(http.StatusOK, "upload-form-result", true)

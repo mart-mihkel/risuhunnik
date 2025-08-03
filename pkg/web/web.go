@@ -48,7 +48,13 @@ func Cookies(c echo.Context) error {
 		return c.NoContent(http.StatusOK)
 	}
 
+	author, err := database.RandomAuthor()
+	if err != nil {
+		return err
+	}
+
 	c.SetCookie(&http.Cookie{Name: "agreed"})
+	c.SetCookie(&http.Cookie{Name: "author", Value: author})
 
 	return c.NoContent(http.StatusOK)
 }
@@ -84,7 +90,7 @@ func Conundrum(c echo.Context) error {
 		return err
 	}
 
-	starred, err := IsStarred(id, &c)
+	starred, err := isStarred(id, &c)
 	if err != nil {
 		return err
 	}

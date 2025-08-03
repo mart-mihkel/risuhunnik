@@ -99,18 +99,9 @@ form {
 }
 
 .date {
-  max-width: 10ch;
-  overflow: hidden;
-  white-space: nowrap;
-  display: inline-block;
-  vertical-align: bottom;
-}
-
-.comment-date {
   max-width: 16ch;
   overflow: hidden;
   white-space: nowrap;
-  color: var(--nord-3);
   display: inline-block;
   vertical-align: bottom;
 }

@@ -11,6 +11,7 @@ import (
 type Conundrum struct {
 	Id       int
 	Text     string
+	Author   string
 	Verified bool
 	Stars    int
 	Date     time.Time
@@ -20,6 +21,7 @@ type Comment struct {
 	Id          int
 	ConundrumId int
 	Comment     string
+	Author      string
 	Date        time.Time
 }
 
@@ -46,8 +48,8 @@ func GetConundrum(id int) (*Conundrum, error) {
 
 	var c Conundrum
 	err := Db.QueryRow(q, id).Scan(
-		&c.Id, &c.Text, &c.Verified,
-		&c.Stars, &c.Date,
+		&c.Id, &c.Text, &c.Author,
+		&c.Verified, &c.Stars, &c.Date,
 	)
 
 	if err != nil {
@@ -71,8 +73,8 @@ func GetConundrumComments(id int) ([]Comment, error) {
 	for rows.Next() {
 		var comment Comment
 		err = rows.Scan(
-			&comment.Id, &comment.ConundrumId,
-			&comment.Comment, &comment.Date,
+			&comment.Id, &comment.ConundrumId, &comment.Comment,
+			&comment.Author, &comment.Date,
 		)
 
 		if err != nil {
@@ -98,8 +100,8 @@ func UnStarConundrum(id int) (*Conundrum, error) {
 func starConundrum(id int, q string) (*Conundrum, error) {
 	var c Conundrum
 	err := Db.QueryRow(q, id).Scan(
-		&c.Id, &c.Text, &c.Verified,
-		&c.Stars, &c.Date,
+		&c.Id, &c.Text, &c.Author,
+		&c.Verified, &c.Stars, &c.Date,
 	)
 
 	if err != nil {
@@ -109,10 +111,10 @@ func starConundrum(id int, q string) (*Conundrum, error) {
 	return &c, nil
 }
 
-func InsertConundrum(text string) error {
-	q := "INSERT INTO conundrums (text) VALUES (?)"
+func InsertConundrum(text string, author string) error {
+	q := "INSERT INTO conundrums (text, author) VALUES (?, ?)"
 
-	_, err := Db.Exec(q, text)
+	_, err := Db.Exec(q, text, author)
 	if err != nil {
 		return fmt.Errorf("failed to insert conundrum: %w", err)
 	}
@@ -120,10 +122,10 @@ func InsertConundrum(text string) error {
 	return nil
 }
 
-func InsertComment(conundrumId int, comment string) error {
-	q := "INSERT INTO comments (cid, comment) VALUES (?, ?)"
+func InsertComment(conundrumId int, comment string, author string) error {
+	q := "INSERT INTO comments (cid, comment, author) VALUES (?, ?, ?)"
 
-	_, err := Db.Exec(q, conundrumId, comment)
+	_, err := Db.Exec(q, conundrumId, comment, author)
 	if err != nil {
 		return fmt.Errorf("failed to insert comment: %w", err)
 	}
@@ -131,11 +133,27 @@ func InsertComment(conundrumId int, comment string) error {
 	return nil
 }
 
+func RandomAuthor() (string, error) {
+	q1 := "SELECT author FROM authors ORDER BY RANDOM() LIMIT 1"
+
+	var author string
+	err := Db.QueryRow(q1).Scan(&author)
+	if err != nil {
+		return "", fmt.Errorf("failed on scanning row: %w", err)
+	}
+
+	return author, nil
+}
+
 func scanConundrums(rows *sql.Rows) ([]Conundrum, error) {
 	var conundrums []Conundrum
 	for rows.Next() {
 		var c Conundrum
-		err := rows.Scan(&c.Id, &c.Text, &c.Verified, &c.Stars, &c.Date)
+		err := rows.Scan(
+			&c.Id, &c.Text, &c.Author,
+			&c.Verified, &c.Stars, &c.Date,
+		)
+
 		if err != nil {
 			return nil, fmt.Errorf("failed on scannig row: %w", err)
 		}

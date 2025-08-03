@@ -22,9 +22,20 @@ func CommentForm(c echo.Context) error {
 		return fmt.Errorf("got malfordmed id: %w", err)
 	}
 
-	err = database.InsertComment(id, comment)
+	cookie, err := c.Cookie("author")
 	if err != nil {
-		return c.Render(http.StatusOK, "comment-form-result", nil)
+		author, err := database.RandomAuthor()
+		if err != nil {
+			return err
+		}
+
+		cookie = &http.Cookie{Name: "author", Value: author}
+		c.SetCookie(cookie)
+	}
+
+	err = database.InsertComment(id, comment, cookie.Value)
+	if err != nil {
+		return err
 	}
 
 	return c.Render(http.StatusOK, "comment-form-result", id)

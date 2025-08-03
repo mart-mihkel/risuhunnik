@@ -19,6 +19,7 @@
   {{ template "conundrum-nav" . }}
   <h2>conundrum {{ .Conundrum.Id }}:</h2>
   <p>date........: <span class="date">{{ .Conundrum.Date }}</span></p>
+  <p>author......: {{ .Conundrum.Author }}</p>
   <p>verified....: {{ .Conundrum.Verified }}</p>
   <p>comments....: {{ len .Comments }}</p>
   {{ template "conundrum-stars" . }}
@@ -75,8 +76,10 @@
     <ul>
       {{ range . }}
         <li>
-          <span class="comment-date">{{ .Date }}</span>
-          <span class="comment-text">- {{ .Comment }}</span>
+          <h3>comment: {{ .Id }}</h3>
+          <p>date........: <span class="date">{{ .Date }}</span></p>
+          <p>author......: {{ .Author }}</p>
+          <p class="comment-text">comment.....:  {{ .Comment }}</p>
         </li>
       {{ end }}
     </ul>
