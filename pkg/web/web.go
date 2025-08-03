@@ -10,11 +10,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type IndexResult struct {
+	Conundrums    []database.Conundrum
+	CookiesAgreed bool
+}
+
 type ConundrumResult struct {
-	Conundrum *database.Conundrum
-	Comments  []database.Comment
-	Next      int
-	Prev      int
+	Conundrum     *database.Conundrum
+	Comments      []database.Comment
+	Next          int
+	Prev          int
+	CookiesAgreed bool
 }
 
 func Index(c echo.Context) error {
@@ -23,7 +29,31 @@ func Index(c echo.Context) error {
 		return err
 	}
 
-	return c.Render(http.StatusOK, "index.html", cs)
+	res := &IndexResult{Conundrums: cs}
+	_, err = c.Cookie("risuhunnik-cookie")
+	if err == nil {
+		res.CookiesAgreed = true
+	}
+
+	return c.Render(http.StatusOK, "index.html", res)
+}
+
+func Cookies(c echo.Context) error {
+	a, err := strconv.ParseBool(c.QueryParam("agreed"))
+	if err != nil {
+		return fmt.Errorf("got malfordmed agreed: %w", err)
+	}
+
+	if a {
+		co := &http.Cookie{
+			Name:  "risuhunnik-cookie",
+			Value: "cookie",
+		}
+
+		c.SetCookie(co)
+	}
+
+	return c.NoContent(http.StatusOK)
 }
 
 func Conundrums(c echo.Context) error {
@@ -36,8 +66,7 @@ func Conundrums(c echo.Context) error {
 }
 
 func Conundrum(c echo.Context) error {
-	strid := c.QueryParam("id")
-	id, err := strconv.Atoi(strid)
+	id, err := strconv.Atoi(c.QueryParam("id"))
 	if err != nil {
 		return fmt.Errorf("got malfordmed id: %w", err)
 	}
@@ -63,8 +92,7 @@ func Conundrum(c echo.Context) error {
 }
 
 func Star(c echo.Context) error {
-	strid := c.FormValue("id")
-	id, err := strconv.Atoi(strid)
+	id, err := strconv.Atoi(c.FormValue("id"))
 	if err != nil {
 		return fmt.Errorf("got malfordmed id: %w", err)
 	}
@@ -89,14 +117,13 @@ func UploadResult(c echo.Context) error {
 }
 
 func CommentForm(c echo.Context) error {
-	co := c.FormValue("comment")
-	strid := c.FormValue("cid")
-	cid, err := strconv.Atoi(strid)
+	com := c.FormValue("comment")
+	cid, err := strconv.Atoi(c.FormValue("cid"))
 	if err != nil {
 		return fmt.Errorf("got malfordmed id: %w", err)
 	}
 
-	err = database.InsertComment(cid, co)
+	err = database.InsertComment(cid, com)
 	if err != nil {
 		return c.Render(http.StatusOK, "comment-form-result", nil)
 	}

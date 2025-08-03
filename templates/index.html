@@ -12,8 +12,11 @@
     <header>
       <h1>risuhunnik <a href="/">-&gt;</a></h1>
       <span>a collection of wicked conundrums</span>
+      {{ if not .CookiesAgreed }}
+        {{ template "cookies-form" }}
+      {{ end }}
     </header>
-    <main>{{ template "conundrums" . }}</main>
+    <main>{{ template "conundrums" .Conundrums }}</main>
     <footer>
       <a href="/">&lt;- index</a>
       <span id="footer-loading" class="htmx-indicator typewriter">....</span>
@@ -25,3 +28,25 @@
     </script>
   </body>
 </html>
+
+{{ define "cookies-form" }}
+  <form id="cookies-form">
+    <span>risuhunnik uses cookies</span>
+    <span>
+      <button
+        hx-post="/cookies?agreed=1"
+        hx-target="#cookies-form"
+        hx-swap="delete"
+      >
+        ok+
+      </button>
+      <button
+        hx-post="/cookies?agreed=0"
+        hx-target="#cookies-form"
+        hx-swap="delete"
+      >
+        no-
+      </button>
+    </span>
+  </form>
+{{ end }}
