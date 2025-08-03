@@ -13,8 +13,7 @@ import (
 func CommentForm(c echo.Context) error {
 
 	if !cookiesAgreed(&c) {
-		// TODO: render a response
-		return c.Render(http.StatusOK, "comment-form-result", nil)
+		return fmt.Errorf("cookies not agreed!")
 	}
 
 	comment := c.FormValue("comment")

@@ -1,4 +1,5 @@
-- cookie error responses
+- look into wrapping cookies agreed in a middleware/general result
 - unstar conundrum
 - random usernames (juhan juustuburger)
 - comment info like conundrum
+- proper sql migrations

@@ -32,13 +32,13 @@
     stars.......:
     <span>{{ .Conundrum.Stars }}</span>
     <button
-      {{ if or (not .CookiesAgreed) .IsStarred }}disabled{{ end }}
+      {{ if not .CookiesAgreed }}disabled{{ end }}
       hx-post="/star?id={{ .Conundrum.Id }}"
       hx-swap="outerHTML"
       hx-target="#conundrum-stars"
       hx-indicator="#conundrum-star-loading"
     >
-      star+
+      star{{ if or (not .CookiesAgreed) (not .IsStarred)}}+{{ else }}-{{end}}
     </button>
     <span id="conundrum-star-loading" class="htmx-indicator typewriter">
       ....

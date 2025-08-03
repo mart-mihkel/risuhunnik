@@ -1,6 +1,7 @@
 package web
 
 import (
+	"fmt"
 	"net/http"
 
 	"risuhunnik/pkg/database"
@@ -11,8 +12,7 @@ import (
 func UploadForm(c echo.Context) error {
 
 	if !cookiesAgreed(&c) {
-		// TODO: render a response
-		return c.Render(http.StatusOK, "comment-form-result", nil)
+		return fmt.Errorf("cookies not agreed!")
 	}
 
 	text := c.FormValue("conundrum")

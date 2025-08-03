@@ -12,7 +12,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func Star(c echo.Context) error {
+func ToggleStar(c echo.Context) error {
 
 	type Result struct {
 		Conundrum     *database.Conundrum
@@ -21,7 +21,6 @@ func Star(c echo.Context) error {
 	}
 
 	if !cookiesAgreed(&c) {
-		// TODO: render a response
 		return fmt.Errorf("cookies not agreed!")
 	}
 
@@ -41,12 +40,14 @@ func Star(c echo.Context) error {
 		return fmt.Errorf("failed to deserialize cookie: %w", err)
 	}
 
-	if slices.Contains(value, id) {
-		// TODO: render a response
-		return fmt.Errorf("conundrum already starred!")
+	i := slices.Index(value, id)
+	starred := i >= 0
+	if starred {
+		value = slices.Delete(value, i, i+1)
+	} else {
+		value = append(value, id)
 	}
 
-	value = append(value, id)
 	jsonbytes, err := json.Marshal(value)
 	if err != nil {
 		return fmt.Errorf("failed to serialize cookie: %w", err)
@@ -54,14 +55,20 @@ func Star(c echo.Context) error {
 
 	c.SetCookie(&http.Cookie{Name: "starred", Value: string(jsonbytes)})
 
-	conundrum, err := database.StarConundrum(id)
+	var conundrum *database.Conundrum
+	if starred {
+		conundrum, err = database.UnStarConundrum(id)
+	} else {
+		conundrum, err = database.StarConundrum(id)
+	}
+
 	if err != nil {
 		return err
 	}
 
 	res := &Result{
 		Conundrum:     conundrum,
-		IsStarred:     true,
+		IsStarred:     !starred,
 		CookiesAgreed: cookiesAgreed(&c),
 	}
 

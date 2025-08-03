@@ -10,8 +10,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-// TODO: look into wrapping cookies agreed in a middleware/general result
-
 type ConundrumsResult struct {
 	Conundrums    []database.Conundrum
 	CookiesAgreed bool
