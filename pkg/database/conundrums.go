@@ -17,10 +17,10 @@ type Conundrum struct {
 }
 
 type Comment struct {
-	Id      int
-	Cid     int
-	Comment string
-	Date    time.Time
+	Id          int
+	ConundrumId int
+	Comment     string
+	Date        time.Time
 }
 
 func GetAllConundrums() ([]Conundrum, error) {
@@ -33,22 +33,23 @@ func GetAllConundrums() ([]Conundrum, error) {
 
 	defer rows.Close()
 
-	cs, err := scanConundrums(rows)
+	conundrums, err := scanConundrums(rows)
 	if err != nil {
 		return nil, err
 	}
 
-	return cs, nil
+	return conundrums, nil
 }
 
 func GetConundrum(id int) (*Conundrum, error) {
 	q := "SELECT * FROM conundrums WHERE id = ?"
 
-	row := Db.QueryRow(q, id)
-
 	var c Conundrum
+	err := Db.QueryRow(q, id).Scan(
+		&c.Id, &c.Text, &c.Verified,
+		&c.Stars, &c.Date,
+	)
 
-	err := row.Scan(&c.Id, &c.Text, &c.Verified, &c.Stars, &c.Date)
 	if err != nil {
 		return nil, fmt.Errorf("failed on scannig row: %w", err)
 	}
@@ -66,29 +67,33 @@ func GetConundrumComments(id int) ([]Comment, error) {
 
 	defer rows.Close()
 
-	var cs []Comment
+	var comments []Comment
 	for rows.Next() {
-		var c Comment
+		var comment Comment
+		err = rows.Scan(
+			&comment.Id, &comment.ConundrumId,
+			&comment.Comment, &comment.Date,
+		)
 
-		err = rows.Scan(&c.Id, &c.Cid, &c.Comment, &c.Date)
 		if err != nil {
 			return nil, fmt.Errorf("failed on scannig row: %w", err)
 		}
 
-		cs = append(cs, c)
+		comments = append(comments, comment)
 	}
 
-	return cs, nil
+	return comments, nil
 }
 
 func StarConundrum(id int) (*Conundrum, error) {
 	q := "UPDATE conundrums SET stars = stars + 1 WHERE ID = ? RETURNING *"
 
-	row := Db.QueryRow(q, id)
-
 	var c Conundrum
+	err := Db.QueryRow(q, id).Scan(
+		&c.Id, &c.Text, &c.Verified,
+		&c.Stars, &c.Date,
+	)
 
-	err := row.Scan(&c.Id, &c.Text, &c.Verified, &c.Stars, &c.Date)
 	if err != nil {
 		return nil, fmt.Errorf("failed on scannig row: %w", err)
 	}
@@ -96,10 +101,10 @@ func StarConundrum(id int) (*Conundrum, error) {
 	return &c, nil
 }
 
-func InsertConundrum(t string) error {
+func InsertConundrum(text string) error {
 	q := "INSERT INTO conundrums (text) VALUES (?)"
 
-	_, err := Db.Exec(q, t)
+	_, err := Db.Exec(q, text)
 	if err != nil {
 		return fmt.Errorf("failed to insert conundrum: %w", err)
 	}
@@ -107,10 +112,10 @@ func InsertConundrum(t string) error {
 	return nil
 }
 
-func InsertComment(cid int, co string) error {
+func InsertComment(conundrumId int, comment string) error {
 	q := "INSERT INTO comments (cid, comment) VALUES (?, ?)"
 
-	_, err := Db.Exec(q, cid, co)
+	_, err := Db.Exec(q, conundrumId, comment)
 	if err != nil {
 		return fmt.Errorf("failed to insert comment: %w", err)
 	}
@@ -119,17 +124,16 @@ func InsertComment(cid int, co string) error {
 }
 
 func scanConundrums(rows *sql.Rows) ([]Conundrum, error) {
-	var cs []Conundrum
+	var conundrums []Conundrum
 	for rows.Next() {
 		var c Conundrum
-
 		err := rows.Scan(&c.Id, &c.Text, &c.Verified, &c.Stars, &c.Date)
 		if err != nil {
 			return nil, fmt.Errorf("failed on scannig row: %w", err)
 		}
 
-		cs = append(cs, c)
+		conundrums = append(conundrums, c)
 	}
 
-	return cs, nil
+	return conundrums, nil
 }

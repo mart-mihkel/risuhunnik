@@ -87,7 +87,7 @@
   <h2>post comment:</h2>
   <form hx-post="/comment" hx-target="#comment-form-result">
     <input required type="text" name="comment" placeholder="comment..." />
-    <input type="hidden" name="cid" value="{{ .Conundrum.Id }}">
+    <input type="hidden" name="conundrum-id" value="{{ .Conundrum.Id }}">
     <span class="htmx-indicator typewriter">....</span>
     <button
       {{ if not .CookiesAgreed }}disabled{{ end }}

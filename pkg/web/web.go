@@ -17,8 +17,15 @@ type RisuhunnikCookie struct {
 	Comments []int `json:"comments"`
 }
 
+// TODO: look into wrapping cookies agreed in a middleware/general result
+
 type ConundrumsResult struct {
 	Conundrums    []database.Conundrum
+	CookiesAgreed bool
+}
+
+type StarButtonResult struct {
+	Conundrum     *database.Conundrum
 	CookiesAgreed bool
 }
 
@@ -31,13 +38,13 @@ type ConundrumResult struct {
 }
 
 func Index(c echo.Context) error {
-	cs, err := database.GetAllConundrums()
+	conundrums, err := database.GetAllConundrums()
 	if err != nil {
 		return err
 	}
 
 	res := &ConundrumsResult{
-		Conundrums:    cs,
+		Conundrums:    conundrums,
 		CookiesAgreed: cookiesAgreed(&c),
 	}
 
@@ -73,13 +80,13 @@ func Cookies(c echo.Context) error {
 }
 
 func Conundrums(c echo.Context) error {
-	cs, err := database.GetAllConundrums()
+	conundrums, err := database.GetAllConundrums()
 	if err != nil {
 		return err
 	}
 
 	res := &ConundrumsResult{
-		Conundrums:    cs,
+		Conundrums:    conundrums,
 		CookiesAgreed: cookiesAgreed(&c),
 	}
 
@@ -92,21 +99,21 @@ func Conundrum(c echo.Context) error {
 		return fmt.Errorf("got malfordmed id: %w", err)
 	}
 
-	co, err := database.GetConundrum(id)
+	conundrum, err := database.GetConundrum(id)
 	if err != nil {
 		return err
 	}
 
-	cs, err := database.GetConundrumComments(id)
+	comments, err := database.GetConundrumComments(id)
 	if err != nil {
 		return err
 	}
 
 	res := &ConundrumResult{
-		Conundrum:     co,
-		Comments:      cs,
-		Next:          co.Id + 1,
-		Prev:          co.Id - 1,
+		Conundrum:     conundrum,
+		Comments:      comments,
+		Next:          conundrum.Id + 1,
+		Prev:          conundrum.Id - 1,
 		CookiesAgreed: cookiesAgreed(&c),
 	}
 
@@ -119,12 +126,17 @@ func Star(c echo.Context) error {
 		return fmt.Errorf("got malfordmed id: %w", err)
 	}
 
-	co, err := database.StarConundrum(id)
+	conundrum, err := database.StarConundrum(id)
 	if err != nil {
 		return err
 	}
 
-	return c.Render(http.StatusOK, "conundrum-stars", co)
+	res := &StarButtonResult{
+		Conundrum:     conundrum,
+		CookiesAgreed: cookiesAgreed(&c),
+	}
+
+	return c.Render(http.StatusOK, "conundrum-stars", res)
 }
 
 func UploadResult(c echo.Context) error {
@@ -139,18 +151,18 @@ func UploadResult(c echo.Context) error {
 }
 
 func CommentForm(c echo.Context) error {
-	com := c.FormValue("comment")
-	cid, err := strconv.Atoi(c.FormValue("cid"))
+	comment := c.FormValue("comment")
+	id, err := strconv.Atoi(c.FormValue("conundrum-id"))
 	if err != nil {
 		return fmt.Errorf("got malfordmed id: %w", err)
 	}
 
-	err = database.InsertComment(cid, com)
+	err = database.InsertComment(id, comment)
 	if err != nil {
 		return c.Render(http.StatusOK, "comment-form-result", nil)
 	}
 
-	return c.Render(http.StatusOK, "comment-form-result", cid)
+	return c.Render(http.StatusOK, "comment-form-result", id)
 }
 
 func cookiesAgreed(c *echo.Context) bool {
