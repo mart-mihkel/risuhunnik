@@ -1,6 +1,7 @@
 package web
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -10,7 +11,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type IndexResult struct {
+type RisuhunnikCookie struct {
+	Starred  []int `json:"starred"`
+	Posts    []int `json:"posts"`
+	Comments []int `json:"comments"`
+}
+
+type ConundrumsResult struct {
 	Conundrums    []database.Conundrum
 	CookiesAgreed bool
 }
@@ -29,29 +36,38 @@ func Index(c echo.Context) error {
 		return err
 	}
 
-	res := &IndexResult{Conundrums: cs}
-	_, err = c.Cookie("risuhunnik-cookie")
-	if err == nil {
-		res.CookiesAgreed = true
+	res := &ConundrumsResult{
+		Conundrums:    cs,
+		CookiesAgreed: cookiesAgreed(&c),
 	}
 
 	return c.Render(http.StatusOK, "index.html", res)
 }
 
 func Cookies(c echo.Context) error {
-	a, err := strconv.ParseBool(c.QueryParam("agreed"))
+	agreed, err := strconv.ParseBool(c.QueryParam("agreed"))
 	if err != nil {
 		return fmt.Errorf("got malfordmed agreed: %w", err)
 	}
 
-	if a {
-		co := &http.Cookie{
-			Name:  "risuhunnik-cookie",
-			Value: "cookie",
-		}
-
-		c.SetCookie(co)
+	if !agreed {
+		return c.NoContent(http.StatusOK)
 	}
+
+	bytes, err := json.Marshal(&RisuhunnikCookie{
+		Starred:  []int{},
+		Posts:    []int{},
+		Comments: []int{},
+	})
+
+	if err != nil {
+		return fmt.Errorf("failed to serialize default cookie: %w", err)
+	}
+
+	c.SetCookie(&http.Cookie{
+		Name:  "risuhunnik-cookie",
+		Value: string(bytes),
+	})
 
 	return c.NoContent(http.StatusOK)
 }
@@ -62,7 +78,12 @@ func Conundrums(c echo.Context) error {
 		return err
 	}
 
-	return c.Render(http.StatusOK, "conundrums", cs)
+	res := &ConundrumsResult{
+		Conundrums:    cs,
+		CookiesAgreed: cookiesAgreed(&c),
+	}
+
+	return c.Render(http.StatusOK, "conundrums", res)
 }
 
 func Conundrum(c echo.Context) error {
@@ -82,10 +103,11 @@ func Conundrum(c echo.Context) error {
 	}
 
 	res := &ConundrumResult{
-		Conundrum: co,
-		Comments:  cs,
-		Next:      co.Id + 1,
-		Prev:      co.Id - 1,
+		Conundrum:     co,
+		Comments:      cs,
+		Next:          co.Id + 1,
+		Prev:          co.Id - 1,
+		CookiesAgreed: cookiesAgreed(&c),
 	}
 
 	return c.Render(http.StatusOK, "conundrum", res)
@@ -129,4 +151,9 @@ func CommentForm(c echo.Context) error {
 	}
 
 	return c.Render(http.StatusOK, "comment-form-result", cid)
+}
+
+func cookiesAgreed(c *echo.Context) bool {
+	_, err := (*c).Cookie("risuhunnik-cookie")
+	return err == nil
 }

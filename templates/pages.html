@@ -1,7 +1,7 @@
 {{ define "conundrums" }}
   <h2>conundrums:</h2>
   <ol>
-    {{ range . }}
+    {{ range .Conundrums }}
       <li>
         <span>
           {{ .Text }}
@@ -12,7 +12,7 @@
       </li>
     {{ end }}
   </ol>
-  {{ template "upload-form" }}
+  {{ template "upload-form" . }}
 {{ end }}
 
 {{ define "conundrum" }}
@@ -21,7 +21,7 @@
   <p>date........: <span class="date">{{ .Conundrum.Date }}</span></p>
   <p>verified....: {{ .Conundrum.Verified }}</p>
   <p>comments....: {{ len .Comments }}</p>
-  {{ template "conundrum-stars" .Conundrum }}
+  {{ template "conundrum-stars" . }}
   <p class="conundrum-text">conundrum...: {{ .Conundrum.Text }}</p>
   {{ template "comments" .Comments }}
   {{ template "comment-form" . }}
@@ -30,9 +30,10 @@
 {{ define "conundrum-stars" }}
   <p id="conundrum-stars">
     stars.......:
-    <span>{{ .Stars }}</span>
+    <span>{{ .Conundrum.Stars }}</span>
     <button
-      hx-post="/star?id={{ .Id }}"
+      {{ if not .CookiesAgreed }}disabled{{ end }}
+      hx-post="/star?id={{ .Conundrum.Id }}"
       hx-swap="outerHTML"
       hx-target="#conundrum-stars"
       hx-indicator="#conundrum-star-loading"
@@ -88,7 +89,12 @@
     <input required type="text" name="comment" placeholder="comment..." />
     <input type="hidden" name="cid" value="{{ .Conundrum.Id }}">
     <span class="htmx-indicator typewriter">....</span>
-    <button type="submit">post+</button>
+    <button
+      {{ if not .CookiesAgreed }}disabled{{ end }}
+      type="submit"
+    >
+      post+
+    </button>
   </form>
   {{ template "comment-form-result" }}
 {{ end }}
@@ -107,7 +113,12 @@
   <form hx-post="/upload" hx-target="#upload-form-result">
     <input required type="text" name="conundrum" placeholder="conundrum..." />
     <span class="htmx-indicator typewriter">....</span>
-    <button type="submit">post+</button>
+    <button
+      {{ if not .CookiesAgreed }}disabled{{ end }}
+      type="submit"
+    >
+      post+
+    </button>
   </form>
   {{ template "upload-form-result" }}
 {{ end }}
