@@ -1,7 +1,6 @@
 package web
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -11,21 +10,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type RisuhunnikCookie struct {
-	Starred  []int `json:"starred"`
-	Posts    []int `json:"posts"`
-	Comments []int `json:"comments"`
-}
-
 // TODO: look into wrapping cookies agreed in a middleware/general result
 
 type ConundrumsResult struct {
 	Conundrums    []database.Conundrum
-	CookiesAgreed bool
-}
-
-type StarButtonResult struct {
-	Conundrum     *database.Conundrum
 	CookiesAgreed bool
 }
 
@@ -61,20 +49,7 @@ func Cookies(c echo.Context) error {
 		return c.NoContent(http.StatusOK)
 	}
 
-	bytes, err := json.Marshal(&RisuhunnikCookie{
-		Starred:  []int{},
-		Posts:    []int{},
-		Comments: []int{},
-	})
-
-	if err != nil {
-		return fmt.Errorf("failed to serialize default cookie: %w", err)
-	}
-
-	c.SetCookie(&http.Cookie{
-		Name:  "risuhunnik-cookie",
-		Value: string(bytes),
-	})
+	c.SetCookie(&http.Cookie{Name: "agreed"})
 
 	return c.NoContent(http.StatusOK)
 }
@@ -120,25 +95,6 @@ func Conundrum(c echo.Context) error {
 	return c.Render(http.StatusOK, "conundrum", res)
 }
 
-func Star(c echo.Context) error {
-	id, err := strconv.Atoi(c.FormValue("id"))
-	if err != nil {
-		return fmt.Errorf("got malfordmed id: %w", err)
-	}
-
-	conundrum, err := database.StarConundrum(id)
-	if err != nil {
-		return err
-	}
-
-	res := &StarButtonResult{
-		Conundrum:     conundrum,
-		CookiesAgreed: cookiesAgreed(&c),
-	}
-
-	return c.Render(http.StatusOK, "conundrum-stars", res)
-}
-
 func UploadResult(c echo.Context) error {
 	text := c.FormValue("conundrum")
 
@@ -166,6 +122,6 @@ func CommentForm(c echo.Context) error {
 }
 
 func cookiesAgreed(c *echo.Context) bool {
-	_, err := (*c).Cookie("risuhunnik-cookie")
+	_, err := (*c).Cookie("agreed")
 	return err == nil
 }

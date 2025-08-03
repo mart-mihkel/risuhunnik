@@ -1,0 +1,4 @@
+- cookie agreed handling in backend
+- cookie error responses
+- unstar conundrum
+- random usernames (juhan juustuburger)
