@@ -103,44 +103,6 @@ func Conundrum(c echo.Context) error {
 	return c.Render(http.StatusOK, "conundrum", res)
 }
 
-func UploadForm(c echo.Context) error {
-
-	if !cookiesAgreed(&c) {
-		// TODO: render a response
-		return c.Render(http.StatusOK, "comment-form-result", nil)
-	}
-
-	text := c.FormValue("conundrum")
-
-	err := database.InsertConundrum(text)
-	if err != nil {
-		return c.Render(http.StatusOK, "upload-form-result", nil)
-	}
-
-	return c.Render(http.StatusOK, "upload-form-result", true)
-}
-
-func CommentForm(c echo.Context) error {
-
-	if !cookiesAgreed(&c) {
-		// TODO: render a response
-		return c.Render(http.StatusOK, "comment-form-result", nil)
-	}
-
-	comment := c.FormValue("comment")
-	id, err := strconv.Atoi(c.FormValue("conundrum-id"))
-	if err != nil {
-		return fmt.Errorf("got malfordmed id: %w", err)
-	}
-
-	err = database.InsertComment(id, comment)
-	if err != nil {
-		return c.Render(http.StatusOK, "comment-form-result", nil)
-	}
-
-	return c.Render(http.StatusOK, "comment-form-result", id)
-}
-
 func cookiesAgreed(c *echo.Context) bool {
 	_, err := (*c).Cookie("agreed")
 	return err == nil
