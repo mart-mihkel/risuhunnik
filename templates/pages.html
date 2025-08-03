@@ -73,16 +73,14 @@
 {{ define "comments" }}
   {{ if gt (len .) 0 }}
     <h2>comments:</h2>
-    <ul>
-      {{ range . }}
-        <li>
-          <h3>comment: {{ .Id }}</h3>
-          <p>date........: <span class="date">{{ .Date }}</span></p>
-          <p>author......: {{ .Author }}</p>
-          <p class="comment-text">comment.....:  {{ .Comment }}</p>
-        </li>
-      {{ end }}
-    </ul>
+    {{ range . }}
+      <div>
+        <h3>comment: {{ .Id }}</h3>
+        <p>date........: <span class="date">{{ .Date }}</span></p>
+        <p>author......: {{ .Author }}</p>
+        <p class="comment-text">comment.....:  {{ .Comment }}</p>
+      </li>
+    {{ end }}
   {{ end }}
 {{ end }}
 

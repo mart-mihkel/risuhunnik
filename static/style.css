@@ -66,6 +66,10 @@ h2 {
   border-bottom: 1px solid var(--nord-0);
 }
 
+h3 {
+  margin: 8px 0;
+}
+
 ol,
 ul {
   padding-inline-start: 4ch;
@@ -95,7 +99,8 @@ form {
 }
 
 .comment-text {
-  word-wrap: break-word;
+  text-indent: -14ch;
+  padding-left: 14ch;
 }
 
 .date {
