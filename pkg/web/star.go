@@ -16,6 +16,7 @@ func Star(c echo.Context) error {
 
 	type Result struct {
 		Conundrum     *database.Conundrum
+		IsStarred     bool
 		CookiesAgreed bool
 	}
 
@@ -60,8 +61,25 @@ func Star(c echo.Context) error {
 
 	res := &Result{
 		Conundrum:     conundrum,
+		IsStarred:     true,
 		CookiesAgreed: cookiesAgreed(&c),
 	}
 
 	return c.Render(http.StatusOK, "conundrum-stars", res)
+}
+
+func IsStarred(id int, c *echo.Context) (bool, error) {
+
+	cookie, err := (*c).Cookie("starred")
+	if err != nil {
+		cookie = &http.Cookie{Name: "starred", Value: "[]"}
+	}
+
+	var value []int
+	err = json.Unmarshal([]byte(cookie.Value), &value)
+	if err != nil {
+		return false, fmt.Errorf("failed to deserialize cookie: %w", err)
+	}
+
+	return slices.Contains(value, id), nil
 }

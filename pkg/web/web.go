@@ -22,6 +22,7 @@ type ConundrumResult struct {
 	Comments      []database.Comment
 	Next          int
 	Prev          int
+	IsStarred     bool
 	CookiesAgreed bool
 }
 
@@ -69,6 +70,7 @@ func Conundrums(c echo.Context) error {
 }
 
 func Conundrum(c echo.Context) error {
+
 	id, err := strconv.Atoi(c.QueryParam("id"))
 	if err != nil {
 		return fmt.Errorf("got malfordmed id: %w", err)
@@ -84,18 +86,30 @@ func Conundrum(c echo.Context) error {
 		return err
 	}
 
+	starred, err := IsStarred(id, &c)
+	if err != nil {
+		return err
+	}
+
 	res := &ConundrumResult{
 		Conundrum:     conundrum,
 		Comments:      comments,
 		Next:          conundrum.Id + 1,
 		Prev:          conundrum.Id - 1,
+		IsStarred:     starred,
 		CookiesAgreed: cookiesAgreed(&c),
 	}
 
 	return c.Render(http.StatusOK, "conundrum", res)
 }
 
-func UploadResult(c echo.Context) error {
+func UploadForm(c echo.Context) error {
+
+	if !cookiesAgreed(&c) {
+		// TODO: render a response
+		return c.Render(http.StatusOK, "comment-form-result", nil)
+	}
+
 	text := c.FormValue("conundrum")
 
 	err := database.InsertConundrum(text)
@@ -107,6 +121,12 @@ func UploadResult(c echo.Context) error {
 }
 
 func CommentForm(c echo.Context) error {
+
+	if !cookiesAgreed(&c) {
+		// TODO: render a response
+		return c.Render(http.StatusOK, "comment-form-result", nil)
+	}
+
 	comment := c.FormValue("comment")
 	id, err := strconv.Atoi(c.FormValue("conundrum-id"))
 	if err != nil {

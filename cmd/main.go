@@ -50,7 +50,7 @@ func main() {
 
 	e.POST("/star", web.Star)
 	e.POST("/cookies", web.Cookies)
-	e.POST("/upload", web.UploadResult)
+	e.POST("/upload", web.UploadForm)
 	e.POST("/comment", web.CommentForm)
 
 	e.Logger.Fatal(e.Start(":8080"))

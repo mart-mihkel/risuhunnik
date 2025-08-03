@@ -32,7 +32,7 @@
     stars.......:
     <span>{{ .Conundrum.Stars }}</span>
     <button
-      {{ if not .CookiesAgreed }}disabled{{ end }}
+      {{ if or (not .CookiesAgreed) .IsStarred }}disabled{{ end }}
       hx-post="/star?id={{ .Conundrum.Id }}"
       hx-swap="outerHTML"
       hx-target="#conundrum-stars"
