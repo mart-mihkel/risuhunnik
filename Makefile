@@ -16,5 +16,15 @@ db:
 	mkdir -p $(BUILD_DIR)
 	./sql/run-migrations.sh
 
+docker:
+	docker rm -f risuhunnik 
+	docker build -t risuhunnik .
+	docker run -d \
+		-v ./build:/app/build \
+		-p 8080:8080 \
+		--name risuhunnik \
+		--restart always \
+		risuhunnik
+
 test:
 	go test ./...

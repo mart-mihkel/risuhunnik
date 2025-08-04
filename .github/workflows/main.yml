@@ -17,6 +17,4 @@ jobs:
           commands: |
             cd ~/git/risuhunnik
             git pull origin main
-            make build
-            pkill risuhunnik
-            nohup ./build/risuhunnik > build/risuhunnik.log 2>&1 &
+            make docker

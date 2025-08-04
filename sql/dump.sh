@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 DB_FILE="build/risuhunnik.db"
-BACKUPS="dumps"
-DUMP="$BACKUPS/$(date +%Y%m%d%H%M%S).sql" 
+DUMPS="build/dumps"
+DUMP="$DUMPS/$(date +%Y%m%d%H%M%S).sql"
 
-mkdir -p $BACKUPS
+mkdir -p $DUMPS
 sqlite3 $DB_FILE .dump > $DUMP
