@@ -25,6 +25,7 @@ type ConundrumResult struct {
 }
 
 func Index(c echo.Context) error {
+
 	conundrums, err := database.GetAllConundrums()
 	if err != nil {
 		return err
@@ -39,13 +40,14 @@ func Index(c echo.Context) error {
 }
 
 func Cookies(c echo.Context) error {
+
 	agreed, err := strconv.ParseBool(c.QueryParam("agreed"))
 	if err != nil {
 		return fmt.Errorf("got malfordmed agreed: %w", err)
 	}
 
 	if !agreed {
-		return c.NoContent(http.StatusOK)
+		return c.Render(http.StatusOK, "cookies-form", "hidden")
 	}
 
 	author, err := database.RandomAuthor()
@@ -56,10 +58,11 @@ func Cookies(c echo.Context) error {
 	c.SetCookie(&http.Cookie{Name: "agreed"})
 	c.SetCookie(&http.Cookie{Name: "author", Value: author})
 
-	return c.NoContent(http.StatusOK)
+	return c.Render(http.StatusOK, "cookies-form", "reload")
 }
 
 func Conundrums(c echo.Context) error {
+
 	conundrums, err := database.GetAllConundrums()
 	if err != nil {
 		return err
