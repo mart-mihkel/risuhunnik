@@ -29,22 +29,15 @@ body {
   margin: auto;
   padding: 0 8px;
   max-width: 64ch;
-  color: var(--nord-0);
   scrollbar-gutter: stable;
-  background-color: var(--nord-6);
-}
-
-pre {
-  color: var(--nord-3);
 }
 
 footer {
   display: flex;
   margin: 8px 0;
   padding: 2px 0;
-  color: var(--nord-3);
+  border-top: 1px solid;
   justify-content: space-between;
-  border-top: 1px solid var(--nord-3);
 }
 
 button {
@@ -52,18 +45,19 @@ button {
   font-size: 1rem;
   cursor: pointer;
   color: -webkit-link;
+  background-color: white;
   text-decoration: underline;
 }
 
 button:disabled {
+  color: gray;
   cursor: default;
-  color: var(--nord-3);
 }
 
 h1,
 h2 {
   margin: 8px 0;
-  border-bottom: 1px solid var(--nord-0);
+  border-bottom: 1px solid;
 }
 
 h3 {
@@ -78,7 +72,6 @@ ul {
 input {
   flex-grow: 1;
   outline: none;
-  background-color: var(--nord-6);
 }
 
 form {

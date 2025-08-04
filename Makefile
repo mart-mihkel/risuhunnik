@@ -9,11 +9,11 @@ dev: db
 	go run cmd/main.go
 
 go:
-	mkdir -p build
+	mkdir -p $(BUILD_DIR)
 	go build -o $(GO_OUT) $(GO_BUILD_FLAGS) cmd/main.go
 
 db:
-	mkdir -p build
+	mkdir -p $(BUILD_DIR)
 	./sql/run-migrations.sh
 
 test:
