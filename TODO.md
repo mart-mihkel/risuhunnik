@@ -1,3 +1,4 @@
 - look into wrapping cookies agreed in a middleware/general result
 - author total stars
 - error handle db defers
+- cookies form more responsive

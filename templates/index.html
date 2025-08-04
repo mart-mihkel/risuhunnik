@@ -9,25 +9,23 @@
     <link href="static/favicon.ico" rel="icon" type="image/x-icon" />
   </head>
   <body>
-    <header>
-      <h1>risuhunnik <a href="/">-&gt;</a></h1>
-      <span>a collection of wicked conundrums</span>
-      {{ if not .CookiesAgreed }}
-        {{ template "cookies-form" }}
-      {{ end }}
-    </header>
+    {{ template "header" . }}
     <main>{{ template "conundrums" .}}</main>
-    <footer>
-      <a href="/">&lt;- index</a>
-      <span id="footer-loading" class="htmx-indicator typewriter">....</span>
-      <a href="https://github.com/mart-mihkel/risuhunnik" target="_blank">
-        github -&gt;
-      </a>
-    </footer>
+    {{ template "footer" }}
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js">
     </script>
   </body>
 </html>
+
+{{ define "header" }}
+  <header>
+    <h1>risuhunnik <a href="/">-&gt;</a></h1>
+    <span>a collection of wicked conundrums</span>
+    {{ if not .CookiesAgreed }}
+      {{ template "cookies-form" }}
+    {{ end }}
+  </header>
+{{ end }}
 
 {{ define "cookies-form" }}
   <form id="cookies-form">
@@ -49,4 +47,14 @@
       </button>
     </span>
   </form>
+{{ end }}
+
+{{ define "footer" }}
+  <footer>
+    <a href="/">&lt;- index</a>
+    <span id="footer-loading" class="htmx-indicator typewriter">....</span>
+    <a href="https://github.com/mart-mihkel/risuhunnik" target="_blank">
+      github -&gt;
+    </a>
+  </footer>
 {{ end }}
