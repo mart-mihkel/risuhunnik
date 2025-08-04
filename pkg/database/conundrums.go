@@ -43,6 +43,24 @@ func GetAllConundrums() ([]Conundrum, error) {
 	return conundrums, nil
 }
 
+func GetAuthorConundrums(author string) ([]Conundrum, error) {
+	q := "SELECT * FROM conundrums WHERE author = ?"
+
+	rows, err := Db.Query(q, author)
+	if err != nil {
+		return nil, fmt.Errorf("couldn't get conundrums: %w", err)
+	}
+
+	defer rows.Close()
+
+	conundrums, err := scanConundrums(rows)
+	if err != nil {
+		return nil, err
+	}
+
+	return conundrums, nil
+}
+
 func GetConundrum(id int) (*Conundrum, error) {
 	q := "SELECT * FROM conundrums WHERE id = ?"
 

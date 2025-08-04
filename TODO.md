@@ -1,3 +1,3 @@
 - look into wrapping cookies agreed in a middleware/general result
-- author page
+- author total stars
 - error handle db defers

@@ -45,6 +45,7 @@ func main() {
 	e.Static("/static", "static")
 
 	e.GET("/", web.Index)
+	e.GET("/author", web.Author)
 	e.GET("/conundrum", web.Conundrum)
 	e.GET("/conundrums", web.Conundrums)
 
