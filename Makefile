@@ -15,3 +15,6 @@ go:
 db:
 	mkdir -p build
 	./sql/run-migrations.sh
+
+test:
+	go test ./...
