@@ -12,6 +12,7 @@ func Author(c echo.Context) error {
 
 	type Result struct {
 		Author     string
+		Stars      int
 		Conundrums []database.Conundrum
 	}
 
@@ -21,8 +22,14 @@ func Author(c echo.Context) error {
 		return err
 	}
 
+	stars, err := database.GetAuthorStars(author)
+	if err != nil {
+		return err
+	}
+
 	res := &Result{
-		Author: author,
+		Author:     author,
+		Stars:      stars,
 		Conundrums: conundrums,
 	}
 

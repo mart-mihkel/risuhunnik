@@ -61,6 +61,18 @@ func GetAuthorConundrums(author string) ([]Conundrum, error) {
 	return conundrums, nil
 }
 
+func GetAuthorStars(author string) (int, error) {
+	q := "SELECT SUM(stars) FROM conundrums WHERE author = ?"
+
+	var stars int
+	err := Db.QueryRow(q, author).Scan(&stars)
+	if err != nil {
+		return 0, fmt.Errorf("couldn't get conundrums: %w", err)
+	}
+
+	return stars, nil
+}
+
 func GetConundrum(id int) (*Conundrum, error) {
 	q := "SELECT * FROM conundrums WHERE id = ?"
 

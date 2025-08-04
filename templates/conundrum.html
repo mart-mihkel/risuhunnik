@@ -2,7 +2,7 @@
   {{ template "conundrum-nav" . }}
   <h2>conundrum {{ .Conundrum.Id }}:</h2>
   <p>date........: <span class="date">{{ .Conundrum.Date }}</span></p>
-  {{ template "conundrum-author" . }}
+  {{ template "conundrum-author" .Conundrum }}
   <p>verified....: {{ .Conundrum.Verified }}</p>
   <p>comments....: {{ len .Comments }}</p>
   {{ template "conundrum-stars" . }}
@@ -14,9 +14,16 @@
 {{ define "conundrum-author" }}
   <p>
     author......:
-    <button hx-get="/author?author={{ .Conundrum.Author }}" hx-target="main">
-      {{ .Conundrum.Author }}
+    <button
+      hx-get="/author?author={{ .Author }}"
+      hx-target="main"
+      hx-indicator="#conundrum-author-loading"
+    >
+      {{ .Author }}
     </button>
+    <span id="conundrum-author-loading" class="htmx-indicator typewriter">
+      ....
+    </span>
   </p>
 {{ end }}
 
@@ -69,7 +76,7 @@
       <div>
         <h3>comment: {{ .Id }}</h3>
         <p>date........: <span class="date">{{ .Date }}</span></p>
-        <p>author......: {{ .Author }}</p>
+        {{ template "conundrum-author" . }}
         <p class="comment-text">comment.....:  {{ .Comment }}</p>
       </li>
     {{ end }}
