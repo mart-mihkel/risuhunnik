@@ -3,6 +3,7 @@ package web
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 
 	"risuhunnik/pkg/database"
@@ -29,11 +30,18 @@ func CommentForm(c echo.Context) error {
 			return err
 		}
 
+		author = url.QueryEscape(author)
+
 		cookie = &http.Cookie{Name: "author", Value: author}
 		c.SetCookie(cookie)
 	}
 
-	err = database.InsertComment(id, comment, cookie.Value)
+	author, err := url.QueryUnescape(cookie.Value)
+	if err != nil {
+		return fmt.Errorf("failed to query unescape author: %w", err)
+	}
+
+	err = database.InsertComment(id, comment, author)
 	if err != nil {
 		return err
 	}

@@ -3,6 +3,7 @@ package web
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 
 	"risuhunnik/pkg/database"
@@ -54,6 +55,8 @@ func Cookies(c echo.Context) error {
 	if err != nil {
 		return err
 	}
+
+	author = url.QueryEscape(author)
 
 	c.SetCookie(&http.Cookie{Name: "agreed"})
 	c.SetCookie(&http.Cookie{Name: "author", Value: author})
