@@ -1,7 +1,6 @@
 package web
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"slices"
@@ -23,34 +22,34 @@ func ToggleStar(c echo.Context) error {
 		return fmt.Errorf("got malfordmed id: %w", err)
 	}
 
-	cookie, err := c.Cookie("starred")
+	cookie, err := getOrMakeCookie(&c)
 	if err != nil {
-		cookie = &http.Cookie{Name: "starred", Value: "[]"}
+		return err
 	}
 
-	var value []int
-	err = json.Unmarshal([]byte(cookie.Value), &value)
+	value, err := deserializeCookie(cookie)
 	if err != nil {
-		return fmt.Errorf("failed to deserialize cookie: %w", err)
+		return err
 	}
 
-	i := slices.Index(value, id)
-	starred := i >= 0
-	if starred {
-		value = slices.Delete(value, i, i+1)
+	i := slices.Index(value.Starred, id)
+	isStarred := i >= 0
+	if isStarred {
+		value.Starred = slices.Delete(value.Starred, i, i+1)
 	} else {
-		value = append(value, id)
+		value.Starred = append(value.Starred, id)
 	}
 
-	jsonbytes, err := json.Marshal(value)
+	escaped, err := serializeCookieValue(value)
 	if err != nil {
-		return fmt.Errorf("failed to serialize cookie: %w", err)
+		return err
 	}
 
-	c.SetCookie(&http.Cookie{Name: "starred", Value: string(jsonbytes)})
+	cookie.Value = escaped
+	c.SetCookie(cookie)
 
 	var conundrum *database.Conundrum
-	if starred {
+	if isStarred {
 		conundrum, err = database.UnStarConundrum(id)
 	} else {
 		conundrum, err = database.StarConundrum(id)
@@ -62,25 +61,9 @@ func ToggleStar(c echo.Context) error {
 
 	res := &ConundrumResult{
 		Conundrum:     conundrum,
-		IsStarred:     !starred,
+		IsStarred:     !isStarred,
 		CookiesAgreed: cookiesAgreed(&c),
 	}
 
 	return c.Render(http.StatusOK, "conundrum-stars", res)
-}
-
-func isStarred(id int, c *echo.Context) (bool, error) {
-
-	cookie, err := (*c).Cookie("starred")
-	if err != nil {
-		cookie = &http.Cookie{Name: "starred", Value: "[]"}
-	}
-
-	var value []int
-	err = json.Unmarshal([]byte(cookie.Value), &value)
-	if err != nil {
-		return false, fmt.Errorf("failed to deserialize cookie: %w", err)
-	}
-
-	return slices.Contains(value, id), nil
 }

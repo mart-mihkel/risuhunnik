@@ -3,7 +3,6 @@ package web
 import (
 	"fmt"
 	"net/http"
-	"net/url"
 	"strconv"
 
 	"risuhunnik/pkg/database"
@@ -51,15 +50,12 @@ func Cookies(c echo.Context) error {
 		return c.Render(http.StatusOK, "cookies-form", "hidden")
 	}
 
-	author, err := database.RandomAuthor()
+	cookie, err := makeCookie()
 	if err != nil {
 		return err
 	}
 
-	author = url.QueryEscape(author)
-
-	c.SetCookie(&http.Cookie{Name: "agreed"})
-	c.SetCookie(&http.Cookie{Name: "author", Value: author})
+	c.SetCookie(cookie)
 
 	return c.Render(http.StatusOK, "cookies-form", "reload")
 }
@@ -111,9 +107,4 @@ func Conundrum(c echo.Context) error {
 	}
 
 	return c.Render(http.StatusOK, "conundrum", res)
-}
-
-func cookiesAgreed(c *echo.Context) bool {
-	_, err := (*c).Cookie("agreed")
-	return err == nil
 }

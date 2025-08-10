@@ -12,7 +12,3 @@
 </div>
 
 **[risuhunnik](https://lest.risuhunnik.xyz)**: a collection of wicked conundrums!
-
-### TODO
-
-- html escape cookie values
