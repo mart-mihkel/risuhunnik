@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 DB_FILE="build/risuhunnik.db"
 LAST_FILE="build/last-migration"
 

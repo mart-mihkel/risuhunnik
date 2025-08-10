@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 DB_FILE="build/risuhunnik.db"
 DUMPS="build/dumps"
 DUMP="$DUMPS/$(date +%Y%m%d%H%M%S).sql"
