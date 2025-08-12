@@ -57,6 +57,8 @@ func ToggleStar(c echo.Context) error {
 
 	res := &ConundrumResult{
 		Conundrum: conundrum,
+		Next:      conundrum.Id + 1,
+		Prev:      conundrum.Id - 1,
 		IsStarred: !isStarred,
 	}
 

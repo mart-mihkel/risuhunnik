@@ -3,7 +3,6 @@
   <h2>conundrum {{ .Conundrum.Id }}:</h2>
   <p>date........: <span class="date">{{ .Conundrum.Date }}</span></p>
   {{ template "conundrum-author" .Conundrum }}
-  <p>verified....: {{ .Conundrum.Verified }}</p>
   <p>comments....: {{ len .Comments }}</p>
   {{ template "conundrum-stars" . }}
   <p class="conundrum-text">conundrum...: {{ .Conundrum.Text }}</p>
