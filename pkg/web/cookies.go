@@ -73,9 +73,9 @@ func serializeCookieValue(value *cookieValue) (string, error) {
 
 func isStarred(id int, c *echo.Context) (bool, error) {
 
-	cookie, err := (*c).Cookie("risuhunnik-cookie")
+	cookie, err := getCookie(c)
 	if err != nil {
-		return false, nil
+		return false, err
 	}
 
 	value, err := deserializeCookie(cookie)

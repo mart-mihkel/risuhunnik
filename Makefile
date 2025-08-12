@@ -26,5 +26,8 @@ docker:
 		--restart always \
 		risuhunnik
 
+format:
+	go fmt ./...
+
 test:
 	go test ./...
