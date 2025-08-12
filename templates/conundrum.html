@@ -16,11 +16,14 @@
     <button
       hx-get="/author?author={{ .Author }}"
       hx-target="main"
-      hx-indicator="#conundrum-author-loading"
+      hx-indicator="#conundrum-author-{{ .Id }}-loading"
     >
       {{ .Author }}
     </button>
-    <span id="conundrum-author-loading" class="htmx-indicator typewriter">
+    <span
+      id="conundrum-author-{{ .Id }}-loading"
+      class="htmx-indicator typewriter"
+    >
       ....
     </span>
   </p>
