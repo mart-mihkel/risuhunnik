@@ -3,27 +3,9 @@ package database
 import (
 	"database/sql"
 	"fmt"
-	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
-
-type Conundrum struct {
-	Id       int
-	Text     string
-	Author   string
-	Verified bool
-	Stars    int
-	Date     time.Time
-}
-
-type Comment struct {
-	Id          int
-	ConundrumId int
-	Comment     string
-	Author      string
-	Date        time.Time
-}
 
 func GetAllConundrums() ([]Conundrum, error) {
 	q := "SELECT * FROM conundrums"
@@ -41,36 +23,6 @@ func GetAllConundrums() ([]Conundrum, error) {
 	}
 
 	return conundrums, nil
-}
-
-func GetAuthorConundrums(author string) ([]Conundrum, error) {
-	q := "SELECT * FROM conundrums WHERE author = ?"
-
-	rows, err := Db.Query(q, author)
-	if err != nil {
-		return nil, fmt.Errorf("couldn't get conundrums: %w", err)
-	}
-
-	defer rows.Close()
-
-	conundrums, err := scanConundrums(rows)
-	if err != nil {
-		return nil, err
-	}
-
-	return conundrums, nil
-}
-
-func GetAuthorStars(author string) (int, error) {
-	q := "SELECT SUM(stars) FROM conundrums WHERE author = ?"
-
-	var stars int
-	err := Db.QueryRow(q, author).Scan(&stars)
-	if err != nil {
-		return 0, fmt.Errorf("couldn't get conundrums: %w", err)
-	}
-
-	return stars, nil
 }
 
 func GetConundrum(id int) (*Conundrum, error) {
@@ -99,19 +51,9 @@ func GetConundrumComments(id int) ([]Comment, error) {
 
 	defer rows.Close()
 
-	var comments []Comment
-	for rows.Next() {
-		var comment Comment
-		err = rows.Scan(
-			&comment.Id, &comment.ConundrumId, &comment.Comment,
-			&comment.Author, &comment.Date,
-		)
-
-		if err != nil {
-			return nil, fmt.Errorf("failed on scannig row: %w", err)
-		}
-
-		comments = append(comments, comment)
+	comments, err := scanComments(rows)
+	if err != nil {
+		return nil, err
 	}
 
 	return comments, nil
@@ -163,25 +105,12 @@ func InsertComment(conundrumId int, comment string, author string) error {
 	return nil
 }
 
-func RandomAuthor() (string, error) {
-	q1 := "SELECT author FROM authors ORDER BY RANDOM() LIMIT 1"
-
-	var author string
-	err := Db.QueryRow(q1).Scan(&author)
-	if err != nil {
-		return "", fmt.Errorf("failed on scanning row: %w", err)
-	}
-
-	return author, nil
-}
-
 func scanConundrums(rows *sql.Rows) ([]Conundrum, error) {
 	var conundrums []Conundrum
 	for rows.Next() {
 		var c Conundrum
 		err := rows.Scan(
-			&c.Id, &c.Text, &c.Author,
-			&c.Verified, &c.Stars, &c.Date,
+			&c.Id, &c.Text, &c.Author, &c.Verified, &c.Stars, &c.Date,
 		)
 
 		if err != nil {
@@ -192,4 +121,22 @@ func scanConundrums(rows *sql.Rows) ([]Conundrum, error) {
 	}
 
 	return conundrums, nil
+}
+
+func scanComments(rows *sql.Rows) ([]Comment, error) {
+	var comments []Comment
+	for rows.Next() {
+		var c Comment
+		err := rows.Scan(
+			&c.Id, &c.ConundrumId, &c.Comment, &c.Author, &c.Date,
+		)
+
+		if err != nil {
+			return nil, fmt.Errorf("failed on scannig row: %w", err)
+		}
+
+		comments = append(comments, c)
+	}
+
+	return comments, nil
 }

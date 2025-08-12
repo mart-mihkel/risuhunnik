@@ -14,6 +14,7 @@ func Author(c echo.Context) error {
 		Author     string
 		Stars      int
 		Conundrums []database.Conundrum
+		Comments   []database.Comment
 	}
 
 	author := c.QueryParam("author")
@@ -27,10 +28,16 @@ func Author(c echo.Context) error {
 		return err
 	}
 
+	comments, err := database.GetAuthorComments(author)
+	if err != nil {
+		return err
+	}
+
 	res := &Result{
 		Author:     author,
 		Stars:      stars,
 		Conundrums: conundrums,
+		Comments:   comments,
 	}
 
 	return c.Render(http.StatusOK, "author", res)
