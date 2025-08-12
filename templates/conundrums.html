@@ -1,7 +1,7 @@
 {{ define "conundrums" }}
   <h2>conundrums:</h2>
   <ol>
-    {{ range .Conundrums }}
+    {{ range . }}
       <li>
         <span>
           {{ .Text }}
@@ -20,12 +20,7 @@
   <form hx-post="/upload" hx-target="#upload-form-result">
     <input required type="text" name="conundrum" placeholder="conundrum..." />
     <span class="htmx-indicator typewriter">....</span>
-    <button
-      {{ if not .CookiesAgreed }}disabled{{ end }}
-      type="submit"
-    >
-      post+
-    </button>
+    <button type="submit">post+</button>
   </form>
   {{ template "upload-form-result" }}
 {{ end }}

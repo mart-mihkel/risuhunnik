@@ -21,36 +21,7 @@
   <header>
     <h1>risuhunnik <a href="/">-&gt;</a></h1>
     <span>a collection of wicked conundrums</span>
-    {{ if not .CookiesAgreed }}
-      {{ template "cookies-form" "show" }}
-    {{ end }}
   </header>
-{{ end }}
-
-{{ define "cookies-form" }}
-  {{ if eq . "show" }}
-    <form id="cookies-form">
-      <span>risuhunnik uses cookies</span>
-      <span>
-        <button
-          hx-post="/cookies?agreed=1"
-          hx-target="#cookies-form"
-          hx-swap="outerHTML"
-        >
-          ok+
-        </button>
-        <button
-          hx-post="/cookies?agreed=0"
-          hx-target="#cookies-form"
-          hx-swap="outerHTML"
-        >
-          no-
-        </button>
-      </span>
-    </form>
-  {{ else if eq . "reload" }}
-    <span hx-get="/conundrums" hx-trigger="load" hx-target="main"></span>
-  {{ end }}
 {{ end }}
 
 {{ define "footer" }}

@@ -16,7 +16,7 @@ type cookieValue struct {
 	Author  string `json:"author"`
 }
 
-func makeCookie() (*http.Cookie, error) {
+func initCookie() (*http.Cookie, error) {
 	author, err := database.RandomAuthor()
 	if err != nil {
 		return nil, err
@@ -36,10 +36,10 @@ func makeCookie() (*http.Cookie, error) {
 	}, nil
 }
 
-func getOrMakeCookie(c *echo.Context) (*http.Cookie, error) {
+func getCookie(c *echo.Context) (*http.Cookie, error) {
 	cookie, err := (*c).Cookie("risuhunnik-cookie")
 	if err != nil {
-		return makeCookie()
+		return initCookie()
 	}
 
 	return cookie, nil
@@ -84,9 +84,4 @@ func isStarred(id int, c *echo.Context) (bool, error) {
 	}
 
 	return slices.Contains(value.Starred, id), nil
-}
-
-func cookiesAgreed(c *echo.Context) bool {
-	_, err := (*c).Cookie("risuhunnik-cookie")
-	return err == nil
 }

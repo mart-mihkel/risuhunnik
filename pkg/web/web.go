@@ -10,18 +10,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type ConundrumsResult struct {
-	Conundrums    []database.Conundrum
-	CookiesAgreed bool
-}
-
 type ConundrumResult struct {
-	Conundrum     *database.Conundrum
-	Comments      []database.Comment
-	Next          int
-	Prev          int
-	IsStarred     bool
-	CookiesAgreed bool
+	Conundrum *database.Conundrum
+	Comments  []database.Comment
+	Next      int
+	Prev      int
+	IsStarred bool
 }
 
 func Index(c echo.Context) error {
@@ -31,33 +25,7 @@ func Index(c echo.Context) error {
 		return err
 	}
 
-	res := &ConundrumsResult{
-		Conundrums:    conundrums,
-		CookiesAgreed: cookiesAgreed(&c),
-	}
-
-	return c.Render(http.StatusOK, "index.html", res)
-}
-
-func Cookies(c echo.Context) error {
-
-	agreed, err := strconv.ParseBool(c.QueryParam("agreed"))
-	if err != nil {
-		return fmt.Errorf("got malfordmed agreed: %w", err)
-	}
-
-	if !agreed {
-		return c.Render(http.StatusOK, "cookies-form", "hidden")
-	}
-
-	cookie, err := makeCookie()
-	if err != nil {
-		return err
-	}
-
-	c.SetCookie(cookie)
-
-	return c.Render(http.StatusOK, "cookies-form", "reload")
+	return c.Render(http.StatusOK, "index.html", conundrums)
 }
 
 func Conundrums(c echo.Context) error {
@@ -67,12 +35,7 @@ func Conundrums(c echo.Context) error {
 		return err
 	}
 
-	res := &ConundrumsResult{
-		Conundrums:    conundrums,
-		CookiesAgreed: cookiesAgreed(&c),
-	}
-
-	return c.Render(http.StatusOK, "conundrums", res)
+	return c.Render(http.StatusOK, "conundrums", conundrums)
 }
 
 func Conundrum(c echo.Context) error {
@@ -98,12 +61,11 @@ func Conundrum(c echo.Context) error {
 	}
 
 	res := &ConundrumResult{
-		Conundrum:     conundrum,
-		Comments:      comments,
-		Next:          conundrum.Id + 1,
-		Prev:          conundrum.Id - 1,
-		IsStarred:     starred,
-		CookiesAgreed: cookiesAgreed(&c),
+		Conundrum: conundrum,
+		Comments:  comments,
+		Next:      conundrum.Id + 1,
+		Prev:      conundrum.Id - 1,
+		IsStarred: starred,
 	}
 
 	return c.Render(http.StatusOK, "conundrum", res)

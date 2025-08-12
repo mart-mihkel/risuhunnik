@@ -12,17 +12,13 @@ import (
 
 func CommentForm(c echo.Context) error {
 
-	if !cookiesAgreed(&c) {
-		return fmt.Errorf("cookies not agreed!")
-	}
-
 	comment := c.FormValue("comment")
 	id, err := strconv.Atoi(c.FormValue("conundrum-id"))
 	if err != nil {
 		return fmt.Errorf("got malfordmed id: %w", err)
 	}
 
-	cookie, err := getOrMakeCookie(&c)
+	cookie, err := getCookie(&c)
 	if err != nil {
 		return err
 	}

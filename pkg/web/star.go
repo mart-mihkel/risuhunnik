@@ -13,16 +13,12 @@ import (
 
 func ToggleStar(c echo.Context) error {
 
-	if !cookiesAgreed(&c) {
-		return fmt.Errorf("cookies not agreed!")
-	}
-
 	id, err := strconv.Atoi(c.FormValue("id"))
 	if err != nil {
 		return fmt.Errorf("got malfordmed id: %w", err)
 	}
 
-	cookie, err := getOrMakeCookie(&c)
+	cookie, err := getCookie(&c)
 	if err != nil {
 		return err
 	}
@@ -60,9 +56,8 @@ func ToggleStar(c echo.Context) error {
 	}
 
 	res := &ConundrumResult{
-		Conundrum:     conundrum,
-		IsStarred:     !isStarred,
-		CookiesAgreed: cookiesAgreed(&c),
+		Conundrum: conundrum,
+		IsStarred: !isStarred,
 	}
 
 	return c.Render(http.StatusOK, "conundrum-stars", res)

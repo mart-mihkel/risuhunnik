@@ -32,13 +32,12 @@
     stars.......:
     <span>{{ .Conundrum.Stars }}</span>
     <button
-      {{ if not .CookiesAgreed }}disabled{{ end }}
       hx-post="/star?id={{ .Conundrum.Id }}"
       hx-swap="outerHTML"
       hx-target="#conundrum-stars"
       hx-indicator="#conundrum-star-loading"
     >
-      star{{ if or (not .CookiesAgreed) (not .IsStarred)}}+{{ else }}-{{end}}
+      star{{ if not .IsStarred }}+{{ else }}-{{ end }}
     </button>
     <span id="conundrum-star-loading" class="htmx-indicator typewriter">
       ....
@@ -89,12 +88,7 @@
     <input required type="text" name="comment" placeholder="comment..." />
     <input type="hidden" name="conundrum-id" value="{{ .Conundrum.Id }}">
     <span class="htmx-indicator typewriter">....</span>
-    <button
-      {{ if not .CookiesAgreed }}disabled{{ end }}
-      type="submit"
-    >
-      post+
-    </button>
+    <button type="submit">post+</button>
   </form>
   {{ template "comment-form-result" }}
 {{ end }}
