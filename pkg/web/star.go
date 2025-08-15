@@ -15,7 +15,7 @@ func ToggleStar(c echo.Context) error {
 
 	id, err := strconv.Atoi(c.FormValue("id"))
 	if err != nil {
-		return fmt.Errorf("got malfordmed id: %w", err)
+		return fmt.Errorf("malfordmed id: %w", err)
 	}
 
 	cookie, err := getCookie(&c)

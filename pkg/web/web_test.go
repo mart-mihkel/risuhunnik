@@ -8,6 +8,6 @@ import (
 func TestTemplatesValid(t *testing.T) {
 	_, err := template.New("").ParseGlob("../../templates/*.html")
 	if err != nil {
-		t.Errorf("couldn't initialize templates: %v", err)
+		t.Errorf("initializing templates: %v", err)
 	}
 }

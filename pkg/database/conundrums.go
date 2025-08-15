@@ -12,7 +12,7 @@ func GetAllConundrums() ([]Conundrum, error) {
 
 	rows, err := Db.Query(q)
 	if err != nil {
-		return nil, fmt.Errorf("couldn't get conundrums: %w", err)
+		return nil, fmt.Errorf("getting conundrums: %w", err)
 	}
 
 	defer rows.Close()
@@ -35,7 +35,7 @@ func GetConundrum(id int) (*Conundrum, error) {
 	)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed on scannig row: %w", err)
+		return nil, fmt.Errorf("scannig row: %w", err)
 	}
 
 	return &c, nil
@@ -46,7 +46,7 @@ func GetConundrumComments(id int) ([]Comment, error) {
 
 	rows, err := Db.Query(q, id)
 	if err != nil {
-		return nil, fmt.Errorf("couldn't get comments: %w", err)
+		return nil, fmt.Errorf("getting comments: %w", err)
 	}
 
 	defer rows.Close()
@@ -77,7 +77,7 @@ func starConundrum(id int, q string) (*Conundrum, error) {
 	)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed on scannig row: %w", err)
+		return nil, fmt.Errorf("scannig row: %w", err)
 	}
 
 	return &c, nil
@@ -88,7 +88,7 @@ func InsertConundrum(text string, author string) error {
 
 	_, err := Db.Exec(q, text, author)
 	if err != nil {
-		return fmt.Errorf("failed to insert conundrum: %w", err)
+		return fmt.Errorf("inserting conundrum: %w", err)
 	}
 
 	return nil
@@ -99,7 +99,7 @@ func InsertComment(conundrumId int, comment string, author string) error {
 
 	_, err := Db.Exec(q, conundrumId, comment, author)
 	if err != nil {
-		return fmt.Errorf("failed to insert comment: %w", err)
+		return fmt.Errorf("inserting comment: %w", err)
 	}
 
 	return nil
@@ -114,7 +114,7 @@ func scanConundrums(rows *sql.Rows) ([]Conundrum, error) {
 		)
 
 		if err != nil {
-			return nil, fmt.Errorf("failed on scannig row: %w", err)
+			return nil, fmt.Errorf("scannig row: %w", err)
 		}
 
 		conundrums = append(conundrums, c)
@@ -132,7 +132,7 @@ func scanComments(rows *sql.Rows) ([]Comment, error) {
 		)
 
 		if err != nil {
-			return nil, fmt.Errorf("failed on scannig row: %w", err)
+			return nil, fmt.Errorf("scannig row: %w", err)
 		}
 
 		comments = append(comments, c)

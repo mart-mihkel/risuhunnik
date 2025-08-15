@@ -12,7 +12,7 @@ func RandomAuthor() (string, error) {
 	var author string
 	err := Db.QueryRow(q1).Scan(&author)
 	if err != nil {
-		return "", fmt.Errorf("failed on scanning row: %w", err)
+		return "", fmt.Errorf("scanning row: %w", err)
 	}
 
 	return author, nil
@@ -23,7 +23,7 @@ func GetAuthorConundrums(author string) ([]Conundrum, error) {
 
 	rows, err := Db.Query(q, author)
 	if err != nil {
-		return nil, fmt.Errorf("couldn't get author conundrums: %w", err)
+		return nil, fmt.Errorf("getting author conundrums: %w", err)
 	}
 
 	defer rows.Close()
@@ -41,7 +41,7 @@ func GetAuthorComments(author string) ([]Comment, error) {
 
 	rows, err := Db.Query(q, author)
 	if err != nil {
-		return nil, fmt.Errorf("couldn't get author comments: %w", err)
+		return nil, fmt.Errorf("getting author comments: %w", err)
 	}
 
 	defer rows.Close()
@@ -60,7 +60,7 @@ func GetAuthorStars(author string) (int, error) {
 	var stars int
 	err := Db.QueryRow(q, author).Scan(&stars)
 	if err != nil {
-		return 0, fmt.Errorf("couldn't get conundrums: %w", err)
+		return 0, fmt.Errorf("getting conundrums: %w", err)
 	}
 
 	return stars, nil

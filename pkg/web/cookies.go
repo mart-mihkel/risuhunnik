@@ -25,7 +25,7 @@ func initCookie() (*http.Cookie, error) {
 	value := cookieValue{Author: author}
 	valuebytes, err := json.Marshal(value)
 	if err != nil {
-		return nil, fmt.Errorf("failed to serialize cookie value: %w", err)
+		return nil, fmt.Errorf("serializing cookie value: %w", err)
 	}
 
 	escaped := url.QueryEscape(string(valuebytes))
@@ -48,13 +48,13 @@ func getCookie(c *echo.Context) (*http.Cookie, error) {
 func deserializeCookie(cookie *http.Cookie) (*cookieValue, error) {
 	unscaped, err := url.QueryUnescape(cookie.Value)
 	if err != nil {
-		return nil, fmt.Errorf("failed to unscape cookie value: %s", err)
+		return nil, fmt.Errorf("unscaping cookie value: %s", err)
 	}
 
 	var value cookieValue
 	err = json.Unmarshal([]byte(unscaped), &value)
 	if err != nil {
-		return nil, fmt.Errorf("failed to deserialize cookie value: %w", err)
+		return nil, fmt.Errorf("deserializing cookie value: %w", err)
 	}
 
 	return &value, nil
@@ -63,7 +63,7 @@ func deserializeCookie(cookie *http.Cookie) (*cookieValue, error) {
 func serializeCookieValue(value *cookieValue) (string, error) {
 	valuebytes, err := json.Marshal(value)
 	if err != nil {
-		return "", fmt.Errorf("failed to serialize cookie value: %w", err)
+		return "", fmt.Errorf("serializing cookie value: %w", err)
 	}
 
 	escaped := url.QueryEscape(string(valuebytes))

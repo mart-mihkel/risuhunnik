@@ -15,7 +15,7 @@ func CommentForm(c echo.Context) error {
 	comment := c.FormValue("comment")
 	id, err := strconv.Atoi(c.FormValue("conundrum-id"))
 	if err != nil {
-		return fmt.Errorf("got malfordmed id: %w", err)
+		return fmt.Errorf("malfordmed id: %w", err)
 	}
 
 	cookie, err := getCookie(&c)

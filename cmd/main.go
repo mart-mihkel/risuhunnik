@@ -24,12 +24,12 @@ func (t *TemplateRenderer) Render(w io.Writer, name string, data any, c echo.Con
 func main() {
 	tmpls, err := template.New("").ParseGlob("templates/*.html")
 	if err != nil {
-		log.Fatalf("couldn't initialize templates: %v", err)
+		log.Fatalf("initialing templates: %v", err)
 	}
 
 	err = database.ConnectDB("build/risuhunnik.db")
 	if err != nil {
-		log.Fatalf("couldn't initialize db: %v", err)
+		log.Fatalf("initialize database: %v", err)
 	}
 
 	e := echo.New()
