@@ -1,10 +1,10 @@
 {{ define "author" }}
-  <h2>author:</h2>
   <p>author......: {{ .Author }}</p>
   <p>stars.......: {{ .Stars }}</p>
   <p>comments....: {{ len .Comments }}</p>
-  <h2>conundrums:</h2>
-  <ul>
+  <p>conundrums..: </p>
+  <br>
+  <ol>
     {{ range .Conundrums }}
       <li>
         <span>
@@ -15,5 +15,5 @@
         </span>
       </li>
     {{ end }}
-  </ul>
+  </ol>
 {{ end }}

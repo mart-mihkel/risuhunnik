@@ -1,44 +1,25 @@
-:root {
-  --nord-0: #2e3440;
-  --nord-1: #3b4252;
-  --nord-2: #434c5e;
-  --nord-3: #4c566a;
-  --nord-4: #d8dee9;
-  --nord-5: #e5e9f0;
-  --nord-6: #eceff4;
-  --nord-7: #8fbcbb;
-  --nord-8: #88c0d0;
-  --nord-9: #81a1c1;
-  --nord-10: #5e81ac;
-  --nord-11: #bf616a;
-  --nord-12: #d08770;
-  --nord-13: #ebcb8b;
-  --nord-14: #a3be8c;
-  --nord-15: #b48ead;
-}
-
 * {
   border: 0;
   margin: 0;
   padding: 0;
+  outline: none;
   border-radius: 0;
   font-family: monospace;
 }
 
 body {
   margin: auto;
-  padding: 8px 8px;
+  padding: 8px;
   max-width: 72ch;
   scrollbar-gutter: stable;
 }
 
 button {
-  outline: none;
   font-size: 1rem;
   cursor: pointer;
   color: -webkit-link;
-  background-color: white;
   text-decoration: underline;
+  background-color: transparent;
 }
 
 button:disabled {
@@ -46,20 +27,14 @@ button:disabled {
   cursor: default;
 }
 
-h1,
-h2,
-h3 {
-  margin: 8px 0;
-}
-
-ol,
-ul {
+ol {
   padding-inline-start: 4ch;
 }
 
 input {
-  flex-grow: 1;
-  outline: none;
+  width: auto;
+  font-size: 1rem;
+  background-color: transparent;
 }
 
 form {
@@ -68,7 +43,8 @@ form {
   justify-content: space-between;
 }
 
-.conundrum-text {
+.conundrum-text,
+.comment-text {
   text-indent: -14ch;
   padding-left: 14ch;
 }
@@ -77,11 +53,6 @@ form {
   margin: 2px 0;
   display: flex;
   justify-content: space-between;
-}
-
-.comment-text {
-  text-indent: -14ch;
-  padding-left: 14ch;
 }
 
 .date {
@@ -125,42 +96,20 @@ form {
 
 @media (prefers-color-scheme: dark) {
   body {
-    color: var(--nord-6);
-    background-color: var(--nord-0);
+    color: #eceff4;
+    background-color: #2e3440;
   }
 
-  pre {
-    color: var(--nord-4);
-  }
-
-  footer {
-    color: var(--nord-4);
-    border-top: 1px solid var(--nord-4);
-  }
-
-  a {
-    color: var(--nord-9);
+  a,
+  button {
+    color: #81a1c1;
   }
 
   a:visited {
-    color: var(--nord-7);
-  }
-
-  h2 {
-    border-bottom: 1px solid var(--nord-6);
+    color: #8fbcbb;
   }
 
   input {
-    color: var(--nord-6);
-    background-color: var(--nord-0);
-  }
-
-  button {
-    color: var(--nord-9);
-    background-color: var(--nord-0);
-  }
-
-  .comment-date {
-    color: var(--nord-4);
+    color: #eceff4;
   }
 }

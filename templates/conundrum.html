@@ -1,12 +1,13 @@
 {{ define "conundrum" }}
   {{ template "conundrum-nav" . }}
-  <h2>conundrum {{ .Conundrum.Id }}:</h2>
+  <p>conundrum...: {{ .Conundrum.Id }}</p>
   <p>date........: <span class="date">{{ .Conundrum.Date }}</span></p>
   {{ template "conundrum-author" .Conundrum }}
   <p>comments....: {{ len .Comments }}</p>
   {{ template "conundrum-stars" . }}
   <p class="conundrum-text">conundrum...: {{ .Conundrum.Text }}</p>
   {{ template "comments" .Comments }}
+  <br>
   {{ template "comment-form" . }}
 {{ end }}
 
@@ -81,22 +82,22 @@
 
 {{ define "comments" }}
   {{ if gt (len .) 0 }}
-    <h2>comments:</h2>
     {{ range . }}
-      <div>
-        <h3>comment: {{ .Id }}</h3>
-        <p>date........: <span class="date">{{ .Date }}</span></p>
-        {{ template "conundrum-author" . }}
-        <p class="comment-text">comment.....:  {{ .Comment }}</p>
-      </li>
+      <br>
+      <p>comment.....: {{ .Id }}</p>
+      <p>date........: <span class="date">{{ .Date }}</span></p>
+      {{ template "conundrum-author" . }}
+      <p class="comment-text">comment.....:  {{ .Comment }}</p>
     {{ end }}
   {{ end }}
 {{ end }}
 
 {{ define "comment-form" }}
-  <h2>post comment:</h2>
   <form hx-post="/comment" hx-target="#comment-form-result">
-    <input required type="text" name="comment" placeholder="comment..." />
+    <span>
+      post comment:
+      <input required type="text" name="comment" placeholder="comment..." />
+    </span>
     <input type="hidden" name="conundrum-id" value="{{ .Conundrum.Id }}">
     <span class="typewriter-wrapper">
       <span class="htmx-indicator typewriter">....</span>

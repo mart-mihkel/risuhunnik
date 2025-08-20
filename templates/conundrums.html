@@ -1,5 +1,4 @@
 {{ define "conundrums" }}
-  <h2>conundrums:</h2>
   <ol>
     {{ range . }}
       <li>
@@ -16,13 +15,16 @@
       </li>
     {{ end }}
   </ol>
+  <br>
   {{ template "upload-form" . }}
 {{ end }}
 
 {{ define "upload-form" }}
-  <h2>post conundrum:</h2>
   <form hx-post="/upload" hx-target="#upload-form-result">
-    <input required type="text" name="conundrum" placeholder="conundrum..." />
+    <span class="form-field">
+      post conundrum:
+      <input required type="text" name="conundrum" placeholder="conundrum..." />
+    </span>
     <span class="typewriter-wrapper">
       <span class="htmx-indicator typewriter">....</span>
     </span>
