@@ -14,7 +14,7 @@
   <p>
     author......:
     <button
-      hx-get="/author?author={{ .Author }}"
+      hx-get="/author/{{ .Author }}"
       hx-target="main"
       hx-indicator="#conundrum-author-{{ .Id }}-loading"
     >
@@ -34,7 +34,7 @@
     stars.......:
     <span>{{ .Conundrum.Stars }}</span>
     <button
-      hx-post="/star?id={{ .Conundrum.Id }}"
+      hx-post="/star/{{ .Conundrum.Id }}"
       hx-swap="outerHTML"
       hx-target="#conundrum-stars"
       hx-indicator="#conundrum-star-loading"
@@ -51,7 +51,7 @@
   <div class="conundrum-nav">
     <button
       {{ if lt .Prev 1 }}disabled{{ end }}
-      hx-get="/conundrum?id={{ .Prev }}"
+      hx-get="/conundrum/{{ .Prev }}"
       hx-target="main"
       hx-indicator="#conundrum-nav-loading"
     >
@@ -61,7 +61,7 @@
       ....
     </span>
     <button
-      hx-get="/conundrum?id={{ .Next }}"
+      hx-get="/conundrum/{{ .Next }}"
       hx-target="main"
       hx-indicator="#conundrum-nav-loading"
     >
@@ -98,7 +98,7 @@
 {{ define "comment-form-result" }}
   <span id="comment-form-result">
     {{ if  . }}
-      <span hx-get="/conundrum?id={{ . }}" hx-trigger="load" hx-target="main">
+      <span hx-get="/conundrum/{{ . }}" hx-trigger="load" hx-target="main">
       </span>
     {{ end }}
   </span>

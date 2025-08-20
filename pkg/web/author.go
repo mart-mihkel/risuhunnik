@@ -17,7 +17,7 @@ func Author(c echo.Context) error {
 		Comments   []database.Comment
 	}
 
-	author := c.QueryParam("author")
+	author := c.Param("author")
 	conundrums, err := database.GetAuthorConundrums(author)
 	if err != nil {
 		return err

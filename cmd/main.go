@@ -45,11 +45,11 @@ func main() {
 	e.Static("/static", "static")
 
 	e.GET("/", web.Index)
-	e.GET("/author", web.Author)
-	e.GET("/conundrum", web.Conundrum)
+	e.GET("/author/:author", web.Author)
+	e.GET("/conundrum/:id", web.Conundrum)
 	e.GET("/conundrums", web.Conundrums)
 
-	e.POST("/star", web.ToggleStar)
+	e.POST("/star/:id", web.ToggleStar)
 	e.POST("/upload", web.UploadForm)
 	e.POST("/comment", web.CommentForm)
 

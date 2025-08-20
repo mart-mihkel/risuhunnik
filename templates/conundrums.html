@@ -5,7 +5,7 @@
       <li>
         <span>
           {{ .Text }}
-          <button hx-get="/conundrum?id={{ .Id }}" hx-target="main">
+          <button hx-get="/conundrum/{{ .Id }}" hx-target="main">
             -&gt;
           </button>
         </span>

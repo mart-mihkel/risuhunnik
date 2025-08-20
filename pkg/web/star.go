@@ -13,7 +13,7 @@ import (
 
 func ToggleStar(c echo.Context) error {
 
-	id, err := strconv.Atoi(c.FormValue("id"))
+	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return fmt.Errorf("malfordmed id: %w", err)
 	}

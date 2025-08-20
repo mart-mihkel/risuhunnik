@@ -40,7 +40,7 @@ func Conundrums(c echo.Context) error {
 
 func Conundrum(c echo.Context) error {
 
-	id, err := strconv.Atoi(c.QueryParam("id"))
+	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return fmt.Errorf("got malfordmed id: %w", err)
 	}

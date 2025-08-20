@@ -60,7 +60,7 @@ func GetAuthorStars(author string) (int, error) {
 	var stars int
 	err := Db.QueryRow(q, author).Scan(&stars)
 	if err != nil {
-		return 0, fmt.Errorf("getting conundrums: %w", err)
+		return 0, fmt.Errorf("getting author stars: %w", err)
 	}
 
 	return stars, nil
