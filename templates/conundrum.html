@@ -17,6 +17,7 @@
       hx-get="/author/{{ .Author }}"
       hx-target="main"
       hx-indicator="#conundrum-author-{{ .Id }}-loading"
+      hx-push-url="true"
     >
       {{ .Author }}
     </button>
@@ -54,6 +55,7 @@
       hx-get="/conundrum/{{ .Prev }}"
       hx-target="main"
       hx-indicator="#conundrum-nav-loading"
+      hx-push-url="true"
     >
       &lt;- prev
     </button>
@@ -64,6 +66,7 @@
       hx-get="/conundrum/{{ .Next }}"
       hx-target="main"
       hx-indicator="#conundrum-nav-loading"
+      hx-push-url="true"
     >
       next -&gt;
     </button>
