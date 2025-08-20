@@ -21,11 +21,13 @@
     >
       {{ .Author }}
     </button>
-    <span
-      id="conundrum-author-{{ .Id }}-loading"
-      class="htmx-indicator typewriter"
-    >
-      ....
+    <span cass="typewriter-wrapper">
+      <span
+        id="conundrum-author-{{ .Id }}-loading"
+        class="htmx-indicator typewriter"
+      >
+        ....
+      </span>
     </span>
   </p>
 {{ end }}
@@ -42,8 +44,10 @@
     >
       {{ if .IsStarred }}un{{ end }}star
     </button>
-    <span id="conundrum-star-loading" class="htmx-indicator typewriter">
-      ....
+    <span cass="typewriter-wrapper">
+      <span id="conundrum-star-loading" class="htmx-indicator typewriter">
+        ....
+      </span>
     </span>
   </p>
 {{ end }}
@@ -59,8 +63,10 @@
     >
       &lt;- prev
     </button>
-    <span id="conundrum-nav-loading" class="htmx-indicator typewriter">
-      ....
+    <span cass="typewriter-wrapper">
+      <span id="conundrum-nav-loading" class="htmx-indicator typewriter">
+        ....
+      </span>
     </span>
     <button
       hx-get="/conundrum/{{ .Next }}"
@@ -92,7 +98,9 @@
   <form hx-post="/comment" hx-target="#comment-form-result">
     <input required type="text" name="comment" placeholder="comment..." />
     <input type="hidden" name="conundrum-id" value="{{ .Conundrum.Id }}">
-    <span class="htmx-indicator typewriter">....</span>
+    <span class="typewriter-wrapper">
+      <span class="htmx-indicator typewriter">....</span>
+    </span>
     <button type="submit">post</button>
   </form>
   {{ template "comment-form-result" }}

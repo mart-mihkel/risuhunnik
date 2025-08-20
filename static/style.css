@@ -92,6 +92,10 @@ form {
   vertical-align: bottom;
 }
 
+.typewriter-wrapper {
+  min-width: 4ch;
+}
+
 .typewriter {
   margin: 0 auto;
   overflow: hidden;
