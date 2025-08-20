@@ -2,7 +2,7 @@
 
 <div>
   <img
-    alt="CI/CD"
+    alt="CICD"
     src="https://github.com/mart-mihkel/risuhunnik/actions/workflows/main.yml/badge.svg"
   />
   <img
