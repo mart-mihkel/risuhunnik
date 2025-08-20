@@ -40,7 +40,7 @@
       hx-target="#conundrum-stars"
       hx-indicator="#conundrum-star-loading"
     >
-      star{{ if not .IsStarred }}+{{ else }}-{{ end }}
+      {{ if .IsStarred }}un{{ end }}star
     </button>
     <span id="conundrum-star-loading" class="htmx-indicator typewriter">
       ....
@@ -93,7 +93,7 @@
     <input required type="text" name="comment" placeholder="comment..." />
     <input type="hidden" name="conundrum-id" value="{{ .Conundrum.Id }}">
     <span class="htmx-indicator typewriter">....</span>
-    <button type="submit">post+</button>
+    <button type="submit">post</button>
   </form>
   {{ template "comment-form-result" }}
 {{ end }}

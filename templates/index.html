@@ -9,27 +9,19 @@
     <link href="static/favicon.ico" rel="icon" type="image/x-icon" />
   </head>
   <body>
-    {{ template "header" . }}
+    <header>
+      <h1><a href="/">risuhunnik.xyz</a></h1>
+      <pre>
+                     ,
+  collection      . ~ ~ .
+  of wicked     .'@ )) .. '..~
+  conundrums    &gt; - ~``  '~\{
+                            \
+  <a href="https://github.com/mart-mihkel/risuhunnik" target="_blank">github</a>
+      </pre>
+    </header>
     <main>{{ template "conundrums" . }}</main>
-    {{ template "footer" }}
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js">
     </script>
   </body>
 </html>
-
-{{ define "header" }}
-  <header>
-    <h1>risuhunnik <a href="/">-&gt;</a></h1>
-    <span>a collection of wicked conundrums</span>
-  </header>
-{{ end }}
-
-{{ define "footer" }}
-  <footer>
-    <a href="/">&lt;- index</a>
-    <span id="footer-loading" class="htmx-indicator typewriter">....</span>
-    <a href="https://github.com/mart-mihkel/risuhunnik" target="_blank">
-      github -&gt;
-    </a>
-  </footer>
-{{ end }}
