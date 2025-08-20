@@ -12,13 +12,6 @@ sudo apt install -y sqlite3 golang make
 
 ```bash
 make dev
-# make docker # alternative dockerized run
-```
-
-### Format
-
-```bash
-go fmt ./...
 ```
 
 ### Database Migrations
