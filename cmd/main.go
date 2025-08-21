@@ -50,6 +50,7 @@ func main() {
 	e.GET("/conundrums", web.Conundrums)
 
 	e.POST("/star/:id", web.ToggleStar)
+	e.POST("/verify/:id", web.Verify)
 	e.POST("/upload", web.UploadForm)
 	e.POST("/comment", web.CommentForm)
 

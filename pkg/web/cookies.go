@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+
 	"risuhunnik/pkg/database"
-	"slices"
 
 	"github.com/labstack/echo/v4"
 )
@@ -14,6 +14,7 @@ import (
 type cookieValue struct {
 	Starred []int  `json:"starred"`
 	Author  string `json:"author"`
+	Token   string `json:"token"`
 }
 
 func initCookie() (*http.Cookie, error) {
@@ -33,6 +34,7 @@ func initCookie() (*http.Cookie, error) {
 	return &http.Cookie{
 		Name:  "risuhunnik-cookie",
 		Value: escaped,
+		Path:  "/",
 	}, nil
 }
 
@@ -71,7 +73,7 @@ func serializeCookieValue(value *cookieValue) (string, error) {
 	return escaped, nil
 }
 
-func isStarred(id int, c *echo.Context) (bool, error) {
+func hasValidToken(c *echo.Context) (bool, error) {
 
 	cookie, err := getCookie(c)
 	if err != nil {
@@ -83,5 +85,5 @@ func isStarred(id int, c *echo.Context) (bool, error) {
 		return false, err
 	}
 
-	return slices.Contains(value.Starred, id), nil
+	return database.CheckToken(value.Token)
 }

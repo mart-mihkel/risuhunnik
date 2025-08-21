@@ -42,6 +42,7 @@ func ToggleStar(c echo.Context) error {
 	}
 
 	cookie.Value = escaped
+	cookie.Path = "/"
 	c.SetCookie(cookie)
 
 	var conundrum *database.Conundrum
@@ -55,12 +56,5 @@ func ToggleStar(c echo.Context) error {
 		return err
 	}
 
-	res := &ConundrumResult{
-		Conundrum: conundrum,
-		Next:      conundrum.Id + 1,
-		Prev:      conundrum.Id - 1,
-		IsStarred: !isStarred,
-	}
-
-	return c.Render(http.StatusOK, "conundrum-stars", res)
+	return c.Render(http.StatusOK, "conundrum-stars", conundrum)
 }

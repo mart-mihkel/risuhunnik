@@ -11,11 +11,11 @@ import (
 )
 
 type ConundrumResult struct {
-	Conundrum *database.Conundrum
-	Comments  []database.Comment
-	Next      int
-	Prev      int
-	IsStarred bool
+	Conundrum  *database.Conundrum
+	Comments   []database.Comment
+	TokenValid bool
+	Next       int
+	Prev       int
 }
 
 func Conundrums(c echo.Context) error {
@@ -45,17 +45,17 @@ func Conundrum(c echo.Context) error {
 		return err
 	}
 
-	starred, err := isStarred(id, &c)
+	valid, err := hasValidToken(&c)
 	if err != nil {
 		return err
 	}
 
 	res := &ConundrumResult{
-		Conundrum: conundrum,
-		Comments:  comments,
-		Next:      conundrum.Id + 1,
-		Prev:      conundrum.Id - 1,
-		IsStarred: starred,
+		Conundrum:  conundrum,
+		Comments:   comments,
+		TokenValid: valid,
+		Next:       conundrum.Id + 1,
+		Prev:       conundrum.Id - 1,
 	}
 
 	return c.Render(http.StatusOK, "conundrum", res)

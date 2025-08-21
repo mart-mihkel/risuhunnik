@@ -59,17 +59,26 @@ func GetConundrumComments(id int) ([]Comment, error) {
 	return comments, nil
 }
 
+func ToggleVerifyConundrum(id int) (*Conundrum, error) {
+	q := `UPDATE conundrums
+		SET verified = 1 - verified
+		WHERE ID = ?
+		RETURNING *`
+
+	return updateConundrumById(id, q)
+}
+
 func StarConundrum(id int) (*Conundrum, error) {
 	q := "UPDATE conundrums SET stars = stars + 1 WHERE ID = ? RETURNING *"
-	return starConundrum(id, q)
+	return updateConundrumById(id, q)
 }
 
 func UnStarConundrum(id int) (*Conundrum, error) {
 	q := "UPDATE conundrums SET stars = stars - 1 WHERE ID = ? RETURNING *"
-	return starConundrum(id, q)
+	return updateConundrumById(id, q)
 }
 
-func starConundrum(id int, q string) (*Conundrum, error) {
+func updateConundrumById(id int, q string) (*Conundrum, error) {
 	var c Conundrum
 	err := Db.QueryRow(q, id).Scan(
 		&c.Id, &c.Text, &c.Author,
