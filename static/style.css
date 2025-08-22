@@ -7,11 +7,14 @@
   font-family: monospace;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   margin: auto;
   padding: 8px;
   max-width: 64ch;
-  scrollbar-gutter: stable;
 }
 
 button {
@@ -34,6 +37,7 @@ ol {
 
 li {
   margin: 4px 0;
+  word-break: break-all;
 }
 
 input {
@@ -52,6 +56,7 @@ form {
 .comment-text {
   text-indent: -14ch;
   padding-left: 14ch;
+  word-break: break-all;
 }
 
 .conundrum-nav {
