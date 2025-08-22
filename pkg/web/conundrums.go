@@ -56,12 +56,22 @@ func Conundrum(c echo.Context) error {
 		return err
 	}
 
+	count, err := database.GetConundrumCount()
+	if err != nil {
+		return err
+	}
+
+	next := conundrum.Id +1
+	if next > count {
+		next = 0
+	}
+
 	res := &ConundrumResult{
 		Conundrum:  conundrum,
 		Comments:   comments,
 		TokenValid: valid,
 		Starred:    starred,
-		Next:       conundrum.Id + 1,
+		Next:       next,
 		Prev:       conundrum.Id - 1,
 	}
 

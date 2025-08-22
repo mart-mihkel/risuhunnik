@@ -59,6 +59,18 @@ func GetConundrum(id int) (*Conundrum, error) {
 	return &c, nil
 }
 
+func GetConundrumCount() (int, error) {
+	q := "SELECT COUNT(*) FROM conundrums"
+
+	var c int
+	err := Db.QueryRow(q).Scan(&c)
+	if err != nil {
+		return 0, fmt.Errorf("scannig row: %w", err)
+	}
+
+	return c, nil
+}
+
 func GetConundrumComments(id int) ([]Comment, error) {
 	q := "SELECT * FROM comments WHERE cid = ?"
 

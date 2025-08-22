@@ -76,7 +76,7 @@
 {{ define "conundrum-nav" }}
   <div class="conundrum-nav">
     <button
-      {{ if lt .Prev 1 }}disabled{{ end }}
+      {{ if eq .Prev 0 }}disabled{{ end }}
       hx-get="/conundrum/{{ .Prev }}"
       hx-target="main"
       hx-indicator="#conundrum-nav-loading"
@@ -89,6 +89,7 @@
       </span>
     </span>
     <button
+      {{ if eq .Next 0 }}disabled{{ end }}
       hx-get="/conundrum/{{ .Next }}"
       hx-target="main"
       hx-indicator="#conundrum-nav-loading"
