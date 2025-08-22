@@ -10,7 +10,7 @@
 body {
   margin: auto;
   padding: 8px;
-  max-width: 72ch;
+  max-width: 64ch;
   scrollbar-gutter: stable;
 }
 
@@ -29,6 +29,10 @@ button:disabled {
 
 ol {
   padding-inline-start: 4ch;
+}
+
+li {
+  margin: 4px 0;
 }
 
 input {

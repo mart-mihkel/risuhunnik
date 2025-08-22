@@ -18,7 +18,7 @@ func ToggleStar(c echo.Context) error {
 		return fmt.Errorf("malfordmed id: %w", err)
 	}
 
-	cookie, err := getCookie(&c)
+	cookie, err := maybeInitCookie(&c)
 	if err != nil {
 		return err
 	}
@@ -29,8 +29,8 @@ func ToggleStar(c echo.Context) error {
 	}
 
 	i := slices.Index(value.Starred, id)
-	isStarred := i >= 0
-	if isStarred {
+	starred := i >= 0
+	if starred {
 		value.Starred = slices.Delete(value.Starred, i, i+1)
 	} else {
 		value.Starred = append(value.Starred, id)
@@ -46,7 +46,7 @@ func ToggleStar(c echo.Context) error {
 	c.SetCookie(cookie)
 
 	var conundrum *database.Conundrum
-	if isStarred {
+	if starred {
 		conundrum, err = database.UnStarConundrum(id)
 	} else {
 		conundrum, err = database.StarConundrum(id)
@@ -56,5 +56,10 @@ func ToggleStar(c echo.Context) error {
 		return err
 	}
 
-	return c.Render(http.StatusOK, "conundrum-stars", conundrum)
+	res := &ConundrumResult{
+		Conundrum: conundrum,
+		Starred:   !starred,
+	}
+
+	return c.Render(http.StatusOK, "conundrum-stars", res)
 }

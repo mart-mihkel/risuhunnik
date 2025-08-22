@@ -10,11 +10,13 @@
   </head>
   <body>
       <pre>
-                     ,
-  collection      . ~ ~ .        <a href="/">risuhunnik.xyz</a>
-  of wicked     .'@ )) .. '..~
-  conundrums    &gt; - ~``  '~\{    <a href="https://github.com/mart-mihkel/risuhunnik" target="_blank">github</a>
-                            \
+
+         ,    <a href="/">risuhunnik.xyz</a>
+      . ~ ~ .
+    .'@ )) .. '..~  <a href="https://github.com/mart-mihkel/risuhunnik" target="_blank">github/risuhunnik</a>
+    &gt; - ~``  '~\{
+                \    <button hx-get="/conundrums" hx-target="main">conundrums</button>
+
       </pre>
     <main>{{ template "conundrums" . }}</main>
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js">

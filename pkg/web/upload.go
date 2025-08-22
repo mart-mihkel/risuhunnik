@@ -11,7 +11,7 @@ import (
 func UploadForm(c echo.Context) error {
 
 	text := c.FormValue("conundrum")
-	cookie, err := getCookie(&c)
+	cookie, err := maybeInitCookie(&c)
 	if err != nil {
 		return err
 	}

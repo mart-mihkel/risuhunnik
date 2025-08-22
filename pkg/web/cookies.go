@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 
 	"risuhunnik/pkg/database"
 
@@ -38,7 +39,8 @@ func initCookie() (*http.Cookie, error) {
 	}, nil
 }
 
-func getCookie(c *echo.Context) (*http.Cookie, error) {
+func maybeInitCookie(c *echo.Context) (*http.Cookie, error) {
+
 	cookie, err := (*c).Cookie("risuhunnik-cookie")
 	if err != nil {
 		return initCookie()
@@ -75,7 +77,7 @@ func serializeCookieValue(value *cookieValue) (string, error) {
 
 func hasValidToken(c *echo.Context) (bool, error) {
 
-	cookie, err := getCookie(c)
+	cookie, err := maybeInitCookie(c)
 	if err != nil {
 		return false, err
 	}
@@ -86,4 +88,19 @@ func hasValidToken(c *echo.Context) (bool, error) {
 	}
 
 	return database.CheckToken(value.Token)
+}
+
+func isStarred(id int, c *echo.Context) (bool, error) {
+
+	cookie, err := maybeInitCookie(c)
+	if err != nil {
+		return false, err
+	}
+
+	value, err := deserializeCookie(cookie)
+	if err != nil {
+		return false, err
+	}
+
+	return slices.Contains(value.Starred, id), nil
 }

@@ -14,6 +14,7 @@ type ConundrumResult struct {
 	Conundrum  *database.Conundrum
 	Comments   []database.Comment
 	TokenValid bool
+	Starred    bool
 	Next       int
 	Prev       int
 }
@@ -50,10 +51,16 @@ func Conundrum(c echo.Context) error {
 		return err
 	}
 
+	starred, err := isStarred(id, &c)
+	if err != nil {
+		return err
+	}
+
 	res := &ConundrumResult{
 		Conundrum:  conundrum,
 		Comments:   comments,
 		TokenValid: valid,
+		Starred:    starred,
 		Next:       conundrum.Id + 1,
 		Prev:       conundrum.Id - 1,
 	}

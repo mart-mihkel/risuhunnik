@@ -18,7 +18,7 @@ func CommentForm(c echo.Context) error {
 		return fmt.Errorf("malfordmed id: %w", err)
 	}
 
-	cookie, err := getCookie(&c)
+	cookie, err := maybeInitCookie(&c)
 	if err != nil {
 		return err
 	}

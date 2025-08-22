@@ -25,6 +25,24 @@ func GetAllConundrums() ([]Conundrum, error) {
 	return conundrums, nil
 }
 
+func GetVerifiedConundrums() ([]Conundrum, error) {
+	q := "SELECT * FROM conundrums WHERE verified = 1"
+
+	rows, err := Db.Query(q)
+	if err != nil {
+		return nil, fmt.Errorf("getting conundrums: %w", err)
+	}
+
+	defer rows.Close()
+
+	conundrums, err := scanConundrums(rows)
+	if err != nil {
+		return nil, err
+	}
+
+	return conundrums, nil
+}
+
 func GetConundrum(id int) (*Conundrum, error) {
 	q := "SELECT * FROM conundrums WHERE id = ?"
 

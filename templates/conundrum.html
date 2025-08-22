@@ -4,7 +4,7 @@
   <p>date........: <span class="date">{{ .Conundrum.Date }}</span></p>
   {{ template "conundrum-author" .Conundrum }}
   <p>comments....: {{ len .Comments }}</p>
-  {{ template "conundrum-stars" .Conundrum }}
+  {{ template "conundrum-stars" . }}
   {{ if .TokenValid }}
     {{ template "conundrum-verified" .Conundrum }}
   {{ end }}
@@ -21,7 +21,6 @@
       hx-get="/author/{{ .Author }}"
       hx-target="main"
       hx-indicator="#conundrum-author-{{ .Id }}-loading"
-      hx-push-url="true"
     >
       {{ .Author }}
     </button>
@@ -38,14 +37,14 @@
 
 {{ define "conundrum-stars" }}
   <p id="conundrum-stars">
-    stars.......: 
+    stars.......: {{ .Conundrum.Stars }}
     <button
-      hx-post="/star/{{ .Id }}"
+      hx-post="/star/{{ .Conundrum.Id }}"
       hx-swap="outerHTML"
       hx-target="#conundrum-stars"
       hx-indicator="#conundrum-star-loading"
     >
-      {{ .Stars }}
+      star{{ if .Starred }}-{{ else }}+{{ end }}
     </button>
     <span cass="typewriter-wrapper">
       <span id="conundrum-star-loading" class="htmx-indicator typewriter">
@@ -81,7 +80,6 @@
       hx-get="/conundrum/{{ .Prev }}"
       hx-target="main"
       hx-indicator="#conundrum-nav-loading"
-      hx-push-url="true"
     >
       &lt;- prev
     </button>
@@ -94,7 +92,6 @@
       hx-get="/conundrum/{{ .Next }}"
       hx-target="main"
       hx-indicator="#conundrum-nav-loading"
-      hx-push-url="true"
     >
       next -&gt;
     </button>

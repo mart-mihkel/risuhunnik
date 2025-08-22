@@ -2,16 +2,8 @@
   <ol>
     {{ range . }}
       <li>
-        <span>
-          {{ .Text }}
-          <button
-            hx-get="/conundrum/{{ .Id }}"
-            hx-target="main"
-            hx-push-url="true"
-          >
-            -&gt;
-          </button>
-        </span>
+        {{ .Text }}
+        <button hx-get="/conundrum/{{ .Id }}" hx-target="main">-&gt;</button>
       </li>
     {{ end }}
   </ol>
@@ -36,8 +28,7 @@
 {{ define "upload-form-result" }}
   <span id="upload-form-result">
     {{ if  . }}
-      <span hx-get="/conundrums" hx-trigger="load" hx-target="main">
-      </span>
+      <span hx-get="/conundrums" hx-trigger="load" hx-target="main"></span>
     {{ end }}
   </span>
 {{ end }}

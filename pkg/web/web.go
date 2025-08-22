@@ -10,7 +10,7 @@ import (
 
 func Index(c echo.Context) error {
 
-	conundrums, err := database.GetAllConundrums()
+	conundrums, err := database.GetVerifiedConundrums()
 	if err != nil {
 		return err
 	}
