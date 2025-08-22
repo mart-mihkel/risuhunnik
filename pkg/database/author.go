@@ -7,10 +7,10 @@ import (
 )
 
 func RandomAuthor() (string, error) {
-	q1 := "SELECT author FROM authors ORDER BY RANDOM() LIMIT 1"
+	q := "SELECT author FROM authors ORDER BY RANDOM() LIMIT 1"
 
 	var author string
-	err := Db.QueryRow(q1).Scan(&author)
+	err := Db.QueryRow(q).Scan(&author)
 	if err != nil {
 		return "", fmt.Errorf("scanning row: %w", err)
 	}

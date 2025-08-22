@@ -13,13 +13,13 @@ help:
 .PHONY: build
 # build release binary
 build: database
-	mkdir -p $(BUILD_DIR)
+	@mkdir -p $(BUILD_DIR)
 	go build -o $(GO_OUT) $(GO_BUILD_FLAGS) cmd/main.go
 
 .PHONY: database
 # run database migrations
 database:
-	mkdir -p $(BUILD_DIR)
+	@mkdir -p $(BUILD_DIR)
 	./sql/run-migrations.sh
 
 .PHONY: dev
@@ -44,7 +44,7 @@ docker:
 goformat:
 	go fmt ./...
 
-.PHONY: test
+.PHONY: gotest
 # run go tests
-test:
+gotest:
 	go test ./...

@@ -13,13 +13,9 @@
 
 {{ define "upload-form" }}
   <form hx-post="/upload" hx-target="#upload-form-result">
-    <span class="form-field">
-      post conundrum:
-      <input required type="text" name="conundrum" placeholder="conundrum..." />
-    </span>
-    <span class="typewriter-wrapper">
-      <span class="htmx-indicator typewriter">....</span>
-    </span>
+    <span>post conundrum:</span>
+    <input required type="text" name="conundrum" placeholder="conundrum..." />
+    {{ template "indicator" "upload-form-loading" }}
     <button type="submit">post+</button>
   </form>
   {{ template "upload-form-result" }}
@@ -30,5 +26,11 @@
     {{ if  . }}
       <span hx-get="/conundrums" hx-trigger="load" hx-target="main"></span>
     {{ end }}
+  </span>
+{{ end }}
+
+{{ define "indicator" }}
+  <span class="typewriter-wrapper">
+    <span id="{{ . }}" class="htmx-indicator typewriter">....</span>
   </span>
 {{ end }}

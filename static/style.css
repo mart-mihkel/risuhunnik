@@ -22,6 +22,7 @@ button {
   background-color: transparent;
 }
 
+.not-verified,
 button:disabled {
   color: gray;
   cursor: default;
@@ -36,7 +37,7 @@ li {
 }
 
 input {
-  width: auto;
+  flex-grow: 1;
   font-size: 1rem;
   background-color: transparent;
 }
@@ -57,10 +58,6 @@ form {
   margin: 2px 0;
   display: flex;
   justify-content: space-between;
-}
-
-.not-verified {
-  color: gray;
 }
 
 .date {
@@ -92,14 +89,6 @@ form {
   to {
     width: 4ch;
   }
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
 }
 
 @media (prefers-color-scheme: dark) {
