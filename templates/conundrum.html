@@ -5,10 +5,12 @@
   {{ template "conundrum-author" .Conundrum }}
   <p>comments....: {{ len .Comments }}</p>
   {{ template "conundrum-stars" . }}
-  {{ if .TokenValid }}
-    {{ template "conundrum-verified" .Conundrum }}
-  {{ end }}
-  <p class="conundrum-text">conundrum...: {{ .Conundrum.Text }}</p>
+  {{ template "conundrum-verified" . }}
+  <p
+    class="conundrum-text {{ if not .Conundrum.Verified }}not-verified{{ end }}"
+  >
+    conundrum...: {{ .Conundrum.Text }}
+  </p>
   {{ template "comments" .Comments }}
   <br>
   {{ template "comment-form" . }}
@@ -56,20 +58,24 @@
 
 {{ define "conundrum-verified" }}
   <p id="conundrum-verified">
-    verified....:
-    <button
-      hx-post="/verify/{{ .Id }}"
-      hx-swap="outerHTML"
-      hx-target="#conundrum-verified"
-      hx-indicator="#conundrum-verified-loading"
-    >
-      {{ .Verified }}
-    </button>
-    <span cass="typewriter-wrapper">
-      <span id="conundrum-verified-loading" class="htmx-indicator typewriter">
-        ....
+    goated......:
+    {{ if .TokenValid }}
+      <button
+        hx-post="/verify/{{ .Conundrum.Id }}"
+        hx-swap="outerHTML"
+        hx-target="#conundrum-verified"
+        hx-indicator="#conundrum-verified-loading"
+      >
+        {{ .Conundrum.Verified }}
+      </button>
+      <span cass="typewriter-wrapper">
+        <span id="conundrum-verified-loading" class="htmx-indicator typewriter">
+          ....
+        </span>
       </span>
-    </span>
+    {{ else }}
+      {{ .Conundrum.Verified }}
+    {{ end }}
   </p>
 {{ end }}
 

@@ -59,6 +59,10 @@ form {
   justify-content: space-between;
 }
 
+.not-verified {
+  color: gray;
+}
+
 .date {
   max-width: 16ch;
   overflow: hidden;
