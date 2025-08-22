@@ -17,5 +17,4 @@ jobs:
           commands: |
             cd ~/git/risuhunnik
             git pull origin main
-            nix develop
-            make docker
+            nix develop --command bash -c "make docker"
