@@ -6,13 +6,9 @@
   <br>
   <ol>
     {{ range .Conundrums }}
-      <li>
-        <span>
-          {{ .Text }}
-          <button hx-get="/conundrum/{{ .Id }}" hx-target="main">
-            -&gt;
-          </button>
-        </span>
+      <li {{ if not .Verified }}class="not-verified"{{ end }}>
+        {{ .Text }}
+        <button hx-get="/conundrum/{{ .Id }}" hx-target="main">-&gt;</button>
       </li>
     {{ end }}
   </ol>
