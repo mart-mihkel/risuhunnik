@@ -3,13 +3,13 @@
   <p>conundrum...: {{ .Conundrum.Id }}</p>
   <p>date........: <span class="date">{{ .Conundrum.Date }}</span></p>
   {{ template "conundrum-author" .Conundrum }}
-  <p>comments....: {{ len .Comments }}</p>
   {{ template "conundrum-stars" . }}
   {{ template "conundrum-verified" . }}
-  <p
-    class="conundrum-text {{ if not .Conundrum.Verified }}not-verified{{ end }}"
-  >
-    conundrum...: {{ .Conundrum.Text }}
+  <p class="conundrum-text">
+    conundrum...:
+    <span {{ if not .Conundrum.Verified }}class="not-verified"{{ end }}>
+      {{ .Conundrum.Text }}
+    </span>
   </p>
   {{ template "comments" .Comments }}
   <br>
@@ -57,9 +57,10 @@
         {{ .Conundrum.Verified }}
       </button>
       {{ template "indicator" "conundrum-verified-loading" }}
-      </span>
     {{ else }}
-      {{ .Conundrum.Verified }}
+      <span {{ if not .Conundrum.Verified }}class="not-verified"{{ end }}>
+        {{ .Conundrum.Verified }}
+      </span>
     {{ end }}
   </p>
 {{ end }}
