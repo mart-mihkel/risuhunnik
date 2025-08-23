@@ -23,8 +23,6 @@ func CommentForm(c echo.Context) error {
 		return err
 	}
 
-	c.SetCookie(cookie)
-
 	value, err := deserializeCookie(cookie)
 	if err != nil {
 		return err

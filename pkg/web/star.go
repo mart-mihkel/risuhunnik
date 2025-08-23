@@ -43,6 +43,7 @@ func ToggleStar(c echo.Context) error {
 
 	cookie.Value = escaped
 	cookie.Path = "/"
+
 	c.SetCookie(cookie)
 
 	var conundrum *database.Conundrum

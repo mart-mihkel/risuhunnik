@@ -18,7 +18,7 @@ type cookieValue struct {
 	Token   string `json:"token"`
 }
 
-func initCookie() (*http.Cookie, error) {
+func initCookie(c *echo.Context) (*http.Cookie, error) {
 	author, err := database.RandomAuthor()
 	if err != nil {
 		return nil, err
@@ -31,19 +31,22 @@ func initCookie() (*http.Cookie, error) {
 	}
 
 	escaped := url.QueryEscape(string(valuebytes))
-
-	return &http.Cookie{
+	cookie := &http.Cookie{
 		Name:  "risuhunnik-cookie",
 		Value: escaped,
 		Path:  "/",
-	}, nil
+	}
+
+	(*c).SetCookie(cookie)
+
+	return cookie, nil
 }
 
 func maybeInitCookie(c *echo.Context) (*http.Cookie, error) {
 
 	cookie, err := (*c).Cookie("risuhunnik-cookie")
 	if err != nil {
-		return initCookie()
+		return initCookie(c)
 	}
 
 	return cookie, nil
