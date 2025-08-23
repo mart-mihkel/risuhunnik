@@ -25,6 +25,10 @@ button {
   background-color: transparent;
 }
 
+button:active {
+  color: red;
+}
+
 .not-verified,
 button:disabled {
   color: gray;
