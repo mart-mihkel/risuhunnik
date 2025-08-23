@@ -61,7 +61,7 @@ func Conundrum(c echo.Context) error {
 		return err
 	}
 
-	next := conundrum.Id +1
+	next := conundrum.Id + 1
 	if next > count {
 		next = 0
 	}

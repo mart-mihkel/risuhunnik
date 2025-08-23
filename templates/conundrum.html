@@ -47,21 +47,16 @@
 {{ define "conundrum-verified" }}
   <p id="conundrum-verified">
     goated......:
-    {{ if .TokenValid }}
-      <button
-        hx-post="/verify/{{ .Conundrum.Id }}"
-        hx-swap="outerHTML"
-        hx-target="#conundrum-verified"
-        hx-indicator="#conundrum-verified-loading"
-      >
-        {{ .Conundrum.Verified }}
-      </button>
-      {{ template "indicator" "conundrum-verified-loading" }}
-    {{ else }}
-      <span {{ if not .Conundrum.Verified }}class="not-verified"{{ end }}>
-        {{ .Conundrum.Verified }}
-      </span>
-    {{ end }}
+    <button
+      {{ if not .TokenValid }}disabled{{ end }}
+      hx-post="/verify/{{ .Conundrum.Id }}"
+      hx-swap="outerHTML"
+      hx-target="#conundrum-verified"
+      hx-indicator="#conundrum-verified-loading"
+    >
+      {{ .Conundrum.Verified }}
+    </button>
+    {{ template "indicator" "conundrum-verified-loading" }}
   </p>
 {{ end }}
 

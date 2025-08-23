@@ -30,5 +30,10 @@ func Verify(c echo.Context) error {
 		return err
 	}
 
-	return c.Render(http.StatusOK, "conundrum-verified", conundrum)
+	res := &ConundrumResult{
+		Conundrum:  conundrum,
+		TokenValid: valid,
+	}
+
+	return c.Render(http.StatusOK, "conundrum-verified", res)
 }

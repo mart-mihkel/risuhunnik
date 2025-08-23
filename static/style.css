@@ -29,6 +29,7 @@ button {
 button:disabled {
   color: gray;
   cursor: default;
+  text-decoration: none;
 }
 
 ol {
@@ -37,7 +38,7 @@ ol {
 
 li {
   margin: 4px 0;
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 input {
@@ -56,7 +57,7 @@ form {
 .comment-text {
   text-indent: -14ch;
   padding-left: 14ch;
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .conundrum-nav {
