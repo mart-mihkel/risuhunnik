@@ -22,7 +22,7 @@ INSERT INTO authors (author) VALUES
     ('Kermo Kahveltõstuk'),
     ('Kalle Kahtlane'),
     ('Joonas Jäätis'),
-    ('Signe Soolõhe'),
+    ('Signe Soolalõhe'),
     ('Mauno Muffin'),
     ('Keiu Kookos'),
     ('Oskar Omelett'),
@@ -39,6 +39,11 @@ INSERT INTO authors (author) VALUES
     ('Lembit Lest'),
     ('Elina Eelroog'),
     ('Tanel Tomat'),
-    ('Gregor Granaat');
+    ('Gregor Granaat'),
+    ('Janar Kootikum'),
+    ('Ülle Toos'),
+    ('Mehis Aadaval'),
+    ('Olev Ait'),
+    ('Kärt Speeru');
 
 COMMIT;

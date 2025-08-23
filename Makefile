@@ -12,7 +12,7 @@ help:
 
 .PHONY: build
 # build release binary
-build: database
+build:
 	@mkdir -p $(BUILD_DIR)
 	go build -o $(GO_OUT) $(GO_BUILD_FLAGS) cmd/main.go
 
@@ -28,8 +28,8 @@ dev: database
 	go run cmd/main.go
 
 .PHONY: docker
-# start dockerized release server
-docker:
+# deploy dockerized environment
+docker: database
 	docker rm -f risuhunnik 
 	docker build -t risuhunnik .
 	docker run -d \
