@@ -25,6 +25,6 @@ for MIGRATION in sql/*.sql; do
     fi
 
     echo "executing $MIGRATION"
-    sqlite3 $DB_FILE < $MIGRATION
-    echo $MIGRATION > $LAST_FILE
+    sqlite3 $DB_FILE < "$MIGRATION"
+    echo "$MIGRATION" > $LAST_FILE
 done

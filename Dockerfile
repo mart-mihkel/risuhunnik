@@ -1,12 +1,12 @@
 FROM golang:alpine AS go
 
 ENV CGO_ENABLED=1
-RUN apk add --no-cache gcc make musl-dev sqlite bash
+RUN apk add --no-cache gcc just musl-dev sqlite bash
 
 WORKDIR /app
 COPY . /app
 
-RUN --mount=type=cache,target=/root/.cache/go-build make build
+RUN --mount=type=cache,target=/root/.cache/go-build just build
 
 
 
