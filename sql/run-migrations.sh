@@ -12,13 +12,15 @@ LAST_MIGRATION=$(cat $LAST_FILE)
 if [[ -z $LAST_MIGRATION ]]; then
     LAST_DATE=0
 else
-    LAST_DATE=${LAST_MIGRATION:4:-4}
+    LAST_DATE=${LAST_MIGRATION#sql/}
+    LAST_DATE=${LAST_DATE%.sql}
 fi
 
 echo "last migration at $LAST_DATE"
 
 for MIGRATION in sql/*.sql; do
-    MIGRATION_DATE=${MIGRATION:4:-4}
+    MIGRATION_DATE=${MIGRATION#sql/}
+    MIGRATION_DATE=${MIGRATION_DATE%.sql}
     if [[ MIGRATION_DATE -le LAST_DATE ]]; then
         echo "skipping $MIGRATION"
         continue
