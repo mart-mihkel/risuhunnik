@@ -1,22 +1,30 @@
 import { env } from "cloudflare:workers";
 import { beforeEach, describe, expect, it } from "vitest";
-import schema from "../migrations/20250803223004.sql?raw";
-import authors from "../migrations/20250803230701.sql?raw";
-import tokens from "../migrations/20250821225330.sql?raw";
+import schema from "../migrations/001-schema.sql?raw";
+import authors from "../migrations/002-authors.sql?raw";
 import app from "../src/index";
 
 type TestEnv = { DB: D1Database };
 const db = (env as unknown as TestEnv).DB;
+const secret = "0123456789abcdef".repeat(4);
+let configuredSecret: string | undefined = secret;
+let allowLogin = true;
 
 async function request(path: string, init?: RequestInit): Promise<Response> {
-  return app.request(`https://example.com${path}`, init, { DB: db });
+  return app.request(`https://example.com${path}`, init, {
+    DB: db,
+    ADMIN_SECRET: configuredSecret,
+    ADMIN_LOGIN_LIMITER: { limit: async () => ({ success: allowLogin }) },
+  });
 }
 
 beforeEach(async () => {
-  for (const table of ["comments", "conundrums", "authors", "tokens"]) {
+  allowLogin = true;
+  configuredSecret = secret;
+  for (const table of ["comments", "conundrums", "authors", "admin_sessions"]) {
     await db.prepare(`DROP TABLE IF EXISTS ${table}`).run();
   }
-  for (const sql of [schema, authors, tokens]) {
+  for (const sql of [schema, authors]) {
     for (const statement of sql
       .split(";")
       .map((part) => part.trim())
@@ -27,6 +35,27 @@ beforeEach(async () => {
 });
 
 describe("worker", () => {
+  it("creates only the application tables and a complete session schema", async () => {
+    const tables = await db
+      .prepare(
+        "SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' ORDER BY name",
+      )
+      .all<{ name: string }>();
+    expect(tables.results.map((table) => table.name)).toEqual([
+      "admin_sessions",
+      "authors",
+      "comments",
+      "conundrums",
+    ]);
+    const columns = await db
+      .prepare("PRAGMA table_info(admin_sessions)")
+      .all<{ name: string; notnull: number }>();
+    expect(
+      columns.results.find((column) => column.name === "credential_hash")
+        ?.notnull,
+    ).toBe(1);
+  });
+
   it("serves verified conundrums and escapes user content", async () => {
     await db
       .prepare(
@@ -81,20 +110,41 @@ describe("worker", () => {
       (
         await request("/verify/1", {
           method: "POST",
-          headers: { cookie },
+          headers: { cookie, origin: "https://example.com" },
         })
       ).status,
     ).toBe(401);
-    await db
-      .prepare("INSERT INTO tokens (token) VALUES (?)")
-      .bind("secret")
-      .run();
-    const admin = `risuhunnik-cookie=${encodeURIComponent(JSON.stringify({ author: "Admin", starred: [], token: "secret" }))}`;
+    const login = await request("/admin/login", {
+      method: "POST",
+      headers: { origin: "https://example.com" },
+      body: new URLSearchParams({ token: secret }),
+    });
+    expect(login.status).toBe(303);
+    const setCookie = login.headers.get("set-cookie");
+    expect(setCookie).toContain("HttpOnly");
+    expect(setCookie).toContain("Secure");
+    const admin = setCookie?.split(";")[0];
+    if (!admin) throw new Error("Missing admin session");
+    const stored = await db
+      .prepare("SELECT token_hash FROM admin_sessions")
+      .first<{ token_hash: string }>();
+    expect(stored?.token_hash).not.toBe(admin.split("=")[1]);
+    expect(
+      await (await request("/admin", { headers: { cookie: admin } })).text(),
+    ).toContain("Signed in.");
     expect(
       (
         await request("/verify/1", {
           method: "POST",
-          headers: { cookie: admin },
+          headers: { cookie: admin, origin: "https://evil.example" },
+        })
+      ).status,
+    ).toBe(403);
+    expect(
+      (
+        await request("/verify/1", {
+          method: "POST",
+          headers: { cookie: admin, origin: "https://example.com" },
         })
       ).status,
     ).toBe(200);
@@ -105,5 +155,104 @@ describe("worker", () => {
           .first<{ verified: number }>()
       )?.verified,
     ).toBe(1);
+    expect(
+      (
+        await request("/admin/logout", {
+          method: "POST",
+          headers: { cookie: admin, origin: "https://example.com" },
+        })
+      ).status,
+    ).toBe(303);
+    expect(
+      (
+        await request("/verify/1", {
+          method: "POST",
+          headers: { cookie: admin, origin: "https://example.com" },
+        })
+      ).status,
+    ).toBe(401);
+  });
+
+  it("rejects cross-origin requests, incorrect credentials, legacy cookies and throttled logins", async () => {
+    const legacy = `risuhunnik-cookie=${encodeURIComponent(JSON.stringify({ author: "Admin", starred: [], token: "secret" }))}`;
+    expect(
+      (
+        await request("/verify/1", {
+          method: "POST",
+          headers: { cookie: legacy, origin: "https://example.com" },
+        })
+      ).status,
+    ).toBe(401);
+    expect(
+      (
+        await request("/admin/login", {
+          method: "POST",
+          headers: { origin: "https://evil.example" },
+          body: new URLSearchParams({ token: secret }),
+        })
+      ).status,
+    ).toBe(403);
+    expect(
+      (
+        await request("/admin/login", {
+          method: "POST",
+          headers: { origin: "https://example.com" },
+          body: new URLSearchParams({ token: "f".repeat(64) }),
+        })
+      ).status,
+    ).toBe(401);
+    allowLogin = false;
+    expect(
+      (
+        await request("/admin/login", {
+          method: "POST",
+          headers: { origin: "https://example.com" },
+          body: new URLSearchParams({ token: secret }),
+        })
+      ).status,
+    ).toBe(429);
+  });
+
+  it("fails closed without a configured secret and invalidates sessions after rotation", async () => {
+    configuredSecret = undefined;
+    const loginRequest = (): RequestInit => ({
+      method: "POST",
+      headers: { origin: "https://example.com" },
+      body: new URLSearchParams({ token: secret }),
+    });
+    expect((await request("/admin/login", loginRequest())).status).toBe(401);
+    configuredSecret = secret;
+    const login = await request("/admin/login", loginRequest());
+    expect(login.status).toBe(303);
+    const cookie = login.headers.get("set-cookie")?.split(";")[0];
+    if (!cookie) throw new Error("Missing admin session");
+    configuredSecret = "a".repeat(64);
+    expect(
+      (
+        await request("/verify/1", {
+          method: "POST",
+          headers: { cookie, origin: "https://example.com" },
+        })
+      ).status,
+    ).toBe(401);
+  });
+
+  it("rejects expired sessions", async () => {
+    const login = await request("/admin/login", {
+      method: "POST",
+      headers: { origin: "https://example.com" },
+      body: new URLSearchParams({ token: secret }),
+    });
+    const cookie = login.headers.get("set-cookie")?.split(";")[0];
+    if (!cookie) throw new Error("Missing admin session");
+    await db.prepare("UPDATE admin_sessions SET expires_at = 0").run();
+    expect(
+      (
+        await request("/verify/1", {
+          method: "POST",
+          headers: { cookie, origin: "https://example.com" },
+        })
+      ).status,
+    ).toBe(401);
   });
 });

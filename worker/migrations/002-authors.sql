@@ -1,9 +1,3 @@
-
-CREATE TABLE authors(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    author TEXT UNIQUE NOT NULL
-);
-
 INSERT INTO authors (author) VALUES
     ('Juhan Juustuburger'),
     ('Mihkel Majameister'),
@@ -44,4 +38,3 @@ INSERT INTO authors (author) VALUES
     ('Mehis Aadaval'),
     ('Olev Ait'),
     ('Kärt Speeru');
-

@@ -1,8 +1,9 @@
 import { Hono } from "hono";
 import { setCookie } from "hono/cookie";
 import { html } from "hono/html";
+import admin, { adminCookie, isAdmin, isSameOrigin } from "./admin";
 import { runDatabase } from "./database";
-import { cookieName, identity, readCookie, validToken } from "./identity";
+import { cookieName, identity, readCookie } from "./identity";
 import type { Bindings, Comment, Conundrum } from "./types";
 import {
   commentResult,
@@ -16,6 +17,8 @@ import {
 } from "./views";
 
 const app = new Hono<{ Bindings: Bindings }>();
+
+app.route("/", admin);
 
 function parseId(value: string): number | null {
   if (!/^[1-9]\d*$/.test(value)) return null;
@@ -89,7 +92,12 @@ app.get("/conundrum/:id", async (c) => {
       sameSite: "Lax",
     });
 
-  const allowed = await validToken(c.env.DB, user.value.token);
+  c.header("Cache-Control", "no-store");
+  const allowed = await isAdmin(
+    c.env.DB,
+    adminCookie(c.req.header("cookie")),
+    c.env.ADMIN_SECRET,
+  );
   const prev = await runDatabase(() =>
     c.env.DB.prepare("SELECT MAX(id) AS id FROM conundrums WHERE id < ?")
       .bind(id)
@@ -192,8 +200,15 @@ app.post("/verify/:id", async (c) => {
   const id = parseId(c.req.param("id"));
   if (id === null) return c.text("Invalid id", 400);
 
-  const user = await identity(c.env.DB, readCookie(c.req.header("cookie")));
-  if (!(await validToken(c.env.DB, user.value.token)))
+  if (!isSameOrigin(c.req.raw)) return c.text("Forbidden", 403);
+
+  if (
+    !(await isAdmin(
+      c.env.DB,
+      adminCookie(c.req.header("cookie")),
+      c.env.ADMIN_SECRET,
+    ))
+  )
     return c.text("Unauthorized", 401);
 
   const item = await runDatabase(() =>

@@ -1,4 +1,3 @@
-
 CREATE TABLE conundrums(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     text TEXT UNIQUE NOT NULL,
@@ -17,3 +16,15 @@ CREATE TABLE comments(
     FOREIGN KEY(cid) REFERENCES conundrums(id)
 );
 
+CREATE TABLE authors(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    author TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE admin_sessions (
+    token_hash TEXT PRIMARY KEY,
+    expires_at INTEGER NOT NULL,
+    credential_hash TEXT NOT NULL
+);
+
+CREATE INDEX admin_sessions_expiry ON admin_sessions(expires_at);

@@ -32,8 +32,7 @@ export async function identity(
         "author" in parsed &&
         typeof parsed.author === "string" &&
         "starred" in parsed &&
-        (parsed.starred === null || Array.isArray(parsed.starred)) &&
-        (!("token" in parsed) || typeof parsed.token === "string")
+        (parsed.starred === null || Array.isArray(parsed.starred))
       ) {
         const starred: unknown = parsed.starred;
 
@@ -49,10 +48,6 @@ export async function identity(
             value: {
               author: parsed.author,
               starred: starred ?? [],
-              token:
-                "token" in parsed && typeof parsed.token === "string"
-                  ? parsed.token
-                  : "",
             },
             fresh: false,
           };
@@ -70,21 +65,5 @@ export async function identity(
   );
   if (!row) throw new Error("No authors available");
 
-  return { value: { author: row.author, starred: [], token: "" }, fresh: true };
-}
-
-export async function validToken(
-  db: D1Database,
-  token: string,
-): Promise<boolean> {
-  if (!token) return false;
-
-  return (
-    (await runDatabase(() =>
-      db
-        .prepare("SELECT 1 AS valid FROM tokens WHERE token = ?")
-        .bind(token)
-        .first(),
-    )) !== null
-  );
+  return { value: { author: row.author, starred: [] }, fresh: true };
 }

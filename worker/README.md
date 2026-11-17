@@ -22,6 +22,12 @@ Run `pnpm check` for TypeScript and Biome checks, `pnpm format` to format, and `
 3. Run `pnpm exec wrangler d1 migrations apply risuhunnik --remote`, then `pnpm deploy`.
 4. Test the `workers.dev` URL before connecting a custom domain.
 
-The migrations include the original seed data. Do not apply them blindly to a database containing existing data. For an existing production site, first back up the SQLite database and plan and test an import into a separate D1 database, preserving IDs, comments, stars, authors and tokens. Freeze writes during the final import and verify the data before switching traffic. No production data migration or domain cutover is performed by this project.
+The migrations define a fresh database and include the original seed data. The migration history was reset, so use a new D1 database rather than applying it to a database with the old migration history. If existing data matters, back it up and test an import into a separate D1 database, preserving IDs, comments, stars, and authors. Freeze writes during the final import and verify the data before switching traffic. No production data migration or domain cutover is performed by this project.
 
-The Worker currently does not implement the previous server's rate limiter. Configure appropriate Cloudflare protection before exposing a production deployment.
+## Admin access
+
+Generate a random 256-bit secret with `openssl rand -hex 32` and store it securely in a password manager. Set it as the `ADMIN_SECRET` Cloudflare Worker secret using `pnpm exec wrangler secret put ADMIN_SECRET` and enter it at the prompt. For local development, set `ADMIN_SECRET=<secret>` in `worker/.dev.vars`; this file is ignored by version control. Use a different secret for each environment.
+
+Open `/admin` and sign in with the secret. There is no public link to this page. Admin sessions expire after 12 hours and can be revoked by signing out, deleting rows in `admin_sessions`, or rotating the Worker secret. Apply D1 migrations before deploying this version.
+
+Login attempts are limited to five per minute per IP address in each Cloudflare location. This limit is approximate and does not replace broader abuse protection for the public endpoints. The rate-limit namespace ID in `wrangler.jsonc` must be unique within your Cloudflare account unless sharing a limit is intentional.

@@ -142,11 +142,13 @@ export const page = (content: ReturnType<typeof html>) =>
       </head>
       <body>
         <pre>
+
          ,        <a href="/">risuhunnik.xyz-&gt;</a>
       . ~ ~ .
     .'@ )) .. '..~  <a href="https://github.com/mart-mihkel/risuhunnik" target="_blank" rel="noopener noreferrer">github/risuhunnik-&gt;</a>
     &gt; - ~\`\`  '~{
-                     <button hx-get="/conundrums" hx-target="main">all-conundrums-&gt;</button>
+                      <button hx-get="/conundrums" hx-target="main">all-conundrums-&gt;</button>
+
 </pre>
         <main>${content}</main>
         <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>

@@ -1,4 +1,10 @@
-export type Bindings = { DB: D1Database };
+export type Bindings = {
+  DB: D1Database;
+  ADMIN_SECRET?: string;
+  ADMIN_LOGIN_LIMITER: {
+    limit(options: { key: string }): Promise<{ success: boolean }>;
+  };
+};
 export type Conundrum = {
   id: number;
   text: string;
@@ -14,4 +20,4 @@ export type Comment = {
   author: string;
   date: string;
 };
-export type Identity = { author: string; starred: number[]; token: string };
+export type Identity = { author: string; starred: number[] };

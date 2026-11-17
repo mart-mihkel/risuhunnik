@@ -1,4 +1,3 @@
-
 INSERT INTO conundrums (text, author, verified, stars, date) VALUES
     ('Ühel mehel oli lagi nii madal, et ta sai ainult lesta süüa!', 'Kermo Kahveltõstuk', 1, 6, '2025-07-29 12:23:13'),
     ('Kui hull kukub aknast alla siis pole hullu!', 'Juhan Juustuburger', 1, 0, '2025-07-29 12:23:13'),
@@ -34,4 +33,3 @@ INSERT INTO comments (cid, comment, author, date) VALUES
     (17, 'Mihkel miks sa ei vasta', 'Kermo Kahveltõstuk', '2025-08-01 17:26:58'),
     (18, 'Paku...', 'Kermo Kahveltõstuk', '2025-08-01 17:27:43'),
     (17, 'Piim läks halvaks, pidin keskenduma!', 'Juhan Juustuburger', '2025-08-02 13:22:27');
-
