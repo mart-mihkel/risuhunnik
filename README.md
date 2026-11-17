@@ -1,14 +1,5 @@
 # Risuhunnik
 
-<div>
-  <img
-    alt="CICD"
-    src="https://github.com/mart-mihkel/risuhunnik/actions/workflows/main.yml/badge.svg"
-  />
-  <img
-    alt="Tests"
-    src="https://github.com/mart-mihkel/risuhunnik/actions/workflows/test.yml/badge.svg"
-  />
-</div>
+A collection of wicked conundrums, built for Cloudflare Workers and D1.
 
-**[risuhunnik](https://lest.risuhunnik.xyz)**: a collection of wicked conundrums!
+See [worker/README.md](worker/README.md) for local development and deployment instructions.

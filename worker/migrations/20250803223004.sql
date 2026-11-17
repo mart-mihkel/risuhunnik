@@ -1,4 +1,3 @@
-BEGIN TRANSACTION;
 
 CREATE TABLE conundrums(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,4 +17,3 @@ CREATE TABLE comments(
     FOREIGN KEY(cid) REFERENCES conundrums(id)
 );
 
-COMMIT;

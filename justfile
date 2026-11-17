@@ -1,41 +1,27 @@
-build_dir := "build"
-go_out := build_dir / "risuhunnik"
-go_build_flags := "-ldflags='-s -w -extldflags \"-static\"'"
-
-# show commands
+# Show available commands.
 help:
     @just --list
 
-# build release binary
-build:
-    @mkdir -p {{ build_dir }}
-    go build -o {{ go_out }} {{ go_build_flags }} cmd/main.go
-
-# run migrations
-migrate:
-    @mkdir -p {{ build_dir }}
-    ./sql/run-migrations.sh
-
-# run dev server
+# Start the Worker locally.
 dev: migrate
-    go run cmd/main.go
+    pnpm --prefix worker dev
 
-# deploy docker
-docker: migrate
-    docker rm -f risuhunnik
-    docker build -t risuhunnik .
-    docker run -d \
-        -v ./build:/app/build \
-        -p 8080:8080 \
-        --name risuhunnik \
-        --restart always \
-        risuhunnik
+# Apply D1 migrations locally.
+migrate:
+    pnpm --prefix worker exec wrangler d1 migrations apply risuhunnik --local
 
-# format and lint
+# Check types, formatting, and lint.
 check:
-    go fmt ./...
-    go vet ./...
+    pnpm --prefix worker check
 
-# run tests
+# Format Worker files.
+format:
+    pnpm --prefix worker format
+
+# Run Worker tests.
 test:
-    go test ./...
+    pnpm --prefix worker test
+
+# Deploy the Worker to Cloudflare.
+deploy:
+    pnpm --prefix worker deploy

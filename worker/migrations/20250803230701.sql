@@ -1,4 +1,3 @@
-BEGIN TRANSACTION;
 
 CREATE TABLE authors(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -46,4 +45,3 @@ INSERT INTO authors (author) VALUES
     ('Olev Ait'),
     ('Kärt Speeru');
 
-COMMIT;
